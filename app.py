@@ -1,5 +1,6 @@
 import streamlit as st
 from backend.api_client import call_anthropic
+from tools.decision_storm import render_decision_storm
 
 # Page configuration
 st.set_page_config(
@@ -8,15 +9,17 @@ st.set_page_config(
     layout="wide"
 )
 
-# Main app
-def main():
+
+def render_home():
+    """Render the home page with API test"""
     st.title("🛠️ ClarityCrew Tools")
-    st.markdown("### Phase 1 Setup Complete")
+    st.markdown("### Welcome to AI-Powered Prompt Generation")
 
     st.markdown("""
-    Welcome to ClarityCrew Tools! This application hosts 6 AI-powered prompt generation tools.
+    ClarityCrew Tools hosts 6 AI-powered prompt generation tools to help you analyze scenarios,
+    generate creative ideas, and make better decisions.
 
-    **Phase 1 Status:** ✅ Project structure and API connectivity established
+    **Status:** ✅ Phase 2 - Decision Storm tool active
     """)
 
     st.divider()
@@ -45,6 +48,26 @@ def main():
 
     st.divider()
 
+    # Available Tools
+    st.subheader("📦 Available Tools")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("""
+        #### ✅ Active Tools
+        - 🔀 **Decision Storm** - Generate multiple strategic perspectives
+        """)
+
+    with col2:
+        st.markdown("""
+        #### 🔜 Coming Soon
+        - Advanced Techniques
+        - Chain and Bundle
+        - Correlation Explainer
+        - Creative Thinking
+        - Image Prompt Generator
+        """)
+
     # Project Information
     with st.expander("ℹ️ Project Information"):
         st.markdown("""
@@ -53,9 +76,38 @@ def main():
         - Backend: Python
         - AI Model: Claude Sonnet 4 (claude-sonnet-4-20250514)
 
-        **Next Steps:**
-        Phase 2 will add the 6 prompt generation tools from the artifacts.
+        **Repository:** https://github.com/nanosep/tools
         """)
+
+
+def main():
+    """Main application with navigation"""
+
+    # Sidebar navigation
+    st.sidebar.title("🛠️ ClarityCrew Tools")
+    st.sidebar.markdown("---")
+
+    # Tool selection
+    tool = st.sidebar.radio(
+        "Select Tool",
+        options=["🏠 Home", "🔀 Decision Storm"],
+        index=0
+    )
+
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("""
+    ### About
+    AI-powered prompt generation tools using Claude Sonnet 4.
+
+    **Phase 2 Active**
+    """)
+
+    # Route to selected tool
+    if tool == "🏠 Home":
+        render_home()
+    elif tool == "🔀 Decision Storm":
+        render_decision_storm()
+
 
 if __name__ == "__main__":
     main()

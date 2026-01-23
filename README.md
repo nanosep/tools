@@ -7,12 +7,12 @@ A local Streamlit application hosting 6 AI-powered prompt generation tools, powe
 ClarityCrew Tools provides an intuitive interface for generating high-quality prompts using advanced AI techniques. The application runs locally and uses a single Anthropic API key managed securely in the backend.
 
 ### Tools Included
-- Decision Storm
-- Advanced Techniques
-- Chain and Bundle
-- Correlation Explainer
-- Creative Thinking
-- Image Prompt Generator
+- ✅ **Decision Storm** - Generate multiple strategic perspectives (Active)
+- 🔜 Advanced Techniques (Coming soon)
+- 🔜 Chain and Bundle (Coming soon)
+- 🔜 Correlation Explainer (Coming soon)
+- 🔜 Creative Thinking (Coming soon)
+- 🔜 Image Prompt Generator (Coming soon)
 
 ## Tech Stack
 - **Frontend**: Streamlit
@@ -34,7 +34,7 @@ Tools/
 │   └── prompts.py          # System prompts storage
 ├── tools/
 │   ├── __init__.py
-│   └── (tool modules)
+│   └── decision_storm.py   # Decision Storm tool (Phase 2)
 └── artifacts/              # Original JSX/HTML files
     ├── Decision_Storm.jsx
     ├── Advance_Techs.html
@@ -100,8 +100,11 @@ Tools/
 ## Usage
 
 1. Launch the application using `streamlit run app.py`
-2. Click "Test API Connection" to verify your API key is working
-3. Navigate through the tools (Phase 2 - coming soon)
+2. Use the sidebar to navigate between tools
+3. **Decision Storm**: Enter a scenario and generate 2-6 strategic perspectives
+   - Each perspective analyzes your scenario through a different lens (Risk, Opportunity, Resource, etc.)
+   - Results are generated sequentially and displayed incrementally
+4. Home page includes an API connectivity test
 
 ## Troubleshooting
 
@@ -133,16 +136,22 @@ Tools/
 
 ## Development
 
-### Phase 1 (Current)
+### Phase 1 (Completed)
 - ✅ Project structure
 - ✅ Backend API client
 - ✅ Basic Streamlit interface
 - ✅ API connectivity test
 
-### Phase 2 (Next)
-- Migrate tools from JSX/HTML artifacts
-- Implement 6 prompt generation tools
-- Add navigation between tools
+### Phase 2 (In Progress)
+- ✅ Decision Storm tool migrated and active
+- ✅ Sidebar navigation implemented
+- ✅ Sequential API calling with progress indicators
+- 🔜 Remaining 5 tools (Advanced Techniques, Chain & Bundle, etc.)
+
+### Phase 3 (Planned)
+- Add remaining 5 tools
+- Enhanced UI/UX improvements
+- Export/save functionality
 
 ## Security Notes
 
