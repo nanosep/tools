@@ -8,8 +8,8 @@ ClarityCrew Tools provides an intuitive interface for generating high-quality pr
 
 ### Tools Included
 - ✅ **Decision Storm** - Generate multiple strategic perspectives (Active)
+- ✅ **Chain, Bundle & Inception** - Sequential/parallel/meta-prompts using 20 techniques (Active)
 - 🔜 Advanced Techniques (Coming soon)
-- 🔜 Chain and Bundle (Coming soon)
 - 🔜 Correlation Explainer (Coming soon)
 - 🔜 Creative Thinking (Coming soon)
 - 🔜 Image Prompt Generator (Coming soon)
@@ -34,7 +34,8 @@ Tools/
 │   └── prompts.py          # System prompts storage
 ├── tools/
 │   ├── __init__.py
-│   └── decision_storm.py   # Decision Storm tool (Phase 2)
+│   ├── decision_storm.py           # Decision Storm tool
+│   └── chain_bundle_inception.py   # Chain, Bundle & Inception tool
 └── artifacts/              # Original JSX/HTML files
     ├── Decision_Storm.jsx
     ├── Advance_Techs.html
@@ -104,7 +105,12 @@ Tools/
 3. **Decision Storm**: Enter a scenario and generate 2-6 strategic perspectives
    - Each perspective analyzes your scenario through a different lens (Risk, Opportunity, Resource, etc.)
    - Results are generated sequentially and displayed incrementally
-4. Home page includes an API connectivity test
+4. **Chain, Bundle & Inception**: Generate specialized prompts using 20 advanced techniques
+   - **Chain**: Sequential 3-5 step workflow (Decompose → Analyze → Evaluate → Refine → Test)
+   - **Bundle**: Parallel 3-7 alternative approaches using different techniques
+   - **Inception**: Meta-prompts that generate more prompts on-demand
+   - Choose individual methods or generate all three at once
+5. Home page includes an API connectivity test
 
 ## Troubleshooting
 
@@ -144,9 +150,11 @@ Tools/
 
 ### Phase 2 (In Progress)
 - ✅ Decision Storm tool migrated and active
+- ✅ Chain, Bundle & Inception tool implemented
 - ✅ Sidebar navigation implemented
 - ✅ Sequential API calling with progress indicators
-- 🔜 Remaining 5 tools (Advanced Techniques, Chain & Bundle, etc.)
+- ✅ XML parsing with fallback logic
+- 🔜 Remaining 4 tools (Advanced Techniques, Correlation Explainer, etc.)
 
 ### Phase 3 (Planned)
 - Add remaining 5 tools
