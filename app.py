@@ -2,6 +2,7 @@ import streamlit as st
 from backend.api_client import call_anthropic
 from tools.decision_storm import render_decision_storm
 from tools.chain_bundle_inception import render_chain_bundle_inception
+from tools.advance_techs import render_advance_techs
 
 # Page configuration
 st.set_page_config(
@@ -20,7 +21,7 @@ def render_home():
     ClarityCrew Tools hosts 6 AI-powered prompt generation tools to help you analyze scenarios,
     generate creative ideas, and make better decisions.
 
-    **Status:** ✅ Phase 2 - 2 tools active (Decision Storm, Chain/Bundle/Inception)
+    **Status:** ✅ Phase 2 - 3 tools active
     """)
 
     st.divider()
@@ -58,12 +59,12 @@ def render_home():
         #### ✅ Active Tools
         - 🔀 **Decision Storm** - Generate multiple strategic perspectives
         - 🔗 **Chain, Bundle & Inception** - Sequential/parallel/meta-prompts
+        - 🚀 **Advanced Techniques** - 11 cutting-edge prompting techniques
         """)
 
     with col2:
         st.markdown("""
         #### 🔜 Coming Soon
-        - Advanced Techniques
         - Correlation Explainer
         - Creative Thinking
         - Image Prompt Generator
@@ -91,7 +92,7 @@ def main():
     # Tool selection
     tool = st.sidebar.radio(
         "Select Tool",
-        options=["🏠 Home", "🔀 Decision Storm", "🔗 Chain, Bundle & Inception"],
+        options=["🏠 Home", "🔀 Decision Storm", "🔗 Chain, Bundle & Inception", "🚀 Advanced Techniques"],
         index=0
     )
 
@@ -110,6 +111,8 @@ def main():
         render_decision_storm()
     elif tool == "🔗 Chain, Bundle & Inception":
         render_chain_bundle_inception()
+    elif tool == "🚀 Advanced Techniques":
+        render_advance_techs()
 
 
 if __name__ == "__main__":

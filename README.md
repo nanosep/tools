@@ -9,7 +9,7 @@ ClarityCrew Tools provides an intuitive interface for generating high-quality pr
 ### Tools Included
 - ✅ **Decision Storm** - Generate multiple strategic perspectives (Active)
 - ✅ **Chain, Bundle & Inception** - Sequential/parallel/meta-prompts using 20 techniques (Active)
-- 🔜 Advanced Techniques (Coming soon)
+- ✅ **Advanced Techniques** - 11 cutting-edge prompting techniques (Active)
 - 🔜 Correlation Explainer (Coming soon)
 - 🔜 Creative Thinking (Coming soon)
 - 🔜 Image Prompt Generator (Coming soon)
@@ -35,7 +35,8 @@ Tools/
 ├── tools/
 │   ├── __init__.py
 │   ├── decision_storm.py           # Decision Storm tool
-│   └── chain_bundle_inception.py   # Chain, Bundle & Inception tool
+│   ├── chain_bundle_inception.py   # Chain, Bundle & Inception tool
+│   └── advance_techs.py            # Advanced Techniques tool
 └── artifacts/              # Original JSX/HTML files
     ├── Decision_Storm.jsx
     ├── Advance_Techs.html
@@ -110,7 +111,11 @@ Tools/
    - **Bundle**: Parallel 3-7 alternative approaches using different techniques
    - **Inception**: Meta-prompts that generate more prompts on-demand
    - Choose individual methods or generate all three at once
-5. Home page includes an API connectivity test
+5. **Advanced Techniques**: Generate 5 prompts using 11 cutting-edge techniques
+   - Select 3-5 techniques manually (Multi-Persona Debate, Emotional Tipping, Chain-of-Symbol, etc.)
+   - System generates 5 specialized prompts, each using a different selected technique
+   - Techniques include: Socratic Mirroring, Adversarial Red-Teaming, Dynamic Tone Morphing, and more
+6. Home page includes an API connectivity test
 
 ## Troubleshooting
 
@@ -151,10 +156,12 @@ Tools/
 ### Phase 2 (In Progress)
 - ✅ Decision Storm tool migrated and active
 - ✅ Chain, Bundle & Inception tool implemented
-- ✅ Sidebar navigation implemented
+- ✅ Advanced Techniques tool implemented
+- ✅ Sidebar navigation with 3 active tools
 - ✅ Sequential API calling with progress indicators
 - ✅ XML parsing with fallback logic
-- 🔜 Remaining 4 tools (Advanced Techniques, Correlation Explainer, etc.)
+- ✅ Technique selection UI with validation
+- 🔜 Remaining 3 tools (Correlation Explainer, Creative Thinking, Image Prompt)
 
 ### Phase 3 (Planned)
 - Add remaining 5 tools
