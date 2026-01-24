@@ -3,6 +3,7 @@ from backend.api_client import call_anthropic
 from tools.decision_storm import render_decision_storm
 from tools.chain_bundle_inception import render_chain_bundle_inception
 from tools.advance_techs import render_advance_techs
+from tools.creative_thinking import render_creative_thinking
 
 # Page configuration
 st.set_page_config(
@@ -21,7 +22,7 @@ def render_home():
     ClarityCrew Tools hosts 6 AI-powered prompt generation tools to help you analyze scenarios,
     generate creative ideas, and make better decisions.
 
-    **Status:** ✅ Phase 2 - 3 tools active
+    **Status:** ✅ Phase 3 - 4 tools active (67% complete)
     """)
 
     st.divider()
@@ -56,17 +57,17 @@ def render_home():
 
     with col1:
         st.markdown("""
-        #### ✅ Active Tools
-        - 🔀 **Decision Storm** - Generate multiple strategic perspectives
+        #### ✅ Active Tools (4/6)
+        - 🔀 **Decision Storm** - Multiple strategic perspectives
         - 🔗 **Chain, Bundle & Inception** - Sequential/parallel/meta-prompts
-        - 🚀 **Advanced Techniques** - 11 cutting-edge prompting techniques
+        - 🚀 **Advanced Techniques** - 11 cutting-edge techniques
+        - 🎨 **Creative Thinking** - 24 methods across 6 categories
         """)
 
     with col2:
         st.markdown("""
-        #### 🔜 Coming Soon
+        #### 🔜 Coming Soon (2/6)
         - Correlation Explainer
-        - Creative Thinking
         - Image Prompt Generator
         """)
 
@@ -92,7 +93,7 @@ def main():
     # Tool selection
     tool = st.sidebar.radio(
         "Select Tool",
-        options=["🏠 Home", "🔀 Decision Storm", "🔗 Chain, Bundle & Inception", "🚀 Advanced Techniques"],
+        options=["🏠 Home", "🔀 Decision Storm", "🔗 Chain, Bundle & Inception", "🚀 Advanced Techniques", "🎨 Creative Thinking"],
         index=0
     )
 
@@ -113,6 +114,8 @@ def main():
         render_chain_bundle_inception()
     elif tool == "🚀 Advanced Techniques":
         render_advance_techs()
+    elif tool == "🎨 Creative Thinking":
+        render_creative_thinking()
 
 
 if __name__ == "__main__":
