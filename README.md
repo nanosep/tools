@@ -11,8 +11,8 @@ ClarityCrew Tools provides an intuitive interface for generating high-quality pr
 - ✅ **Chain, Bundle & Inception** - Sequential/parallel/meta-prompts using 20 techniques (Active)
 - ✅ **Advanced Techniques** - 11 cutting-edge prompting techniques (Active)
 - ✅ **Creative Thinking** - 24 methods across 6 categories, department-adapted (Active)
+- ✅ **Image Prompt Generator** - AI image generation prompts with text & JSON output (Active)
 - 🔜 Correlation Explainer (Coming soon)
-- 🔜 Image Prompt Generator (Coming soon)
 
 ## Tech Stack
 - **Frontend**: Streamlit
@@ -37,7 +37,8 @@ Tools/
 │   ├── decision_storm.py           # Decision Storm tool
 │   ├── chain_bundle_inception.py   # Chain, Bundle & Inception tool
 │   ├── advance_techs.py            # Advanced Techniques tool
-│   └── creative_thinking.py        # Creative Thinking tool
+│   ├── creative_thinking.py        # Creative Thinking tool
+│   └── image_prompt.py             # Image Prompt Generator tool
 └── artifacts/              # Original JSX/HTML files
     ├── Decision_Storm.jsx
     ├── Advance_Techs.html
@@ -121,7 +122,13 @@ Tools/
    - Select 1-5 methods most relevant to your challenge (Brainstorming, SCAMPER, Six Hats, Five Whys, etc.)
    - Pick your department (Sales, Product, Operations, etc.) for context-specific prompts
    - Use generated prompts in workshops or brainstorming sessions
-7. Home page includes an API connectivity test
+7. **Image Prompt Generator**: Create optimized prompts for AI image generation tools
+   - Select from 7 art categories with 42 total subcategories (Fine Art, Photography, Digital Art, Fantasy, etc.)
+   - Add 0-3 thematic elements (Light, Scale, Color, Composition, Material, Narrative, Temporal)
+   - Enter your subject description
+   - Get two outputs: Text prompt (30-50 words, copy-paste ready) + JSON format (structured metadata)
+   - Use with DALL-E, Midjourney, Stable Diffusion, or any AI image generator
+8. Home page includes an API connectivity test
 
 ## Troubleshooting
 
@@ -168,12 +175,13 @@ Tools/
 - ✅ XML parsing with fallback logic
 - ✅ Technique selection UI with validation
 
-### Phase 3 (In Progress - 67% Complete)
+### Phase 3 (In Progress - 83% Complete)
 - ✅ Creative Thinking tool implemented (24 methods, 6 categories, 18 departments)
-- ✅ Category-organized method selector with expanders
-- ✅ Department-specific prompt adaptation
-- ✅ 4 out of 6 tools now active
-- 🔜 Remaining 2 tools (Correlation Explainer, Image Prompt)
+- ✅ Image Prompt Generator implemented (7 categories, 42 subcategories, 7 thematic elements)
+- ✅ Dual output format (text prompt + JSON metadata)
+- ✅ Category-organized taxonomy with subcategory details
+- ✅ 5 out of 6 tools now active
+- 🔜 Remaining 1 tool (Correlation Explainer)
 
 ### Future Enhancements
 - Export/save functionality
