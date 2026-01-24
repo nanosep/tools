@@ -5,6 +5,7 @@ from tools.chain_bundle_inception import render_chain_bundle_inception
 from tools.advance_techs import render_advance_techs
 from tools.creative_thinking import render_creative_thinking
 from tools.image_prompt import render_image_prompt
+from tools.correlation_explainer import render_correlation_explainer
 
 # Page configuration
 st.set_page_config(
@@ -23,7 +24,7 @@ def render_home():
     ClarityCrew Tools hosts 6 AI-powered prompt generation tools to help you analyze scenarios,
     generate creative ideas, and make better decisions.
 
-    **Status:** ✅ Phase 3 - 5 tools active (83% complete)
+    **Status:** ✅ **COMPLETE** - All 6 tools active! 🎉
     """)
 
     st.divider()
@@ -58,18 +59,18 @@ def render_home():
 
     with col1:
         st.markdown("""
-        #### ✅ Active Tools (5/6)
+        #### ✅ Active Tools (6/6) 🎉
         - 🔀 **Decision Storm** - Multiple strategic perspectives
         - 🔗 **Chain, Bundle & Inception** - Sequential/parallel/meta-prompts
         - 🚀 **Advanced Techniques** - 11 cutting-edge techniques
-        - 🎨 **Creative Thinking** - 24 methods, department-adapted
-        - 🖼️ **Image Prompt** - AI image generation prompts
         """)
 
     with col2:
         st.markdown("""
-        #### 🔜 Coming Soon (1/6)
-        - Correlation Explainer - Coming soon!
+        #### ✅ More Tools
+        - 🎨 **Creative Thinking** - 24 methods, department-adapted
+        - 🖼️ **Image Prompt** - AI image generation prompts
+        - 🔬 **Correlation Explainer** - Educational: 8 correlation types
         """)
 
     # Project Information
@@ -94,7 +95,7 @@ def main():
     # Tool selection
     tool = st.sidebar.radio(
         "Select Tool",
-        options=["🏠 Home", "🔀 Decision Storm", "🔗 Chain, Bundle & Inception", "🚀 Advanced Techniques", "🎨 Creative Thinking", "🖼️ Image Prompt"],
+        options=["🏠 Home", "🔀 Decision Storm", "🔗 Chain, Bundle & Inception", "🚀 Advanced Techniques", "🎨 Creative Thinking", "🖼️ Image Prompt", "🔬 Correlation Explainer"],
         index=0
     )
 
@@ -119,6 +120,8 @@ def main():
         render_creative_thinking()
     elif tool == "🖼️ Image Prompt":
         render_image_prompt()
+    elif tool == "🔬 Correlation Explainer":
+        render_correlation_explainer()
 
 
 if __name__ == "__main__":

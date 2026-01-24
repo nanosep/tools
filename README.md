@@ -12,7 +12,7 @@ ClarityCrew Tools provides an intuitive interface for generating high-quality pr
 - ✅ **Advanced Techniques** - 11 cutting-edge prompting techniques (Active)
 - ✅ **Creative Thinking** - 24 methods across 6 categories, department-adapted (Active)
 - ✅ **Image Prompt Generator** - AI image generation prompts with text & JSON output (Active)
-- 🔜 Correlation Explainer (Coming soon)
+- ✅ **Correlation Explainer** - Educational tool explaining 8 correlation types (Active)
 
 ## Tech Stack
 - **Frontend**: Streamlit
@@ -38,7 +38,8 @@ Tools/
 │   ├── chain_bundle_inception.py   # Chain, Bundle & Inception tool
 │   ├── advance_techs.py            # Advanced Techniques tool
 │   ├── creative_thinking.py        # Creative Thinking tool
-│   └── image_prompt.py             # Image Prompt Generator tool
+│   ├── image_prompt.py             # Image Prompt Generator tool
+│   └── correlation_explainer.py    # Correlation Explainer tool
 └── artifacts/              # Original JSX/HTML files
     ├── Decision_Storm.jsx
     ├── Advance_Techs.html
@@ -128,7 +129,12 @@ Tools/
    - Enter your subject description
    - Get two outputs: Text prompt (30-50 words, copy-paste ready) + JSON format (structured metadata)
    - Use with DALL-E, Midjourney, Stable Diffusion, or any AI image generator
-8. Home page includes an API connectivity test
+8. **Correlation Explainer**: Educational tool for understanding correlation vs causation
+   - Explore 8 correlation types (Direct Causation, Reverse Causation, Confounding Variable, etc.)
+   - Learn testing methods, common mistakes, and historical examples for each type
+   - Interactive navigation with visual diagrams and probability meters
+   - No API calls - purely educational and locally interactive
+9. Home page includes an API connectivity test
 
 ## Troubleshooting
 
@@ -175,13 +181,13 @@ Tools/
 - ✅ XML parsing with fallback logic
 - ✅ Technique selection UI with validation
 
-### Phase 3 (In Progress - 83% Complete)
+### Phase 3 (Completed - 100% ✅)
 - ✅ Creative Thinking tool implemented (24 methods, 6 categories, 18 departments)
 - ✅ Image Prompt Generator implemented (7 categories, 42 subcategories, 7 thematic elements)
 - ✅ Dual output format (text prompt + JSON metadata)
 - ✅ Category-organized taxonomy with subcategory details
-- ✅ 5 out of 6 tools now active
-- 🔜 Remaining 1 tool (Correlation Explainer)
+- ✅ Correlation Explainer implemented (8 correlation types, educational content, no API calls)
+- ✅ All 6 tools now active and complete
 
 ### Future Enhancements
 - Export/save functionality
