@@ -44,21 +44,21 @@ Format output as XML:
 </text_prompt>
 <json_output>
 {{
-  "id": "img_prompt_{random_id}",
+  "id": "img_prompt_[random_number]",
   "category": "{category}",
   "subcategory": "{subcategory}",
   "subject": "{subject}",
-  "thematic_elements": [{list_of_selected_themes}],
+  "thematic_elements": ["list", "of", "selected", "theme", "names"],
   "prompt_text": "[same as text_prompt]",
   "metadata": {{
-    "key_elements": [4-6 visual elements],
-    "mood": "[2-3 mood adjectives]",
-    "color_palette": "[color description]",
-    "composition": "[composition style]",
+    "key_elements": ["element1", "element2", "element3", "element4"],
+    "mood": "adjective1, adjective2, adjective3",
+    "color_palette": "color description here",
+    "composition": "composition style here",
     "technical_params": {{
-      "style_reference": "[artist or movement]",
-      "lighting": "[lighting approach]",
-      "aesthetic": "[aesthetic quality]"
+      "style_reference": "artist or movement name",
+      "lighting": "lighting approach description",
+      "aesthetic": "aesthetic quality description"
     }}
   }}
 }}
@@ -321,7 +321,8 @@ def render_image_prompt():
             "Describe what you want to generate",
             height=100,
             placeholder="Examples:\n- ancient library filled with mystical tomes\n- cyberpunk street market at night\n- portrait of a stoic warrior\n- abstract representation of time",
-            key="ip_subject"
+            key="ip_subject",
+            help="Tip: Press Ctrl+Enter to quickly finish editing"
         )
 
         # Generate button
