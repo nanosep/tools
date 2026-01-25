@@ -2,14 +2,13 @@ import streamlit as st
 import re
 import json
 import random
+import time
 from backend.api_client import call_anthropic
 
-# System prompt for Image Prompt generation
+# System prompt for Image Prompt generation (updated for multi-style)
 IMAGE_PROMPT_SYSTEM = """You are an expert in art history, visual aesthetics, and AI image generation prompting.
 
-Your task: Generate TWO outputs for AI image generation:
-1. A text prompt (optimized for tools like DALL-E, Midjourney, Stable Diffusion)
-2. A structured JSON object with detailed metadata
+Your task: Generate a text prompt optimized for AI image generation (DALL-E, Midjourney, Stable Diffusion).
 
 SELECTED CATEGORY: {category}
 SELECTED SUBCATEGORY: {subcategory}
@@ -28,44 +27,12 @@ REQUIREMENTS FOR TEXT PROMPT:
 6. Keep prompt 30-50 words, comma-separated
 7. Optimize for AI image generator parsing
 
-REQUIREMENTS FOR JSON:
-1. Generate unique ID
-2. Include all selected categories and elements
-3. Extract 4-6 key visual elements from subject
-4. Define mood (2-3 adjectives)
-5. Suggest color palette based on category + themes
-6. Provide composition guidance
-7. Include technical parameters (style reference, lighting, aesthetic approach)
-
 Format output as XML:
-<output>
 <text_prompt>
 [Complete prompt ready for image generation, 30-50 words]
 </text_prompt>
-<json_output>
-{{
-  "id": "img_prompt_[random_number]",
-  "category": "{category}",
-  "subcategory": "{subcategory}",
-  "subject": "{subject}",
-  "thematic_elements": ["list", "of", "selected", "theme", "names"],
-  "prompt_text": "[same as text_prompt]",
-  "metadata": {{
-    "key_elements": ["element1", "element2", "element3", "element4"],
-    "mood": "adjective1, adjective2, adjective3",
-    "color_palette": "color description here",
-    "composition": "composition style here",
-    "technical_params": {{
-      "style_reference": "artist or movement name",
-      "lighting": "lighting approach description",
-      "aesthetic": "aesthetic quality description"
-    }}
-  }}
-}}
-</json_output>
-</output>
 
-Ensure text prompt is immediately usable and JSON is properly formatted."""
+Ensure text prompt is immediately usable."""
 
 # Taxonomy structure - 7 categories with subcategories
 TAXONOMY = {
@@ -212,85 +179,83 @@ SUBCATEGORY_DETAILS = {
         "styles": "Sharp focus on subject, controlled lighting, minimal backgrounds",
         "artists": "Annie Leibovitz, Richard Avedon, Irving Penn, Mario Testino",
         "aesthetics": "Dramatic lighting, shallow depth of field, bold fashion statements"
+    },
+    "3D Rendering & CGI": {
+        "themes": "Photorealism, technical precision, digital craftsmanship",
+        "styles": "Ray tracing, subsurface scattering, physically-based rendering",
+        "artists": "Ian Hubert, Beeple, Peter Tarka, Ash Thorp",
+        "aesthetics": "Hyperrealistic materials, perfect lighting, clean geometry"
+    },
+    "Landscape & Nature": {
+        "themes": "Natural beauty, environmental storytelling, seasonal moods",
+        "styles": "Wide vistas, foreground-background layering, natural light",
+        "artists": "Ansel Adams, Sebastião Salgado, Art Wolfe, Galen Rowell",
+        "aesthetics": "Golden hour lighting, atmospheric depth, dramatic skies"
     }
 }
 
 
-def parse_output(response):
-    """Extract text prompt and JSON from XML response"""
-    text_match = re.search(r'<text_prompt>(.*?)</text_prompt>', response, re.DOTALL)
-    json_match = re.search(r'<json_output>(.*?)</json_output>', response, re.DOTALL)
-
-    text_prompt = text_match.group(1).strip() if text_match else ""
-    json_output = None
-
-    if json_match:
-        try:
-            json_str = json_match.group(1).strip()
-            # Try to parse JSON
-            json_output = json.loads(json_str)
-        except:
-            # If parsing fails, store raw string
-            json_output = {"error": "Failed to parse JSON", "raw": json_str}
-
-    # Fallback if no text prompt found
-    if not text_prompt:
-        # Use first 200 chars of response as fallback
-        text_prompt = response[:200] if len(response) > 200 else response
-
-    return text_prompt, json_output
-
-
 def render_image_prompt():
-    """Render the AI Image Prompt Generator tool"""
+    """Render the AI Image Prompt Generator tool - Multi-Style Variation Feature"""
 
     st.title("🎨 AI Image Prompt Generator")
-    st.write("Generate optimized prompts for DALL-E, Midjourney, Stable Diffusion, and other AI image generators")
+    st.write("Generate multiple style variations for the same subject")
 
     # Info expander
     with st.expander("ℹ️ How to Use This Tool"):
         st.markdown("""
-        This tool generates **two types of outputs**:
+        **New Multi-Style Feature:**
 
-        **📝 Text Prompt** - Copy-paste ready for image generation tools
-        - Optimized for AI parsing
-        - Includes style, artists, mood, aesthetics
-        - 30-50 words, comma-separated
+        1. **Enter your subject** (e.g., "vintage 1970s muscle car")
+        2. **Select 3-5 art styles** from any category
+        3. **Optionally add 1-2 thematic elements** (applied to all variations)
+        4. **Generate variations** - get one optimized prompt per style
 
-        **📊 JSON Format** - Structured metadata for databases and batch processing
-        - Unique ID for cataloging
-        - Detailed visual elements breakdown
-        - Mood, color palette, composition guidance
-        - Technical parameters for consistency
+        **Use Cases:**
+        - Explore how the same subject looks across different art movements
+        - Generate variety for creative projects
+        - A/B test different styles before committing to one
+        - Build a style library for consistent brand imagery
 
-        **Workflow**: Category → Subcategory → Optional Themes (max 3) → Subject → Generate
+        **Output:** Each variation is a 30-50 word text prompt ready to use in DALL-E, Midjourney, or Stable Diffusion.
         """)
 
     # Examples section
     with st.expander("💡 Try These Examples", expanded=False):
-        st.markdown("Click any example to auto-fill the form:")
+        st.markdown("Click any example to auto-fill:")
 
         examples = {
-            "Classical Portrait": {
-                "category": "Fine Art Movements",
-                "subcategory": "Classical & Academic",
-                "themes": ["Light & Atmosphere"],
-                "subject": "portrait of a Renaissance scholar in his study, surrounded by ancient manuscripts and scientific instruments",
-                "description": "Fine art portrait with classical composition"
-            },
-            "Cyberpunk Street": {
-                "category": "Fantasy & Sci-Fi",
-                "subcategory": "Cyberpunk & Neon Aesthetics",
-                "themes": ["Scale & Perspective", "Color Psychology"],
-                "subject": "rain-soaked street market at night with holographic advertisements and neon signs reflecting in puddles",
-                "description": "Sci-fi scene with dramatic lighting and scale"
-            },
-            "Nature Photography": {
-                "category": "Photography Styles",
-                "subcategory": "Landscape & Nature",
+            "Vintage Car (Multi-Style)": {
+                "subject": "pristine 1970s muscle car in Arizona desert, chrome details gleaming",
+                "styles": [
+                    ("Photography Styles", "Still Life & Product"),
+                    ("Fine Art Movements", "Impressionism & Post-Impressionism"),
+                    ("Digital Art Genres", "3D Rendering & CGI"),
+                    ("Emerging Styles", "Vaporwave & Retrowave")
+                ],
                 "themes": ["Temporal Quality", "Material & Texture"],
-                "subject": "misty forest at dawn with rays of sunlight filtering through ancient moss-covered trees",
-                "description": "Natural landscape with atmospheric elements"
+                "description": "Same car in 4 completely different artistic styles"
+            },
+            "Coffee Shop Interior (Varied Moods)": {
+                "subject": "cozy coffee shop interior with vintage furniture and warm lighting",
+                "styles": [
+                    ("Photography Styles", "Architectural & Urban"),
+                    ("Fine Art Movements", "Classical & Academic"),
+                    ("Cultural & Historical", "Art Deco & Mid-Century")
+                ],
+                "themes": ["Light & Atmosphere"],
+                "description": "Interior space with 3 different aesthetic approaches"
+            },
+            "Fantasy Character (Style Exploration)": {
+                "subject": "warrior princess with ornate armor and mystical weapon",
+                "styles": [
+                    ("Fantasy & Sci-Fi", "High Fantasy & Tolkienesque"),
+                    ("Animation & Comics", "Anime & Manga"),
+                    ("Fine Art Movements", "Art Nouveau & Deco"),
+                    ("Digital Art Genres", "Character Design & Illustration")
+                ],
+                "themes": ["Compositional Tension"],
+                "description": "Character design across 4 artistic traditions"
             }
         }
 
@@ -299,102 +264,146 @@ def render_image_prompt():
             with cols[idx % 3]:
                 if st.button(
                     f"📋 {example_name}",
-                    key=f"ip_example_{idx}",
+                    key=f"ip_ex_{idx}",
                     use_container_width=True,
                     help=example_data['description']
                 ):
-                    # Clear all theme checkboxes first
+                    # Clear all checkboxes first
+                    for cat_name, cat_data in TAXONOMY.items():
+                        for subcategory in cat_data['subcategories']:
+                            checkbox_key = f"ip_subcat_{cat_name}_{subcategory}"
+                            st.session_state[checkbox_key] = False
+
                     for theme_name in THEMATIC_ELEMENTS.keys():
                         st.session_state[f"theme_{theme_name}"] = False
 
-                    # Set category and subcategory
-                    st.session_state.ip_category = example_data['category']
-                    st.session_state.ip_subcategory = example_data['subcategory']
+                    # Set subject
+                    st.session_state.ip_subject_prefill = example_data['subject']
 
-                    # Set selected themes
+                    # Set styles
+                    for cat, subcat in example_data['styles']:
+                        checkbox_key = f"ip_subcat_{cat}_{subcat}"
+                        st.session_state[checkbox_key] = True
+
+                    # Set themes
                     for theme in example_data['themes']:
                         st.session_state[f"theme_{theme}"] = True
-
-                    # Set subject
-                    st.session_state.ip_subject = example_data['subject']
 
                     st.rerun()
 
     st.markdown("---")
 
-    # Step 1: Category selection
-    st.markdown("### Step 1: Select Art Category")
+    # STEP 1: Subject Input (MOVED TO TOP)
+    st.markdown("### Step 1: Enter Your Subject")
+    subject = st.text_area(
+        "Describe what you want to generate",
+        height=100,
+        placeholder="Examples:\n- vintage 1970s muscle car in desert\n- medieval knight in ornate armor\n- cozy coffee shop interior\n- abstract representation of music",
+        key="ip_subject",
+        value=st.session_state.get('ip_subject_prefill', ''),
+        help="Tip: Be specific but concise - describe the core elements"
+    )
 
-    category_cols = st.columns(4)
+    # STEP 2: Style Selection (NEW - Multiple subcategories)
+    st.markdown("### Step 2: Select 3-5 Art Styles")
+    st.caption("Choose subcategories from any category. Each will generate a unique prompt for your subject.")
 
-    for idx, (cat_name, cat_data) in enumerate(TAXONOMY.items()):
-        with category_cols[idx % 4]:
-            if st.button(
-                f"{cat_data['icon']} {cat_name}",
-                key=f"cat_{cat_name}",
-                use_container_width=True
+    selected_subcategories = []
+
+    # Organize by category with checkboxes
+    for cat_name, cat_data in TAXONOMY.items():
+        with st.expander(f"{cat_data['icon']} {cat_name}", expanded=False):
+            cols = st.columns(2)
+            for idx, subcategory in enumerate(cat_data['subcategories']):
+                with cols[idx % 2]:
+                    # Create unique key for checkbox
+                    checkbox_key = f"ip_subcat_{cat_name}_{subcategory}"
+
+                    is_selected = st.checkbox(
+                        subcategory,
+                        key=checkbox_key,
+                        help=f"Generate variation in {subcategory} style"
+                    )
+
+                    if is_selected:
+                        selected_subcategories.append({
+                            'category': cat_name,
+                            'subcategory': subcategory,
+                            'icon': cat_data['icon']
+                        })
+
+    # Validation message
+    num_selected = len(selected_subcategories)
+    if num_selected < 3 and num_selected > 0:
+        st.warning(f"⚠️ Please select at least 3 styles (currently: {num_selected})")
+    elif num_selected > 5:
+        st.info(f"ℹ️ {num_selected} styles selected. Generation will take approximately {num_selected * 10} seconds.")
+    elif num_selected >= 3:
+        st.success(f"✅ {num_selected} styles selected")
+
+    # Show selected styles summary
+    if selected_subcategories:
+        st.markdown("**Selected Styles:**")
+        selected_text = ", ".join([f"{s['icon']} {s['subcategory']}" for s in selected_subcategories])
+        st.info(selected_text)
+
+    # STEP 3: Thematic Elements (OPTIONAL - applied to all)
+    st.markdown("### Step 3: Add Thematic Elements (Optional)")
+    st.caption("These will be applied to ALL selected styles. Maximum 2 recommended.")
+
+    selected_themes = []
+    theme_cols = st.columns(4)
+
+    for idx, (theme_name, theme_data) in enumerate(THEMATIC_ELEMENTS.items()):
+        with theme_cols[idx % 4]:
+            if st.checkbox(
+                f"{theme_data['icon']} {theme_name}",
+                key=f"theme_{theme_name}",
+                help=theme_data['description']
             ):
-                st.session_state.ip_category = cat_name
+                selected_themes.append(theme_name)
 
-    if 'ip_category' in st.session_state:
-        selected_category = st.session_state.ip_category
-        st.success(f"✅ Selected: {TAXONOMY[selected_category]['icon']} {selected_category}")
+    if len(selected_themes) > 2:
+        st.warning("⚠️ More than 2 thematic elements may create overly complex prompts")
 
-        # Step 2: Subcategory selection
-        st.markdown("### Step 2: Select Subcategory")
+    # Generate button
+    st.markdown("---")
 
-        subcategory = st.selectbox(
-            "Choose specific style",
-            options=TAXONOMY[selected_category]["subcategories"],
-            key="ip_subcategory"
-        )
+    can_generate = (
+        len(subject.strip()) >= 5 and
+        3 <= len(selected_subcategories) <= 10
+    )
 
-        # Step 3: Thematic elements (optional)
-        st.markdown("### Step 3: Add Thematic Elements (optional, max 3)")
-        st.caption("These modify mood, lighting, composition across any category")
+    generate_btn = st.button(
+        f"✨ Generate {len(selected_subcategories)} Style Variations" if selected_subcategories else "✨ Generate Variations",
+        disabled=not can_generate,
+        type="primary",
+        use_container_width=True
+    )
 
-        selected_themes = []
-        theme_cols = st.columns(4)
+    if not can_generate and (subject.strip() or selected_subcategories):
+        if len(subject.strip()) < 5:
+            st.caption("⚠️ Please enter a subject (at least 5 characters)")
+        elif len(selected_subcategories) < 3:
+            st.caption("⚠️ Please select at least 3 art styles")
 
-        for idx, (theme_name, theme_data) in enumerate(THEMATIC_ELEMENTS.items()):
-            with theme_cols[idx % 4]:
-                if st.checkbox(
-                    f"{theme_data['icon']} {theme_name}",
-                    key=f"theme_{theme_name}",
-                    help=theme_data['description']
-                ):
-                    selected_themes.append(theme_name)
+    # Generation logic
+    if generate_btn and can_generate:
+        with st.spinner(f"Generating {len(selected_subcategories)} style variations..."):
+            st.session_state.ip_variations = []
+            st.session_state.ip_subject_display = subject
 
-        if len(selected_themes) > 3:
-            st.warning("⚠️ Please select maximum 3 thematic elements for best results")
-            selected_themes = selected_themes[:3]
+            progress_container = st.container()
 
-        # Step 4: Subject input
-        st.markdown("### Step 4: Enter Subject")
-        subject = st.text_area(
-            "Describe what you want to generate",
-            height=100,
-            placeholder="Examples:\n- ancient library filled with mystical tomes\n- cyberpunk street market at night\n- portrait of a stoic warrior\n- abstract representation of time",
-            key="ip_subject",
-            help="Tip: Press Ctrl+Enter to quickly finish editing"
-        )
-
-        # Generate button
-        generate_btn = st.button(
-            "✨ Generate Image Prompts",
-            disabled=(len(subject.strip()) < 5),
-            type="primary",
-            use_container_width=True
-        )
-
-        st.caption("💡 Generation takes 10-15 seconds")
-
-        if generate_btn and subject.strip():
-            with st.spinner("Generating optimized prompts..."):
+            for idx, style in enumerate(selected_subcategories, 1):
                 try:
+                    # Progress indicator
+                    with progress_container:
+                        st.caption(f"⚡ Generating variation {idx}/{len(selected_subcategories)}: {style['icon']} **{style['subcategory']}**")
+
                     # Get subcategory details
                     subcat_data = SUBCATEGORY_DETAILS.get(
-                        subcategory,
+                        style['subcategory'],
                         {
                             "themes": "Visual storytelling and aesthetic exploration",
                             "styles": "Characteristic visual approach",
@@ -410,118 +419,134 @@ Reference Artists: {subcat_data['artists']}
 Aesthetic Qualities: {subcat_data['aesthetics']}"""
 
                     # Build system prompt
-                    random_id = random.randint(1000, 9999)
                     system_prompt = IMAGE_PROMPT_SYSTEM.format(
-                        category=selected_category,
-                        subcategory=subcategory,
+                        category=style['category'],
+                        subcategory=style['subcategory'],
                         subject=subject,
                         thematic_elements=", ".join(selected_themes) if selected_themes else "None",
-                        subcategory_data=subcat_context,
-                        random_id=random_id
+                        subcategory_data=subcat_context
                     )
 
                     # Build user message
-                    user_message = f"""Category: {selected_category}
-Subcategory: {subcategory}
+                    user_message = f"""Category: {style['category']}
+Subcategory: {style['subcategory']}
 Subject: {subject}
 Thematic Elements: {", ".join(selected_themes) if selected_themes else "None"}
 
-Generate both text prompt and JSON output now."""
+Generate a text prompt optimized for AI image generation."""
 
                     # Call API
                     response = call_anthropic(
                         system_prompt=system_prompt,
                         user_message=user_message,
-                        max_tokens=1500
+                        max_tokens=800
                     )
 
-                    # Parse response
-                    text_prompt, json_output = parse_output(response)
+                    # Parse response (text only)
+                    text_match = re.search(r'<text_prompt>(.*?)</text_prompt>', response, re.DOTALL)
+                    text_prompt = text_match.group(1).strip() if text_match else response[:200]
 
-                    st.session_state.ip_text = text_prompt
-                    st.session_state.ip_json = json_output
-                    st.session_state.ip_category_display = selected_category
-                    st.session_state.ip_subcategory_display = subcategory
+                    # Store variation
+                    st.session_state.ip_variations.append({
+                        'category': style['category'],
+                        'subcategory': style['subcategory'],
+                        'icon': style['icon'],
+                        'prompt': text_prompt
+                    })
 
-                    st.success("✅ Prompts generated successfully!")
+                    # Small delay to avoid rate limiting (already included in api_client)
+                    # Additional delay if needed
+                    if idx < len(selected_subcategories):
+                        time.sleep(0.5)
 
                 except Exception as e:
-                    st.error(f"Error generating prompts: {str(e)}")
+                    st.error(f"Error generating {style['subcategory']}: {str(e)}")
 
-    else:
-        st.info("👆 Click a category button above to get started")
+            progress_container.empty()
+            st.success(f"✅ Generated {len(st.session_state.ip_variations)} variations!")
 
     # Display results
-    if 'ip_text' in st.session_state and 'ip_json' in st.session_state:
-        st.markdown("---")
-        st.subheader("📋 Generated Outputs")
-
-        # Show context
-        if 'ip_category_display' in st.session_state:
-            cat = st.session_state.ip_category_display
-            subcat = st.session_state.ip_subcategory_display
-            st.caption(f"**Context:** {TAXONOMY.get(cat, {}).get('icon', '🎨')} {cat} → {subcat}")
-
-        # Text Prompt
-        st.markdown("#### 📝 Text Prompt (Copy-Paste Ready)")
-        st.info("Use this directly in DALL-E, Midjourney, Stable Diffusion, or any AI image generator")
-        st.code(st.session_state.ip_text, language=None)
-
+    if 'ip_variations' in st.session_state and st.session_state.ip_variations:
         st.markdown("---")
 
-        # JSON Output
-        st.markdown("#### 📊 JSON Format (Structured Metadata)")
-        st.info("Use this for prompt libraries, databases, or batch processing workflows")
+        subject_display = st.session_state.get('ip_subject_display', 'your subject')
+        st.markdown(f"## 🎨 Generated Variations")
+        st.markdown(f"**Subject:** \"{subject_display}\"")
 
-        if st.session_state.ip_json and 'error' not in st.session_state.ip_json:
-            # Display formatted JSON
-            st.json(st.session_state.ip_json)
+        st.info(f"**{len(st.session_state.ip_variations)} style variations** • Copy any prompt to use in DALL-E, Midjourney, Stable Diffusion, or other AI image generators")
 
-            # Also provide code block for copying
-            with st.expander("📋 Copy JSON"):
-                st.code(json.dumps(st.session_state.ip_json, indent=2), language="json")
-        else:
-            st.warning("JSON parsing encountered an issue, showing raw output:")
-            if isinstance(st.session_state.ip_json, dict) and 'raw' in st.session_state.ip_json:
-                st.code(st.session_state.ip_json['raw'], language=None)
-            else:
-                st.code(str(st.session_state.ip_json), language=None)
+        # Display each variation
+        for idx, variation in enumerate(st.session_state.ip_variations, 1):
+            st.markdown(f"### {variation['icon']} Variation {idx}: {variation['subcategory']}")
+            st.caption(f"Category: {variation['category']}")
 
-    elif 'ip_category' not in st.session_state:
-        # Empty state - show examples
+            # Prompt in copyable code block
+            st.code(variation['prompt'], language=None)
+
+            if idx < len(st.session_state.ip_variations):
+                st.markdown("---")
+
+        # Action buttons
+        st.markdown("---")
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if st.button("🔄 Generate Different Styles", use_container_width=True):
+                # Clear results to start fresh
+                if 'ip_variations' in st.session_state:
+                    del st.session_state.ip_variations
+                if 'ip_subject_display' in st.session_state:
+                    del st.session_state.ip_subject_display
+                st.rerun()
+
+        with col2:
+            # Export all prompts as text file
+            all_prompts_text = f"Subject: {subject_display}\n\n"
+            all_prompts_text += "=" * 60 + "\n\n"
+
+            for idx, v in enumerate(st.session_state.ip_variations, 1):
+                all_prompts_text += f"VARIATION {idx}: {v['subcategory']}\n"
+                all_prompts_text += f"Category: {v['category']}\n\n"
+                all_prompts_text += f"{v['prompt']}\n\n"
+                all_prompts_text += "=" * 60 + "\n\n"
+
+            # Clean filename
+            filename_subject = "".join(c for c in subject_display if c.isalnum() or c in (' ', '-', '_'))[:30]
+            filename = f"image_prompts_{filename_subject}.txt"
+
+            st.download_button(
+                "💾 Download All Prompts",
+                data=all_prompts_text,
+                file_name=filename,
+                mime="text/plain",
+                use_container_width=True
+            )
+
+    elif not generate_btn:
+        # Empty state - show guidance
         st.markdown("---")
         st.info("""
         ### 🌟 Quick Start
 
-        1. **Select a category** from the buttons above (Fine Art, Photography, Digital Art, etc.)
-        2. **Choose a subcategory** for specific style guidance
-        3. **Optionally add themes** to modify mood, lighting, or composition (max 3)
-        4. **Enter your subject** - what you want to see in the image
-        5. **Generate** and get both text prompt and JSON format
+        1. **Enter your subject** - What do you want to see? (e.g., "vintage car", "fantasy castle")
+        2. **Select 3-5 art styles** - Browse categories below and check styles you're interested in
+        3. **Optionally add 1-2 themes** - Modify lighting, mood, or composition across all variations
+        4. **Generate** - Get one optimized prompt per style in ~10 seconds per variation
 
-        ### 💡 Example Workflows
+        ### 💡 Pro Tips
 
-        **Classic Art Portrait:**
-        - Category: Fine Art Movements → Classical & Academic
-        - Themes: Light & Atmosphere
-        - Subject: "elderly scholar reading ancient texts"
-
-        **Cyberpunk Scene:**
-        - Category: Fantasy & Sci-Fi → Cyberpunk & Neon Aesthetics
-        - Themes: Scale & Perspective, Color Psychology
-        - Subject: "street market vendor at night"
-
-        **Nature Photography:**
-        - Category: Photography Styles → Landscape & Nature
-        - Themes: Temporal Quality, Compositional Tension
-        - Subject: "misty mountain sunrise"
+        - **Mix categories**: Combine Photography + Fine Art + Digital for diverse results
+        - **Keep subject consistent**: The same subject across styles shows artistic range
+        - **Limit themes**: 1-2 themes keep prompts focused and effective
+        - **Download all**: Use the download button to save your entire prompt library
         """)
 
-        # Show category grid
-        st.markdown("### 📚 Available Categories")
-        cols = st.columns(4)
+        # Show category overview
+        st.markdown("### 📚 Available Art Styles")
+        st.caption(f"Total: {sum(len(cat['subcategories']) for cat in TAXONOMY.values())} subcategories across 7 categories")
 
+        overview_cols = st.columns(4)
         for idx, (cat_name, cat_data) in enumerate(TAXONOMY.items()):
-            with cols[idx % 4]:
+            with overview_cols[idx % 4]:
                 st.markdown(f"**{cat_data['icon']} {cat_name}**")
-                st.caption(f"{len(cat_data['subcategories'])} subcategories")
+                st.caption(f"{len(cat_data['subcategories'])} styles")
