@@ -11,7 +11,8 @@ from tools.correlation_explainer import render_correlation_explainer
 st.set_page_config(
     page_title="ClarityCrew Tools",
     page_icon="🛠️",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 
@@ -100,12 +101,24 @@ def main():
     )
 
     st.sidebar.markdown("---")
-    st.sidebar.markdown("""
-    ### About
-    AI-powered prompt generation tools using Claude Sonnet 4.
 
-    **Phase 2 Active**
-    """)
+    # About section with expander
+    with st.sidebar.expander("ℹ️ About ClarityCrew Tools"):
+        st.markdown("""
+        **6 AI-Powered Tools** for strategic thinking and prompt engineering:
+
+        - Decision Storm: Multi-perspective analysis
+        - Chain/Bundle/Inception: Advanced prompt generation
+        - Advanced Techniques: 11 expert techniques
+        - Creative Thinking: 24 creative methods
+        - Image Prompts: AI art generation
+        - Correlation Explainer: Educational tool
+
+        **Powered by:** Claude Sonnet 4.5
+        **Model:** `claude-sonnet-4-20250514`
+
+        **Status:** ✅ All 6 tools complete
+        """)
 
     # Route to selected tool
     if tool == "🏠 Home":

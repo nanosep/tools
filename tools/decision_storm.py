@@ -50,6 +50,22 @@ def render_decision_storm():
     st.title("🔀 Decision Storm Generator")
     st.write("Transform one scenario into multiple strategic perspectives")
 
+    # Info expander
+    with st.expander("ℹ️ How Decision Storm Works"):
+        st.markdown("""
+        This tool analyzes your scenario through **6 different analytical lenses**:
+
+        - ⚠️ **Risk-First** - Threats, failure modes, what could go wrong
+        - 📈 **Opportunity-First** - Upside potential, breakthrough possibilities
+        - 💰 **Resource-First** - Costs, ROI, resource allocation
+        - ⏰ **Timeline-First** - Timing, sequencing, velocity
+        - 👥 **Stakeholder-First** - People, organizational dynamics
+        - 🎯 **Strategic-First** - Competitive advantage, long-term impact
+
+        **How to use:** Enter your scenario, choose 2-6 perspectives, and generate.
+        Each perspective will provide a unique strategic analysis through its specific lens.
+        """)
+
     # Input section
     st.markdown("---")
     scenario = st.text_area(
