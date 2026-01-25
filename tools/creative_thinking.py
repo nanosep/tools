@@ -201,6 +201,55 @@ def render_creative_thinking():
         department-specific prompts for each method you can use in workshops or brainstorming sessions.
         """)
 
+    # Examples section
+    with st.expander("💡 Try These Examples", expanded=False):
+        st.markdown("Click any example to auto-fill the form:")
+
+        examples = {
+            "Reduce SaaS Churn (Sales)": {
+                "challenge": "How can we reduce customer churn in our SaaS product from 8% to 4% monthly?",
+                "department": "Sales",
+                "methods": ["Brainstorming", "Five Whys", "Impact-Effort Matrix"],
+                "description": "Sales-focused approach using divergent + reframing + convergent methods"
+            },
+            "Feature Prioritization (Product)": {
+                "challenge": "Prioritize features for Q2 product roadmap with limited engineering capacity and competing stakeholder demands",
+                "department": "Product",
+                "methods": ["Impact-Effort Matrix", "Six Thinking Hats", "SCAMPER"],
+                "description": "Product management challenge requiring evaluation and systematic refinement"
+            },
+            "Warehouse Efficiency (Operations)": {
+                "challenge": "Reduce warehouse fulfillment time from 48 hours to 24 hours without adding staff",
+                "department": "Operations",
+                "methods": ["Five Whys", "Reverse Thinking", "Constraint Removal", "Pros-Cons-Fixes"],
+                "description": "Operations optimization using reframing and lateral thinking"
+            }
+        }
+
+        cols = st.columns(3)
+        for idx, (example_name, example_data) in enumerate(examples.items()):
+            with cols[idx % 3]:
+                if st.button(
+                    f"📋 {example_name}",
+                    key=f"ct_example_{idx}",
+                    use_container_width=True,
+                    help=example_data['description']
+                ):
+                    # Clear all method checkboxes first
+                    for cat_name, cat_data in CATEGORIES.items():
+                        for method in cat_data['methods']:
+                            st.session_state[f"ct_method_{method['name']}"] = False
+
+                    # Set input text and department
+                    st.session_state.ct_input = example_data['challenge']
+                    st.session_state.ct_department = example_data['department']
+
+                    # Set selected methods
+                    for method_name in example_data['methods']:
+                        st.session_state[f"ct_method_{method_name}"] = True
+
+                    st.rerun()
+
     st.markdown("---")
 
     # Input

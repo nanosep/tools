@@ -66,6 +66,41 @@ def render_decision_storm():
         Each perspective will provide a unique strategic analysis through its specific lens.
         """)
 
+    # Examples section
+    with st.expander("💡 Try These Examples", expanded=False):
+        st.markdown("Click any example to auto-fill the form:")
+
+        examples = {
+            "Product Launch Decision": {
+                "scenario": "We're considering launching a new B2B SaaS product targeting mid-market companies. Initial development would take 6 months and $500K. Early customer interviews show strong interest but we'd be entering a crowded market with established players like Salesforce and HubSpot.",
+                "count": 4,
+                "description": "Complex go-to-market decision with multiple stakeholders"
+            },
+            "Market Expansion": {
+                "scenario": "Should we expand our e-commerce platform to the Latin American market? We have proven product-market fit in North America, $2M in expansion budget, and initial partnership discussions in Mexico and Brazil. However, we'd need to navigate different payment systems, regulations, and logistics.",
+                "count": 3,
+                "description": "Geographic expansion with regulatory and operational considerations"
+            },
+            "Strategic Pivot": {
+                "scenario": "Our B2C product has plateaued at $5M ARR after 3 years. We're debating a pivot to B2B enterprise with the same core technology but completely different go-to-market strategy. Existing customers would be unaffected but it requires building a new sales team and 6-month development for enterprise features.",
+                "count": 5,
+                "description": "Major strategic pivot with high stakes and resource implications"
+            }
+        }
+
+        cols = st.columns(3)
+        for idx, (example_name, example_data) in enumerate(examples.items()):
+            with cols[idx % 3]:
+                if st.button(
+                    f"📋 {example_name}",
+                    key=f"ds_example_{idx}",
+                    use_container_width=True,
+                    help=example_data['description']
+                ):
+                    st.session_state.ds_scenario = example_data['scenario']
+                    st.session_state.ds_count = example_data['count']
+                    st.rerun()
+
     # Input section
     st.markdown("---")
     scenario = st.text_area(

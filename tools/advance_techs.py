@@ -199,6 +199,52 @@ def render_advance_techs():
         Each prompt demonstrates a different technique applied to your specific task.
         """)
 
+    # Examples section
+    with st.expander("💡 Try These Examples", expanded=False):
+        st.markdown("Click any example to auto-fill the form:")
+
+        examples = {
+            "Database Optimization": {
+                "input": "Optimize database query performance for our analytics dashboard with 10M+ daily queries and sub-second response requirements",
+                "techniques": ["Chain-of-Symbol", "Emotional Tipping", "Adversarial Red-Team"],
+                "description": "Technical challenge requiring precision and security analysis"
+            },
+            "Marketing Copy": {
+                "input": "Write engaging product descriptions for eco-friendly water bottles targeting environmentally-conscious millennials",
+                "techniques": ["Dynamic Tone Morphing", "Cultural Localization", "Syntax-Free Abstract"],
+                "description": "Creative task with cultural nuances and tone requirements"
+            },
+            "Architecture Migration": {
+                "input": "Should we migrate from monolithic architecture to microservices? Consider technical debt, team capabilities, and business continuity",
+                "techniques": ["Multi-Persona Debate", "Adversarial Red-Team", "Socratic Mirroring"],
+                "description": "Complex decision requiring multiple viewpoints and critical analysis"
+            }
+        }
+
+        cols = st.columns(3)
+        for idx, (example_name, example_data) in enumerate(examples.items()):
+            with cols[idx % 3]:
+                if st.button(
+                    f"📋 {example_name}",
+                    key=f"at_example_{idx}",
+                    use_container_width=True,
+                    help=example_data['description']
+                ):
+                    # Clear all technique checkboxes first
+                    for tech_key in TECHNIQUES.keys():
+                        st.session_state[f"at_tech_{tech_key}"] = False
+
+                    # Set input text
+                    st.session_state.at_input = example_data['input']
+
+                    # Set selected techniques
+                    for selected_tech in example_data['techniques']:
+                        for tech_key in TECHNIQUES.keys():
+                            if tech_key == selected_tech or TECHNIQUES[tech_key]['full_name'] == selected_tech:
+                                st.session_state[f"at_tech_{tech_key}"] = True
+
+                    st.rerun()
+
     st.markdown("---")
 
     # Input

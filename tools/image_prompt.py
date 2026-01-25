@@ -266,6 +266,60 @@ def render_image_prompt():
         **Workflow**: Category → Subcategory → Optional Themes (max 3) → Subject → Generate
         """)
 
+    # Examples section
+    with st.expander("💡 Try These Examples", expanded=False):
+        st.markdown("Click any example to auto-fill the form:")
+
+        examples = {
+            "Classical Portrait": {
+                "category": "Fine Art Movements",
+                "subcategory": "Classical & Academic",
+                "themes": ["Light & Atmosphere"],
+                "subject": "portrait of a Renaissance scholar in his study, surrounded by ancient manuscripts and scientific instruments",
+                "description": "Fine art portrait with classical composition"
+            },
+            "Cyberpunk Street": {
+                "category": "Fantasy & Sci-Fi",
+                "subcategory": "Cyberpunk & Neon Aesthetics",
+                "themes": ["Scale & Perspective", "Color Psychology"],
+                "subject": "rain-soaked street market at night with holographic advertisements and neon signs reflecting in puddles",
+                "description": "Sci-fi scene with dramatic lighting and scale"
+            },
+            "Nature Photography": {
+                "category": "Photography Styles",
+                "subcategory": "Landscape & Nature",
+                "themes": ["Temporal Quality", "Material & Texture"],
+                "subject": "misty forest at dawn with rays of sunlight filtering through ancient moss-covered trees",
+                "description": "Natural landscape with atmospheric elements"
+            }
+        }
+
+        cols = st.columns(3)
+        for idx, (example_name, example_data) in enumerate(examples.items()):
+            with cols[idx % 3]:
+                if st.button(
+                    f"📋 {example_name}",
+                    key=f"ip_example_{idx}",
+                    use_container_width=True,
+                    help=example_data['description']
+                ):
+                    # Clear all theme checkboxes first
+                    for theme_name in THEMATIC_ELEMENTS.keys():
+                        st.session_state[f"theme_{theme_name}"] = False
+
+                    # Set category and subcategory
+                    st.session_state.ip_category = example_data['category']
+                    st.session_state.ip_subcategory = example_data['subcategory']
+
+                    # Set selected themes
+                    for theme in example_data['themes']:
+                        st.session_state[f"theme_{theme}"] = True
+
+                    # Set subject
+                    st.session_state.ip_subject = example_data['subject']
+
+                    st.rerun()
+
     st.markdown("---")
 
     # Step 1: Category selection

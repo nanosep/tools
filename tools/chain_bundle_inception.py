@@ -273,6 +273,56 @@ def render_chain_bundle_inception():
         Recursive Decomposition, Syntax-Free Vectorization, Dynamic Tone Morphing
         """)
 
+    # Examples section
+    with st.expander("💡 Try These Examples", expanded=False):
+        st.markdown("Click any example to auto-fill the form:")
+
+        examples = {
+            "SaaS European Expansion (Chain)": {
+                "input": "Evaluate whether to expand our SaaS to European market",
+                "method": "Prompt Chain",
+                "chain_length": 4,
+                "bundle_size": 5,
+                "description": "4-step workflow: decompose → analyze perspectives → compare options → refine decision"
+            },
+            "4-Day Work Week (Bundle)": {
+                "input": "Should we adopt a 4-day work week? Consider employee satisfaction, productivity risks, and competitive positioning",
+                "method": "Prompt Bundle",
+                "chain_length": 4,
+                "bundle_size": 5,
+                "description": "5 parallel approaches using different techniques (CoT, Red-Team, Contrastive)"
+            },
+            "AI Adoption Strategy (Inception)": {
+                "input": "Plan our AI adoption strategy for enterprise deployment",
+                "method": "Prompt Inception",
+                "chain_length": 4,
+                "bundle_size": 5,
+                "description": "2 meta-prompts that generate chains and bundles for AI strategy"
+            },
+            "Remote Developer Onboarding (All)": {
+                "input": "Design an onboarding program for remote developers joining our engineering team",
+                "method": "All Three",
+                "chain_length": 4,
+                "bundle_size": 5,
+                "description": "Chain + Bundle + Inception all generated together"
+            }
+        }
+
+        cols = st.columns(2)
+        for idx, (example_name, example_data) in enumerate(examples.items()):
+            with cols[idx % 2]:
+                if st.button(
+                    f"📋 {example_name}",
+                    key=f"cbi_example_{idx}",
+                    use_container_width=True,
+                    help=example_data['description']
+                ):
+                    st.session_state.cbi_input = example_data['input']
+                    st.session_state.cbi_method = example_data['method']
+                    st.session_state.cbi_chain_length = example_data['chain_length']
+                    st.session_state.cbi_bundle_size = example_data['bundle_size']
+                    st.rerun()
+
     st.markdown("---")
 
     # Input

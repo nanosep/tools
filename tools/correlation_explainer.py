@@ -324,11 +324,47 @@ def render_correlation_explainer():
 
         ---
 
-        ### 🎯 Select a Correlation Type to Explore ↓
+        ### 🎯 Start Here: Common Misconceptions
+
+        These famous examples demonstrate how easy it is to mistake correlation for causation:
         """)
 
+        # Quick link examples
+        quick_examples = {
+            "Ice Cream & Drowning": {
+                "type": "Confounding Variable",
+                "explanation": "Both increase in summer (temperature is the confounding variable)",
+                "icon": "🍦"
+            },
+            "Hospital Visits & Deaths": {
+                "type": "Reverse Causation",
+                "explanation": "People don't die because they visit hospitals—they visit because they're sick",
+                "icon": "🏥"
+            },
+            "HRT & Heart Disease": {
+                "type": "Selection Bias",
+                "explanation": "Wealthy women (better health) more likely to afford HRT, creating biased sample",
+                "icon": "💊"
+            }
+        }
+
+        quick_cols = st.columns(3)
+        for idx, (example_name, example_data) in enumerate(quick_examples.items()):
+            with quick_cols[idx % 3]:
+                if st.button(
+                    f"{example_data['icon']} {example_name}",
+                    key=f"ce_quick_{idx}",
+                    use_container_width=True,
+                    help=example_data['explanation']
+                ):
+                    st.session_state.ce_selected_type = example_data['type']
+                    st.rerun()
+
+        st.markdown("---")
+        st.markdown("### 📚 Or Browse All 8 Types:")
+        st.caption("Click any type below to see detailed explanation, examples, and testing methods")
+
         # Type selector grid
-        st.markdown("#### Click any type to learn more:")
 
         # Sort by probability (most common first)
         sorted_types = sorted(
