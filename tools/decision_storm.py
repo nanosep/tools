@@ -227,7 +227,7 @@ Provide 150-200 words total. Be concrete, not abstract."""
 
                     # Display result IMMEDIATELY (no containers)
                     st.markdown(f"### ✅ {result['icon']} {result['lens_name']}")
-                    st.markdown(f"<div style='background-color: {result['color']}; border-left: 4px solid {result['border_color']}; padding: 15px; margin: 10px 0; border-radius: 5px;'>{result['analysis']}</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='border-left: 4px solid {result['border_color']}; padding: 15px; margin: 10px 0; border-radius: 5px;'>{result['analysis']}</div>", unsafe_allow_html=True)
                     st.markdown("---")
 
                 except Exception as e:
@@ -276,13 +276,12 @@ Provide 150-200 words total. Be concrete, not abstract."""
 
 
 def display_storm_result(result):
-    """Display a single storm result in a colored container"""
+    """Display a single storm result without colored background"""
 
-    # Create colored container using markdown with custom HTML
+    # Create container with border but no background color
     container_style = f"""
     <div style="
-        background-color: {result['color']};
-        border: 2px solid {result['border_color']};
+        border-left: 4px solid {result['border_color']};
         border-radius: 8px;
         padding: 20px;
         margin: 10px 0;
