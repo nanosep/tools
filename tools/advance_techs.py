@@ -32,11 +32,11 @@ AVAILABLE TECHNIQUES:
 11. Dynamic Tone Morphing - Progressively shift tone/complexity throughout response
 
 YOUR TASK:
-Generate 5 distinct prompts that interpret the user's challenge and apply selected techniques.
+Generate {num_techniques} distinct prompts that interpret the user's challenge and apply selected techniques.
 
 INTERPRETATION STRATEGY:
 1. Read the challenge and understand the REAL underlying need
-2. For EACH of the 5 prompts, use a DIFFERENT selected technique
+2. For EACH of the {num_techniques} prompts, use a DIFFERENT selected technique
 3. Interpret the challenge into technique-specific context and tasks
 4. Each prompt should be complete, detailed, and immediately executable
 
@@ -63,18 +63,17 @@ Let P = Query plan efficiency
 Output: Detailed analysis using symbolic notation showing your logical reasoning at each step, with performance improvement estimates."
 
 REQUIREMENTS:
-1. Generate exactly 5 prompts
+1. Generate exactly {num_techniques} prompts
 2. Each prompt uses ONE of the selected techniques explicitly
-3. If fewer than 5 techniques selected, intelligently apply them across 5 prompts
-4. If 5+ techniques selected, use the 5 most relevant ones
-5. Each prompt should be 150-250 words
+3. Use the selected techniques in the order they are most relevant to this challenge
+4. Each prompt should be 150-250 words
 
 Format output as XML:
 <prompts>
 <prompt number="1" technique="[Technique Name]" description="[How this technique helps this challenge]">
 [Fully elaborated 150-250 word prompt applying this technique]
 </prompt>
-... continue for all 5 prompts
+... continue for all {num_techniques} prompts
 </prompts>
 
 Ensure each prompt interprets the challenge and demonstrates the technique's unique methodology."""
@@ -485,7 +484,7 @@ TECHNIQUES = {
 }
 
 
-def parse_prompts_output(response):
+def parse_prompts_output(response, expected_count):
     """Extract prompts from XML response with fallback"""
     prompts = []
     pattern = r'<prompt number="(\d+)" technique="([^"]*)" description="([^"]*)">(.*?)</prompt>'
@@ -509,14 +508,14 @@ def parse_prompts_output(response):
         numbered_matches = re.findall(numbered_pattern, response, re.DOTALL | re.MULTILINE)
 
         if numbered_matches:
-            for num, content in numbered_matches[:5]:
+            for num, content in numbered_matches[:expected_count]:
                 chunks.append(content.strip())
         else:
             # Split by double newlines
             chunks = [c.strip() for c in response.split('\n\n') if len(c.strip()) > 50]
 
         # Create prompts from chunks
-        for i, chunk in enumerate(chunks[:5], 1):
+        for i, chunk in enumerate(chunks[:expected_count], 1):
             prompts.append({
                 'number': i,
                 'technique': 'Advanced Technique',
@@ -524,25 +523,14 @@ def parse_prompts_output(response):
                 'prompt': chunk
             })
 
-    # Ensure we have exactly 5 prompts
-    if len(prompts) < 5:
-        # Pad with simple prompts if needed
-        for i in range(len(prompts) + 1, 6):
-            prompts.append({
-                'number': i,
-                'technique': 'Standard Approach',
-                'description': 'Alternative perspective',
-                'prompt': f"Approach {i}: Consider this task from a different angle..."
-            })
-
-    return prompts[:5]  # Return exactly 5 prompts
+    return prompts[:expected_count]  # Return exactly the expected count
 
 
 def render_advance_techs():
     """Render the Advanced Techniques Generator tool"""
 
     st.title("🚀 Advanced Techniques Generator")
-    st.write("Generate 5 prompts using expert-level prompting techniques with comprehensive documentation")
+    st.write("Generate specialized prompts using expert-level prompting techniques with comprehensive documentation")
 
     # Info expander
     with st.expander("ℹ️ About These Techniques"):
@@ -662,7 +650,7 @@ def render_advance_techs():
 
     # Technique selector
     st.markdown("### Select 3-5 Advanced Techniques")
-    st.caption("Select the techniques most relevant to your task. The system will generate 5 prompts using your selections.")
+    st.caption("Select the techniques most relevant to your task. The system will generate one prompt for each selected technique.")
 
     selected = []
     selected_keys = []
@@ -685,14 +673,15 @@ def render_advance_techs():
     if len(selected) < 3 and len(selected) > 0:
         st.warning("⚠️ Please select at least 3 techniques for best results")
     elif len(selected) > 7:
-        st.info(f"ℹ️ {len(selected)} techniques selected. System will use the 5 most relevant.")
+        st.info(f"ℹ️ {len(selected)} techniques selected. This will generate {len(selected)} prompts.")
     elif len(selected) >= 3:
         st.success(f"✅ {len(selected)} techniques selected")
 
     # Generate button
+    num_techniques = len(selected)
     generate_btn = st.button(
-        "🚀 Generate 5 Prompts",
-        disabled=(len(user_input.strip()) < 10 or len(selected) < 3),
+        f"🚀 Generate {num_techniques} Prompts",
+        disabled=(len(user_input.strip()) < 10 or num_techniques < 3),
         type="primary",
         use_container_width=True
     )
@@ -700,49 +689,110 @@ def render_advance_techs():
     st.caption("💡 Generation takes 10-15 seconds")
 
     # Generation logic
-    if generate_btn and user_input.strip() and len(selected) >= 3:
-        with st.spinner("Generating advanced prompts..."):
-            try:
-                # Build system prompt
-                system_prompt = ADVANCE_TECHS_SYSTEM.format(
-                    user_input=user_input,
-                    selected_techniques=", ".join(selected)
-                )
+    if generate_btn and user_input.strip() and num_techniques >= 3:
+        import time
+
+        # Initialize results storage
+        st.session_state.at_results = []
+
+        # Create placeholders for progress and results
+        progress_placeholder = st.empty()
+        results_container = st.container()
+
+        try:
+            # Generate prompts sequentially, one per technique
+            for i, (tech_key, tech_name) in enumerate(zip(selected_keys, selected)):
+                tech_info = TECHNIQUES[tech_key]
+
+                # Show progress
+                with progress_placeholder.container():
+                    st.info(f"⚡ Generating prompt {i+1}/{num_techniques}: {tech_info['icon']} **{tech_info['name']}**...")
+
+                # Build system prompt for single technique
+                single_system_prompt = f"""You are an expert prompt engineer specializing in advanced prompting techniques.
+
+CRITICAL INTERPRETATION RULES:
+1. DO NOT quote the user's challenge literally in the generated prompt
+2. INTERPRET their high-level challenge into specific, detailed instructions
+3. The prompt must be COMPLETE and EXECUTABLE on its own
+4. Include: role/context, background information, specific tasks (3-5), output format
+5. The prompt should be 150-250 words with clear structure
+6. Use professional, enterprise-grade language
+
+USER'S CHALLENGE (interpret and elaborate this, do not quote):
+"{user_input}"
+
+TECHNIQUE TO APPLY: {tech_name}
+
+TECHNIQUE DETAILS:
+{tech_info['definition']}
+
+Mechanism: {tech_info['mechanism']}
+
+YOUR TASK:
+Create ONE detailed prompt that interprets the user's challenge and applies the {tech_name} technique. The prompt should be complete, detailed, and immediately executable. Demonstrate the technique's unique methodology clearly."""
 
                 # Build user message
-                user_message = f"""Goal: {user_input}
+                user_message = f"""Challenge: {user_input}
 
-Selected Techniques: {", ".join(selected)}
+Technique: {tech_name}
 
-Generate exactly 5 prompts using the selected techniques. Each prompt should clearly demonstrate its technique's methodology applied to this specific goal."""
+Generate a single 150-250 word prompt that interprets this challenge and applies the {tech_name} technique. The prompt should clearly demonstrate how this technique's methodology applies to this specific challenge."""
 
                 # Call API
-                response = call_anthropic(
-                    system_prompt=system_prompt,
-                    user_message=user_message,
-                    max_tokens=2500
-                )
+                try:
+                    response = call_anthropic(
+                        system_prompt=single_system_prompt,
+                        user_message=user_message,
+                        max_tokens=800
+                    )
 
-                # Parse response
-                st.session_state.at_results = parse_prompts_output(response)
-                st.success("✅ 5 prompts generated successfully!")
+                    # Store result
+                    prompt_data = {
+                        'number': i + 1,
+                        'technique': tech_name,
+                        'description': f"Applies {tech_info['name']} to your challenge",
+                        'prompt': response.strip(),
+                        'icon': tech_info['icon']
+                    }
+                    st.session_state.at_results.append(prompt_data)
 
-            except Exception as e:
-                st.error(f"Error generating prompts: {str(e)}")
+                    # Display result immediately
+                    with results_container:
+                        st.markdown(f"### {prompt_data['icon']} Prompt {prompt_data['number']}: {prompt_data['technique']}")
+                        st.caption(prompt_data['description'])
+                        st.code(prompt_data['prompt'], language=None)
+                        st.markdown("")
 
-    # Display results
-    if 'at_results' in st.session_state and st.session_state.at_results:
+                except Exception as e:
+                    st.error(f"❌ Failed to generate prompt for {tech_info['name']}: {str(e)}")
+                    continue
+
+                # Delay before next call (except last)
+                if i < len(selected_keys) - 1:
+                    time.sleep(1)
+
+            # Clear progress indicator
+            progress_placeholder.empty()
+            progress_placeholder.success(f"✅ Successfully generated {len(st.session_state.at_results)} prompts!")
+
+        except Exception as e:
+            st.error(f"Error generating prompts: {str(e)}")
+
+    # Display results (if not currently generating)
+    if 'at_results' in st.session_state and st.session_state.at_results and not generate_btn:
         st.markdown("---")
         st.subheader("📋 Generated Prompts")
         st.info("**How to use:** Each prompt applies a different advanced technique to your goal. Copy and use any prompt that fits your needs.")
 
         for prompt_data in st.session_state.at_results:
-            # Find matching icon
-            icon = "⚡"
-            for key, tech in TECHNIQUES.items():
-                if tech['full_name'] in prompt_data['technique'] or tech['name'] in prompt_data['technique']:
-                    icon = tech['icon']
-                    break
+            # Get icon from data or find matching icon
+            icon = prompt_data.get('icon', '⚡')
+            if icon == '⚡':
+                for key, tech in TECHNIQUES.items():
+                    if tech['full_name'] in prompt_data['technique'] or tech['name'] in prompt_data['technique']:
+                        icon = tech['icon']
+                        break
 
             with st.container():
                 st.markdown(f"### {icon} Prompt {prompt_data['number']}: {prompt_data['technique']}")
@@ -760,7 +810,7 @@ Generate exactly 5 prompts using the selected techniques. Each prompt should cle
             1. **Enter your goal** - Describe the task you want to create prompts for
             2. **Browse techniques** - Click "📚 Browse Technique Library" to learn about each method
             3. **Select 3-5 techniques** - Choose techniques based on your specific needs
-            4. **Generate prompts** - Get 5 specialized prompts, each using a different technique
+            4. **Generate prompts** - Get one specialized prompt for each selected technique
             5. **Copy and use** - Pick the prompt that best fits your requirements
 
             ### 💡 Recommended Combinations

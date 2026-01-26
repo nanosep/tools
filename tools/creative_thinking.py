@@ -7,17 +7,16 @@ CREATIVE_THINKING_SYSTEM = """You are an expert facilitator of creative thinking
 
 CRITICAL INTERPRETATION RULES:
 1. DO NOT quote the user's challenge literally in generated prompts
-2. INTERPRET their high-level challenge into specific, department-contextualized instructions
+2. INTERPRET their high-level challenge into specific, actionable instructions with relevant context
 3. Each prompt must be COMPLETE and EXECUTABLE on its own
-4. Include: role/context, department-specific background, specific tasks (3-5), facilitation guidance, output format
+4. Include: role/context, business-specific background, specific tasks (3-5), facilitation guidance, output format
 5. Each prompt should be 150-200 words with clear structure
-6. Use department-appropriate terminology and examples
+6. Use professional, enterprise-grade terminology
 
 CHALLENGE (interpret and elaborate this, do not quote):
 "{user_input}"
 
 SELECTED METHODS: {selected_methods}
-TARGET DEPARTMENT: {department}
 
 AVAILABLE METHODS (24 across 6 categories):
 
@@ -29,28 +28,27 @@ REFRAMING TECHNIQUES: Five Whys, Perspective Shifting, Time Travel, Question Ass
 STRUCTURED IDEATION: TRIZ Principles, Morphological Analysis, Forced Connections, Attribute Listing
 
 YOUR TASK:
-Generate prompts that interpret the challenge and apply creative thinking methods for the {department} department.
+Generate prompts that interpret the challenge and apply creative thinking methods effectively.
 
 INTERPRETATION STRATEGY:
-1. Understand what the user is REALLY trying to solve for {department}
-2. Contextualize with department-specific scenarios, metrics, constraints
+1. Understand what the user is REALLY trying to solve
+2. Contextualize with relevant business scenarios, metrics, and constraints
 3. Generate ONE prompt per selected method that:
-   - Interprets the challenge into department-specific context
+   - Interprets the challenge into specific, actionable context
    - Applies the creative method's framework explicitly
-   - Provides relevant examples from {department}
+   - Provides relevant business examples
    - Includes facilitation instructions (how to run the session)
    - Specifies expected outputs
    - Is 150-200 words
 
 EXAMPLE OF GOOD INTERPRETATION:
 Challenge: "improve customer retention"
-Department: Sales
 Method: Five Whys
 
 You interpret and create:
-"You are a sales operations analyst investigating customer churn root causes for our B2B SaaS business.
+"You are a business analyst investigating customer churn root causes for a B2B SaaS business.
 
-Context: Experiencing 15% annual churn (target: <8%). Average customer LTV: $125K. Churn is concentrated in year 2-3 customers. Sales team reports 'lack of adoption' as primary reason.
+Context: Experiencing 15% annual churn (target: <8%). Average customer LTV: $125K. Churn is concentrated in year 2-3 customers. Teams report 'lack of adoption' as primary reason.
 
 Apply Five Whys Method:
 Layer 1: Why are year 2-3 customers churning?
@@ -66,26 +64,26 @@ Layer 4: Why are resources constrained?
 → Analyze: Hiring hasn't kept pace with growth
 
 Layer 5: Why hasn't hiring kept pace?
-→ Analyze: Budget allocated to sales, not post-sale support
+→ Analyze: Budget allocated to acquisition, not post-sale support
 
 Output: Root cause analysis document with recommended intervention point (likely: reallocate budget to customer success) and projected retention impact."
 
 REQUIREMENTS:
 1. Generate one prompt for EACH selected method
 2. Each prompt must be 150-200 words
-3. Fully contextualize for {department}
+3. Fully contextualize for the business challenge
 4. Include facilitation guidance
 5. Be immediately actionable
 
 Format output as XML:
 <prompts>
 <prompt method="[Method Name]" category="[Category Name]">
-[Fully elaborated, department-contextualized 150-200 word prompt]
+[Fully elaborated, business-contextualized 150-200 word prompt]
 </prompt>
 ... continue for all selected methods
 </prompts>
 
-Ensure each prompt interprets the challenge and demonstrates the method's application in {department} context."""
+Ensure each prompt interprets the challenge and demonstrates the method's application to the business context."""
 
 # Categories and methods with metadata
 CATEGORIES = {
@@ -157,15 +155,6 @@ CATEGORIES = {
     }
 }
 
-# Department options
-DEPARTMENTS = [
-    "Sales", "Marketing", "Finance", "Operations", "Product", "HR",
-    "Strategy", "Customer Success", "IT", "Legal", "R&D", "Supply Chain",
-    "Business Development", "Communications", "Data Analytics", "Procurement",
-    "Quality Assurance", "Training"
-]
-
-
 def parse_prompts_output(response):
     """Extract prompts from XML response with fallback"""
     prompts = []
@@ -211,8 +200,8 @@ def render_creative_thinking():
         - 🧠 **Reframing Techniques** - Change perspective (Five Whys, Perspective Shifting, Time Travel, Question Assumptions)
         - ⚡ **Structured Ideation** - Systematic creativity (TRIZ, Morphological Analysis, Forced Connections, Attribute Listing)
 
-        **How it works:** Select 1-5 methods most relevant to your challenge and department. The system generates
-        department-specific prompts for each method you can use in workshops or brainstorming sessions.
+        **How it works:** Select 1-5 methods most relevant to your challenge. The system generates
+        specialized prompts for each method you can use in workshops or brainstorming sessions.
         """)
 
     # Examples section
@@ -222,25 +211,21 @@ def render_creative_thinking():
         examples = {
             "TSA Exit Acceleration (Operations)": {
                 "challenge": "Accelerate TSA exit from 24 months to 12 months to reduce dependency costs and achieve operational independence faster",
-                "department": "Operations",
                 "methods": ["Reverse Thinking", "Constraint Removal", "SCAMPER", "Five Whys"],
                 "description": "Explore unconventional paths to rapid independence"
             },
             "Synergy Value Creation (Strategy)": {
                 "challenge": "Identify and quantify €50M in revenue synergies post-merger beyond the obvious cost synergies already captured in the model",
-                "department": "Strategy",
                 "methods": ["Brainstorming", "Forced Connections", "Analogies from Other Domains", "Provocation Technique"],
                 "description": "Generate non-obvious value creation opportunities"
             },
             "Talent Retention Strategy (HR)": {
                 "challenge": "Retain 95% of critical talent during 18-month separation uncertainty. Current attrition trending at 22% for key roles.",
-                "department": "HR",
                 "methods": ["Six Thinking Hats", "Perspective Shifting", "Pros-Cons-Fixes", "Role Storming"],
                 "description": "Multi-stakeholder approach to retention program design"
             },
             "Customer Communication Plan (Communications)": {
                 "challenge": "Communicate business separation to enterprise customers without triggering contract renegotiations or churn. €400M revenue at risk.",
-                "department": "Communications",
                 "methods": ["Perspective Shifting", "Time Travel", "Devil's Advocate", "Scenario Planning"],
                 "description": "Anticipate customer concerns and craft reassuring narrative"
             }
@@ -255,9 +240,15 @@ def render_creative_thinking():
                     use_container_width=True,
                     help=example_data['description']
                 ):
+                    # Clear all method checkbox keys to ensure fresh pre-selection
+                    for cat_name, cat_data in CATEGORIES.items():
+                        for method in cat_data['methods']:
+                            checkbox_key = f"ct_method_{method['name']}_actual"
+                            if checkbox_key in st.session_state:
+                                del st.session_state[checkbox_key]
+
                     # Store prefill data (separate from widget keys to avoid conflicts)
                     st.session_state.ct_input_prefill = example_data['challenge']
-                    st.session_state.ct_department_prefill = example_data['department']
                     st.session_state.ct_methods_prefill = example_data['methods']
                     st.rerun()
 
@@ -271,19 +262,6 @@ def render_creative_thinking():
         value=input_prefill,
         placeholder="Example: How can we reduce customer churn in our SaaS product?",
         key="ct_input_actual"
-    )
-
-    # Department selector (use prefill value if available)
-    dept_prefill = st.session_state.get('ct_department_prefill', 'Sales')
-    dept_index = DEPARTMENTS.index(dept_prefill) if dept_prefill in DEPARTMENTS else 0
-
-    st.markdown("### Select Department")
-    department = st.selectbox(
-        "Which department is this for?",
-        options=DEPARTMENTS,
-        index=dept_index,
-        key="ct_department_actual",
-        help="Prompts will be adapted with terminology and examples specific to this department"
     )
 
     # Method selector by category
@@ -337,56 +315,117 @@ def render_creative_thinking():
 
     # Generation logic
     if generate_btn and user_input.strip() and len(selected_methods) > 0:
-        with st.spinner(f"Generating {len(selected_methods)} creative thinking prompts for {department}..."):
-            try:
-                # Build method list
-                method_names = [m['name'] for m in selected_methods]
+        import time
 
-                # Build system prompt
-                system_prompt = CREATIVE_THINKING_SYSTEM.format(
-                    user_input=user_input,
-                    selected_methods=", ".join(method_names),
-                    department=department
-                )
+        # Initialize results storage
+        st.session_state.ct_results = []
+
+        # Create placeholders for progress and results
+        progress_placeholder = st.empty()
+        results_container = st.container()
+
+        try:
+            # Generate prompts sequentially, one per method
+            for i, method_data in enumerate(selected_methods):
+                method_name = method_data['name']
+                method_category = method_data['category']
+
+                # Get method icon
+                method_icon = "⚡"
+                for cat_name, cat_data in CATEGORIES.items():
+                    if cat_name == method_category:
+                        method_icon = cat_data['icon']
+                        for m in cat_data['methods']:
+                            if m['name'] == method_name:
+                                # Could use method-specific icon if available
+                                break
+                        break
+
+                # Show progress
+                with progress_placeholder.container():
+                    st.info(f"⚡ Generating prompt {i+1}/{len(selected_methods)}: {method_icon} **{method_name}**...")
+
+                # Build system prompt for single method
+                single_system_prompt = f"""You are an expert facilitator of creative thinking methodologies.
+
+CRITICAL INTERPRETATION RULES:
+1. DO NOT quote the user's challenge literally in the generated prompt
+2. INTERPRET their high-level challenge into specific, actionable instructions
+3. The prompt must be COMPLETE and EXECUTABLE on its own
+4. Include: role/context, business-specific background, specific tasks (3-5), facilitation guidance, output format
+5. The prompt should be 150-200 words with clear structure
+6. Use professional, enterprise-grade terminology
+
+USER'S CHALLENGE (interpret and elaborate this, do not quote):
+"{user_input}"
+
+CREATIVE THINKING METHOD: {method_name}
+CATEGORY: {method_category}
+
+YOUR TASK:
+Create ONE detailed facilitation prompt that interprets the user's challenge and applies the {method_name} method. The prompt should guide someone through using this creative thinking technique to address the challenge. Include clear facilitation instructions and expected outputs."""
 
                 # Build user message
                 user_message = f"""Challenge: {user_input}
 
-Department: {department}
-Selected Methods: {", ".join(method_names)}
+Method: {method_name}
 
-Generate one prompt for EACH selected method, adapted specifically for the {department} department. Each prompt should clearly apply the method's technique to this challenge."""
+Generate a single 150-200 word facilitation prompt that interprets this challenge and applies the {method_name} creative thinking method. The prompt should clearly demonstrate how to use this technique to address the challenge."""
 
                 # Call API
-                response = call_anthropic(
-                    system_prompt=system_prompt,
-                    user_message=user_message,
-                    max_tokens=2500
-                )
+                try:
+                    response = call_anthropic(
+                        system_prompt=single_system_prompt,
+                        user_message=user_message,
+                        max_tokens=800
+                    )
 
-                # Parse response
-                st.session_state.ct_results = parse_prompts_output(response)
-                st.session_state.ct_department_display = department
-                st.success(f"✅ {len(st.session_state.ct_results)} prompts generated!")
+                    # Store result
+                    prompt_data = {
+                        'method': method_name,
+                        'category': method_category,
+                        'prompt': response.strip(),
+                        'icon': method_icon
+                    }
+                    st.session_state.ct_results.append(prompt_data)
 
-            except Exception as e:
-                st.error(f"Error generating prompts: {str(e)}")
+                    # Display result immediately
+                    with results_container:
+                        st.markdown(f"### {prompt_data['icon']} {prompt_data['method']}")
+                        st.caption(f"Category: {prompt_data['category']}")
+                        st.code(prompt_data['prompt'], language=None)
+                        st.markdown("")
 
-    # Display results
-    if 'ct_results' in st.session_state and st.session_state.ct_results:
+                except Exception as e:
+                    st.error(f"❌ Failed to generate prompt for {method_name}: {str(e)}")
+                    continue
+
+                # Delay before next call (except last)
+                if i < len(selected_methods) - 1:
+                    time.sleep(1)
+
+            # Clear progress indicator
+            progress_placeholder.empty()
+            progress_placeholder.success(f"✅ Successfully generated {len(st.session_state.ct_results)} prompts!")
+
+        except Exception as e:
+            st.error(f"Error generating prompts: {str(e)}")
+
+    # Display results (if not currently generating)
+    if 'ct_results' in st.session_state and st.session_state.ct_results and not generate_btn:
         st.markdown("---")
         st.subheader("📋 Generated Prompts")
 
-        dept = st.session_state.get('ct_department_display', 'your department')
-        st.info(f"**Department Context:** {dept} | **How to use:** Each prompt applies a specific creative thinking method to your challenge. Use them in workshops or solo sessions.")
+        st.info("**How to use:** Each prompt applies a specific creative thinking method to your challenge. Use them in workshops or brainstorming sessions.")
 
         for prompt_data in st.session_state.ct_results:
-            # Find category icon
-            icon = "⚡"
-            for cat_name, cat_data in CATEGORIES.items():
-                if cat_name == prompt_data['category']:
-                    icon = cat_data['icon']
-                    break
+            # Get icon from data or find matching icon
+            icon = prompt_data.get('icon', '⚡')
+            if icon == '⚡':
+                for cat_name, cat_data in CATEGORIES.items():
+                    if cat_name == prompt_data['category']:
+                        icon = cat_data['icon']
+                        break
 
             with st.container():
                 st.markdown(f"### {icon} {prompt_data['method']}")
@@ -402,10 +441,9 @@ Generate one prompt for EACH selected method, adapted specifically for the {depa
             ### 🌟 Quick Start
 
             1. **Enter your challenge** - Describe the problem or goal
-            2. **Select department** - Choose which team this is for
-            3. **Choose 1-5 methods** - Browse by category and select relevant methods
-            4. **Generate prompts** - Get department-specific facilitation prompts
-            5. **Use in sessions** - Copy prompts for workshops or brainstorming
+            2. **Choose 1-5 methods** - Browse by category and select relevant methods
+            3. **Generate prompts** - Get facilitation prompts for each method
+            4. **Use in sessions** - Copy prompts for workshops or brainstorming
 
             ### 💡 Example Combinations
 
