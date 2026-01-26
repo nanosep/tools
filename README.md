@@ -9,6 +9,7 @@ A local Streamlit application hosting 6 AI-powered prompt generation tools for s
 - [Overview](#overview)
 - [Tools Included](#tools-included)
 - [Quick Start](#quick-start)
+- [Deployment on Streamlit Cloud](#-deployment-on-streamlit-cloud)
 - [Usage Guide](#usage-guide)
 - [Troubleshooting](#troubleshooting)
 - [API Usage](#api-usage)
@@ -19,13 +20,13 @@ A local Streamlit application hosting 6 AI-powered prompt generation tools for s
 
 ## Overview
 
-ClarityCrew Tools provides an intuitive interface for generating high-quality prompts using advanced AI techniques. The application runs **100% locally** and uses a single Anthropic API key managed securely in the backend.
+ClarityCrew Tools provides an intuitive interface for generating high-quality prompts using advanced AI techniques. The application can run **locally** or be deployed to **Streamlit Cloud** for access from anywhere. API keys are managed securely using environment variables (local) or Streamlit Secrets (cloud).
 
 **Tech Stack:**
 - **Frontend:** Streamlit (Python web framework)
 - **AI Model:** Claude Sonnet 4.5 (`claude-sonnet-4-20250514`)
 - **API:** Anthropic Messages API
-- **Deployment:** Local only (localhost:8501)
+- **Deployment:** Local (localhost:8501) or Streamlit Cloud
 
 ---
 
@@ -138,6 +139,101 @@ Tools/
 6. **Open in browser**:
    - The app will automatically open at `http://localhost:8501`
    - If not, navigate to the URL shown in your terminal
+
+---
+
+## 🌐 Deployment on Streamlit Cloud
+
+Deploy ClarityCrew Tools to the cloud for free and access it from anywhere.
+
+### Prerequisites
+- GitHub account
+- Anthropic API key from https://console.anthropic.com/
+
+### Deployment Steps
+
+1. **Ensure your repository is on GitHub**
+   - Repository: `nanosep/tools`
+   - Branch: `main` (or your preferred branch)
+   - Make sure all changes are committed and pushed
+
+2. **Go to Streamlit Cloud**
+   - Visit: https://share.streamlit.io/
+   - Sign in with your GitHub account
+   - Click "New app"
+
+3. **Configure deployment**
+   - Repository: `nanosep/tools`
+   - Branch: `main`
+   - Main file path: `app.py`
+   - (Optional) App URL: Choose custom subdomain
+
+4. **Add API Key Secret**
+
+   **CRITICAL:** Do this BEFORE the first deployment completes
+
+   a. In your app settings, click "Secrets" (⚙️ icon)
+   b. Add this configuration:
+   ```toml
+   ANTHROPIC_API_KEY = "sk-ant-api03-your-key-here"
+   ```
+   c. Click "Save"
+
+5. **Deploy**
+   - Click "Deploy!"
+   - Wait 2-3 minutes for initial deployment
+   - App will be available at your chosen URL
+
+### Troubleshooting Deployment
+
+**Error: "This file does not exist"**
+- Solution: Ensure "Main file path" is set to `app.py` (not `streamlit_app.py`)
+
+**Error: "ANTHROPIC_API_KEY not found"**
+- Solution: Add your API key in Settings → Secrets (see step 4 above)
+
+**Error: "Module not found"**
+- Solution: Ensure all imports in `requirements.txt` are correct
+- Run locally: `pip install -r requirements.txt` to verify
+
+**App crashes on startup**
+- Check logs in Streamlit Cloud dashboard
+- Verify all tool files exist in `tools/` directory
+- Ensure `__init__.py` files exist in `backend/` and `tools/`
+
+### Local Development vs Deployment
+
+**Local Development:**
+- Uses `.env` file for API key
+- File structure: Read from local filesystem
+- Hot reload enabled
+
+**Streamlit Cloud Deployment:**
+- Uses Streamlit Secrets for API key
+- File structure: Read from Git repository
+- Automatic redeployment on git push
+
+### Updating Deployed App
+
+After making changes locally:
+```bash
+git add .
+git commit -m "Your change description"
+git push origin main
+```
+
+Streamlit Cloud will automatically detect changes and redeploy (takes ~2 minutes).
+
+### Managing Secrets
+
+**Never commit these files:**
+- `.env` (local development)
+- `.streamlit/secrets.toml` (local testing)
+
+**Safe to commit:**
+- `.env.example` (template)
+- `.streamlit/secrets.toml.example` (template)
+- `.streamlit/config.toml` (non-sensitive configuration)
 
 ---
 
