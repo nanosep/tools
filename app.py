@@ -15,6 +15,79 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Professional white theme styling
+st.markdown("""
+    <style>
+    /* Main content area */
+    .main {
+        background-color: #FFFFFF;
+    }
+
+    /* Sidebar styling */
+    [data-testid="stSidebar"] {
+        background-color: #F8F9FA;
+        border-right: 1px solid #E1E4E8;
+    }
+
+    /* Headers */
+    h1, h2, h3 {
+        color: #1A1A1A;
+        font-weight: 600;
+    }
+
+    /* Buttons */
+    .stButton>button {
+        background-color: #0066CC;
+        color: white;
+        border-radius: 6px;
+        border: none;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+    }
+
+    .stButton>button:hover {
+        background-color: #0052A3;
+    }
+
+    /* Input fields */
+    .stTextInput>div>div>input,
+    .stTextArea>div>div>textarea {
+        background-color: #FFFFFF;
+        border: 1px solid #D1D5DB;
+        border-radius: 6px;
+    }
+
+    /* Code blocks */
+    .stCodeBlock {
+        background-color: #F8F9FA;
+        border: 1px solid #E1E4E8;
+        border-radius: 6px;
+    }
+
+    /* Info/success/warning boxes - lighter versions */
+    .stAlert {
+        background-color: #F0F4F8;
+        border-left: 4px solid #0066CC;
+    }
+
+    /* Expanders */
+    .streamlit-expanderHeader {
+        background-color: #F8F9FA;
+        border-radius: 6px;
+    }
+
+    /* Cards/containers */
+    [data-testid="stHorizontalBlock"] {
+        gap: 1rem;
+    }
+
+    /* Remove dark backgrounds from all elements */
+    .element-container {
+        background-color: transparent;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 
 def render_home():
     """Render the home page with API test"""
