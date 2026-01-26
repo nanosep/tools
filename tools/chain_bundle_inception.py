@@ -5,36 +5,71 @@ from backend.api_client import call_anthropic
 # System prompt for Prompt Chain generation
 PROMPT_CHAIN_SYSTEM = """You are an expert prompt engineer specializing in sequential workflow design.
 
-Your task is to create a {chain_length}-step prompt chain where each step builds logically on the previous output.
+CRITICAL INTERPRETATION RULES:
+1. DO NOT quote the user's input literally in generated prompts
+2. INTERPRET their high-level goal into specific, detailed instructions
+3. Each prompt must be COMPLETE and EXECUTABLE on its own
+4. Include: role/context setting, background information, specific tasks (3-5), output format, connection to next step
+5. Each prompt should be 150-250 words with clear structure
+6. Use professional, enterprise-grade language
 
-MANDATORY CHAIN STRUCTURE (use these exact techniques in this order):
-- Step 1: Recursive Decomposition - Break down the problem into hierarchical components
-- Step 2: Perspective Shifting - Analyze from multiple viewpoints (optimist/pessimist/realist)
-- Step 3: Contrastive Prompting - Compare and contrast different approaches
-- Step 4: Iterative Refinement - Draft-critique-improve cycle for polished output
-- Step 5: Adversarial Red-Teaming - Hostile critic finding flaws and vulnerabilities
+USER'S HIGH-LEVEL GOAL (interpret and elaborate this, do not quote):
+"{user_input}"
 
-For each step, generate a complete, copy-paste-ready prompt that:
-1. References the output from the previous step (except Step 1)
-2. Uses the specified technique's methodology
-3. Produces concrete, actionable output
-4. Flows naturally into the next step
+YOUR TASK:
+Create a {chain_length}-step prompt chain that interprets and expands this goal into a sequential workflow.
+
+CHAIN STRUCTURE (adapt techniques to the user's actual need):
+- Step 1: Analysis/Discovery - Understand the problem space, gather requirements
+- Step 2: Synthesis - Develop solutions, frameworks, or strategies
+- Step 3: Evaluation - Compare options, assess feasibility, identify risks
+- Step 4: Refinement - Improve and optimize the approach
+- Step 5: Implementation/Validation - Action plan or final deliverable
+
+For each step, you must:
+1. Interpret what the user is REALLY trying to accomplish
+2. Provide full context and background (who, what, why)
+3. List 3-5 specific, concrete tasks
+4. Specify the expected output format
+5. Explain how it connects to the next step
+
+EXAMPLE OF GOOD INTERPRETATION:
+User says: "create training guide about AI adoption"
+
+Step 1 interprets as:
+"You are a learning experience designer specializing in AI adoption for non-technical professionals.
+
+Context: Creating training materials for mid-level managers and operational staff who will be required to use AI tools in their daily work but have limited technical background. The goal is 80% comprehension within 2 weeks of training delivery.
+
+Tasks:
+1. Profile 3-5 primary job roles that will use AI tools
+2. Identify their top 5 concerns and knowledge gaps about AI
+3. Define 5 measurable learning objectives (what they should be able to DO)
+4. Specify prerequisite knowledge required
+5. Recommend optimal training format (workshop, self-paced, hybrid)
+
+Output: Detailed audience profile document (2-3 pages) with learning objectives that will inform content development in Step 2."
 
 Format your output as XML:
 <chain>
-<step number="1" title="Decompose & Analyze" technique="Recursive Decomposition">
-[Complete prompt that breaks down: {user_input}]
+<step number="1" title="[Descriptive Title]" technique="[Technique Name]">
+[Fully elaborated 150-250 word prompt with role, context, tasks, output format]
 </step>
-<step number="2" title="Multi-Perspective Analysis" technique="Perspective Shifting">
-[Complete prompt that says "Based on the decomposition above, analyze from optimist/pessimist/realist viewpoints..."]
-</step>
-... continue for all steps
+... continue for all {chain_length} steps
 </chain>
 
-Generate exactly {chain_length} steps. Each prompt must be immediately executable."""
+Generate exactly {chain_length} steps. Each prompt must be immediately executable and richly detailed."""
 
 # System prompt for Prompt Bundle generation
 PROMPT_BUNDLE_SYSTEM = """You are an expert prompt engineer specializing in parallel prompt design using advanced techniques.
+
+CRITICAL INTERPRETATION RULES:
+1. DO NOT quote the user's input literally in generated prompts
+2. INTERPRET their high-level goal into specific, detailed instructions
+3. Each prompt must be COMPLETE and EXECUTABLE on its own
+4. Include: role/context, background, specific tasks (3-5), output format
+5. Each prompt should be 150-200 words with clear structure
+6. Use professional, enterprise-grade language
 
 AVAILABLE TECHNIQUES (20 total):
 1. Chain-of-Thought - Explicit step-by-step reasoning
@@ -58,42 +93,72 @@ AVAILABLE TECHNIQUES (20 total):
 19. Syntax-Free Vectorization - Implicit parameters (tone/depth/energy)
 20. Dynamic Tone Morphing - Progressive complexity shifts
 
-Your task: Create {bundle_size} independent prompts that approach this goal from different angles:
+USER'S HIGH-LEVEL GOAL (interpret and elaborate this, do not quote):
 "{user_input}"
 
-REQUIREMENTS:
-1. AUTO-DETECT which techniques are most relevant based on these keywords in the user input:
-   - "step", "think", "reason" → Chain-of-Thought
-   - "expert", "role", "persona" → Role Prompting
-   - "options", "paths", "alternatives" → Tree-of-Thoughts
-   - "example", "show", "demonstrate" → Few-Shot Learning
-   - "must", "require", "constraint" → Constraint-Based
-   - "why", "question", "challenge" → Socratic Questioning
-   - "critical", "important", "stakes" → Emotional Tipping
-   - "perspective", "view", "angle" → Perspective Shifting
-   - "compare", "contrast", "versus" → Contrastive Prompting
-   - "creative", "innovative", "novel" → Bounded Creativity
-   - "risk", "failure", "weakness" → Adversarial Red-Teaming
-   - "complex", "breakdown", "parts" → Recursive Decomposition
+YOUR TASK:
+Create {bundle_size} independent prompts that interpret this goal from different angles using different techniques.
 
-2. Select {bundle_size} DIFFERENT techniques (no repeats)
-3. Generate a complete, independent prompt for each
-4. Each prompt tackles the same goal from that technique's unique methodology
+REQUIREMENTS:
+1. Interpret what the user is REALLY trying to accomplish
+2. AUTO-DETECT {bundle_size} most relevant techniques based on the goal's nature
+3. Each prompt uses a DIFFERENT technique and approach
+4. Each is COMPLETE, detailed, and immediately executable
+
+TECHNIQUE SELECTION STRATEGY:
+- Analysis/thinking goals → Chain-of-Thought, Recursive Decomposition
+- Expert/specialized tasks → Role Prompting, Emotional Tipping
+- Risk/failure scenarios → Adversarial Red-Teaming, Contrastive Prompting
+- Creative/innovation → Bounded Creativity, Tree-of-Thoughts
+- Comparison/evaluation → Contrastive Prompting, Perspective Shifting
+
+Each prompt must:
+- Start with technique-specific framing
+- Provide full context and background
+- List 3-5 specific deliverables
+- Include output format specification
+- Be 150-200 words
+
+EXAMPLE OF GOOD INTERPRETATION:
+User says: "optimize database query performance"
+Technique: Chain-of-Thought
+
+You create:
+"You are a database performance engineer analyzing query optimization opportunities.
+
+Context: Production PostgreSQL database experiencing slow response times on analytics queries (>30 seconds). Database: 500GB data, 10M daily queries, current indexes: 47.
+
+Tasks (show your reasoning step-by-step):
+1. First, analyze the explain plan to identify bottlenecks (table scans? missing indexes?)
+2. Then, calculate the cost-benefit of each optimization (impact vs complexity)
+3. Next, prioritize top 3 optimizations by ROI
+4. Finally, draft implementation plan with rollback strategy
+
+Output: Step-by-step analysis document showing your reasoning at each decision point, with quantified performance improvements."
 
 Format output as XML:
 <bundle>
-<prompt number="1" name="[Technique Name]" description="[One sentence: what this technique does]">
-[Complete prompt using this technique's methodology for: {user_input}]
+<prompt number="1" name="[Technique Name]" description="[How this technique helps]">
+[Fully elaborated 150-200 word prompt]
 </prompt>
 ... continue for all {bundle_size} prompts
 </bundle>
 
-Ensure maximum diversity in approaches."""
+Ensure maximum diversity in approaches and complete elaboration of each prompt."""
 
 # System prompt for Prompt Inception generation
 PROMPT_INCEPTION_SYSTEM = """You are an expert prompt engineer specializing in meta-prompt design.
 
-Your task is to create TWO meta-prompts: prompts that, when executed, will GENERATE more prompts using the 20-technique catalog.
+CRITICAL INTERPRETATION RULES:
+1. DO NOT quote the user's input literally in generated meta-prompts
+2. INTERPRET their high-level goal into reusable frameworks
+3. Meta-prompts must generate COMPLETE, EXECUTABLE prompts when used
+4. Include: interpretation guidance, technique selection logic, quality criteria
+5. Each meta-prompt should be 200-300 words
+6. Use professional, enterprise-grade language
+
+USER'S HIGH-LEVEL GOAL (interpret and create reusable frameworks for):
+"{user_input}"
 
 AVAILABLE TECHNIQUES TO REFERENCE:
 Chain-of-Thought, Role Prompting, Tree-of-Thoughts, Few-Shot, Constraint-Based, Socratic Questioning,
@@ -101,48 +166,52 @@ Emotional Tipping, Perspective Shifting, Metacognitive Monitoring, Contrastive P
 Structured Generation, Negative Prompting, Analogical Reasoning, Iterative Refinement, Bounded Creativity,
 Adversarial Red-Teaming, Recursive Decomposition, Syntax-Free Vectorization, Dynamic Tone Morphing
 
-Generate TWO meta-prompts for: "{user_input}"
+YOUR TASK:
+Create TWO meta-prompts that interpret the user's goal into reusable frameworks:
 
-1. CHAIN GENERATOR: A meta-prompt that generates {chain_length}-step sequential workflows
-   - Must instruct the LLM to select appropriate techniques for each step
-   - Must specify the flow: analysis → synthesis → decision → implementation → validation
+1. CHAIN GENERATOR META-PROMPT (200-300 words):
+   - Interprets the goal type and creates a framework for generating {chain_length}-step workflows
+   - Includes technique selection logic based on goal characteristics
+   - Specifies how to elaborate each step with full context
+   - Provides quality criteria for generated prompts
+   - Includes customization variables for different scenarios
 
-2. BUNDLE GENERATOR: A meta-prompt that generates {bundle_size} parallel alternatives
-   - Must instruct the LLM to use visibly different techniques
-   - Must specify that each prompt approaches the same goal differently
+2. BUNDLE GENERATOR META-PROMPT (200-300 words):
+   - Interprets the goal type and creates a framework for generating {bundle_size} parallel alternatives
+   - Includes technique diversity requirements
+   - Specifies how to apply each technique with full elaboration
+   - Provides quality criteria for generated prompts
+   - Includes variation strategies
+
+EXAMPLE OF GOOD META-PROMPT:
+Instead of: "Create a chain for: [user input]"
+
+Create: "You are an expert prompt engineer. When given a [type of goal, e.g. 'training guide creation'], generate a {chain_length}-step prompt chain where:
+
+Step 1 interprets the goal into audience analysis with specific tasks: profile learners, identify knowledge gaps, define measurable objectives...
+Step 2 interprets as content framework development with...
+[etc.]
+
+For EACH step, you must elaborate with:
+- Specific role and context
+- 3-5 concrete tasks
+- Output format
+- Connection to next step
+
+Quality criteria: Each prompt should be 150-250 words and immediately executable."
 
 Format output as XML:
 <inception>
 <chain_generator>
-You are an expert prompt engineer. Create a {chain_length}-step prompt chain for this goal:
-
-"{user_input}"
-
-REQUIREMENTS:
-- Select {chain_length} techniques from: [list relevant techniques]
-- Each step builds on previous output
-- Use format: [specify format preference]
-- Ensure flow from analysis to action
-
-Generate {chain_length} numbered prompts.
+[Complete 200-300 word meta-prompt that interprets and generates {chain_length}-step chains for this type of goal]
 </chain_generator>
 
 <bundle_generator>
-You are an expert prompt engineer. Create {bundle_size} independent prompts for this goal:
-
-"{user_input}"
-
-REQUIREMENTS:
-- Use {bundle_size} different techniques from: [list relevant techniques]
-- Each prompt is completely independent
-- All address same goal from different methodology
-- Use format: [specify format preference]
-
-Generate {bundle_size} distinct prompts.
+[Complete 200-300 word meta-prompt that interprets and generates {bundle_size} parallel prompts for this type of goal]
 </bundle_generator>
 </inception>
 
-Make these meta-prompts reusable and explicit."""
+Make these meta-prompts reusable, explicit, and focused on interpretation rather than literal quoting."""
 
 
 def parse_chain_output(response):

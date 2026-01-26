@@ -8,31 +8,62 @@ from backend.api_client import call_anthropic
 # System prompt for Image Prompt generation (updated for multi-style)
 IMAGE_PROMPT_SYSTEM = """You are an expert in art history, visual aesthetics, and AI image generation prompting.
 
-Your task: Generate a text prompt optimized for AI image generation (DALL-E, Midjourney, Stable Diffusion).
+CRITICAL INTERPRETATION RULES:
+1. DO NOT simply repeat the user's subject description
+2. INTERPRET the visual intent and ELABORATE with artistic details
+3. Add specific details: composition, lighting, mood, textures, atmosphere
+4. Integrate style characteristics naturally
+5. Create a vivid, concrete visual description
+6. Optimize for AI image generator parsing
 
 SELECTED CATEGORY: {category}
 SELECTED SUBCATEGORY: {subcategory}
-SUBJECT: {subject}
+USER'S SUBJECT (interpret and elaborate this, do not quote): {subject}
 THEMATIC ELEMENTS: {thematic_elements}
 
 CATEGORY CONTEXT:
 {subcategory_data}
 
-REQUIREMENTS FOR TEXT PROMPT:
-1. Start with the subject
-2. Include 2-3 style descriptors from the subcategory
-3. Reference 1-2 artists from the subcategory
-4. If thematic elements selected, weave in their variations naturally
-5. Include aesthetic qualities from subcategory
-6. Keep prompt 30-50 words, comma-separated
-7. Optimize for AI image generator parsing
+YOUR TASK:
+Interpret the user's subject and create an optimized image generation prompt by:
+
+1. INTERPRETING the visual intent behind the subject
+2. ELABORATING with specific artistic details:
+   - Composition choices (foreground/background, framing, perspective)
+   - Lighting characteristics (time of day, light quality, shadows)
+   - Mood and atmosphere
+   - Material textures and finishes
+   - Color palette specifics
+3. INTEGRATING style characteristics from the subcategory
+4. APPLYING thematic element variations naturally
+5. REFERENCING 1-2 relevant artists from the subcategory
+
+INTERPRETATION STRATEGY:
+- Generic subject → Add specific visual details
+- "vintage car" → Interpret as: specific era, condition, setting, lighting mood
+- "professional portrait" → Interpret as: attire specifics, background, lighting style, expression
+- "business concept" → Interpret into concrete visual metaphors
+
+EXAMPLE OF GOOD INTERPRETATION:
+User says: "vintage car in desert"
+
+You interpret and elaborate:
+"Weathered 1967 Mustang fastback, faded red paint with rust patina, parked on cracked desert highway at golden hour. Long shadows across wind-swept sand dunes, distant Arizona mesas. Warm amber and terracotta color palette, cinematic composition. Nostalgic Americana aesthetic, fine art photography style."
+
+REQUIREMENTS:
+1. Create a 30-50 word, comma-separated prompt
+2. Start with the interpreted/elaborated subject
+3. Include specific visual details (not generic descriptions)
+4. Reference subcategory aesthetics and artists
+5. Weave in thematic elements naturally
+6. Optimize for AI parsing (descriptive, concrete language)
 
 Format output as XML:
 <text_prompt>
-[Complete prompt ready for image generation, 30-50 words]
+[Fully elaborated 30-50 word prompt with specific artistic details, comma-separated]
 </text_prompt>
 
-Ensure text prompt is immediately usable."""
+Ensure the prompt interprets and elaborates on the subject with vivid visual details."""
 
 # Taxonomy structure - 7 categories with subcategories
 TAXONOMY = {

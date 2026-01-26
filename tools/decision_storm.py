@@ -160,23 +160,42 @@ def render_decision_storm():
                 with progress_placeholder.container():
                     st.info(f"⚡ Generating perspective {i+1}/{num_perspectives}: {lens['icon']} **{lens_name}**...")
 
-                # Build the user message with explicit structure
+                # Build interpretive system prompt
+                system_prompt = """You are a strategic analyst providing multi-perspective decision analysis.
+
+CRITICAL INTERPRETATION RULES:
+1. DO NOT quote the scenario literally
+2. INTERPRET the decision's implications through your assigned lens
+3. Provide 150-200 words of specific, actionable analysis
+4. Include concrete examples, data points, or metrics where relevant
+5. Be decision-oriented for executive audiences
+
+Your analysis should help decision-makers understand trade-offs and take action."""
+
+                # Build the user message with interpretive instructions
                 user_message = f"""{lens['prompt']}
 
-SCENARIO:
+DECISION SCENARIO (interpret the strategic implications):
 {scenario}
 
-Provide a focused analysis from this perspective. Be specific and actionable. Structure your response as:
-1. Key Insight (one sentence)
-2. Critical Factors (3-4 bullet points)
-3. Recommended Action (one clear next step)
+YOUR TASK:
+Interpret this decision through your lens and provide structured analysis:
 
-Keep it concise and decision-oriented."""
+Key Insight: (2-3 sentences capturing the core implication from your perspective)
+
+Critical Factors: (3-5 specific, concrete considerations with details)
+- [Factor 1 with specifics - e.g., "Customer SLA coverage gaps on Fridays (35% of tickets)"]
+- [Factor 2 with quantification]
+- [Factor 3 with examples]
+
+Recommended Action: (Specific, actionable recommendation - not generic advice)
+
+Provide 150-200 words total. Be concrete, not abstract."""
 
                 # Call API
                 try:
                     analysis = call_anthropic(
-                        system_prompt="You are a strategic analyst. Provide structured analysis following the format exactly.",
+                        system_prompt=system_prompt,
                         user_message=user_message,
                         max_tokens=1000
                     )
