@@ -240,28 +240,25 @@ def render_creative_thinking():
                     use_container_width=True,
                     help=example_data['description']
                 ):
-                    # Clear all method checkbox keys to ensure fresh pre-selection
+                    # Set input directly (same as Chain/Bundle/Inception pattern)
+                    st.session_state.ct_input = example_data['challenge']
+
+                    # Set method checkboxes directly
                     for cat_name, cat_data in CATEGORIES.items():
                         for method in cat_data['methods']:
-                            checkbox_key = f"ct_method_{method['name']}_actual"
-                            if checkbox_key in st.session_state:
-                                del st.session_state[checkbox_key]
+                            checkbox_key = f"ct_method_{method['name']}"
+                            st.session_state[checkbox_key] = method['name'] in example_data['methods']
 
-                    # Store prefill data (separate from widget keys to avoid conflicts)
-                    st.session_state.ct_input_prefill = example_data['challenge']
-                    st.session_state.ct_methods_prefill = example_data['methods']
                     st.rerun()
 
     st.markdown("---")
 
-    # Input (use prefill value if available)
-    input_prefill = st.session_state.get('ct_input_prefill', '')
+    # Input (same pattern as Chain/Bundle/Inception)
     user_input = st.text_area(
         "Enter Your Challenge or Goal",
         height=100,
-        value=input_prefill,
         placeholder="Example: How can we reduce customer churn in our SaaS product?",
-        key="ct_input_actual"
+        key="ct_input"
     )
 
     # Method selector by category
@@ -270,21 +267,14 @@ def render_creative_thinking():
 
     selected_methods = []
 
-    # Get prefilled methods for pre-selection
-    methods_prefill = st.session_state.get('ct_methods_prefill', [])
-
     for cat_name, cat_data in CATEGORIES.items():
         with st.expander(f"{cat_data['icon']} {cat_name} - {cat_data['description']}", expanded=False):
             for method in cat_data['methods']:
                 col1, col2 = st.columns([3, 1])
                 with col1:
-                    # Pre-select if this method is in the prefill list
-                    is_preselected = method['name'] in methods_prefill
-
                     is_selected = st.checkbox(
                         f"**{method['name']}**",
-                        value=is_preselected,
-                        key=f"ct_method_{method['name']}_actual",
+                        key=f"ct_method_{method['name']}",
                         help=f"When to use: {method['when']}\n\nPro tip: {method['tip']}"
                     )
                     if is_selected:
@@ -320,10 +310,6 @@ def render_creative_thinking():
         # Initialize results storage
         st.session_state.ct_results = []
 
-        # Create placeholders for progress and results
-        progress_placeholder = st.empty()
-        results_container = st.container()
-
         try:
             # Generate prompts sequentially, one per method
             for i, method_data in enumerate(selected_methods):
@@ -342,8 +328,7 @@ def render_creative_thinking():
                         break
 
                 # Show progress
-                with progress_placeholder.container():
-                    st.info(f"⚡ Generating prompt {i+1}/{len(selected_methods)}: {method_icon} **{method_name}**...")
+                st.caption(f"⏳ Generating prompt {i+1}/{len(selected_methods)}: {method_icon} **{method_name}**...")
 
                 # Build system prompt for single method
                 single_system_prompt = f"""You are an expert facilitator of creative thinking methodologies.
@@ -389,12 +374,11 @@ Generate a single 150-200 word facilitation prompt that interprets this challeng
                     }
                     st.session_state.ct_results.append(prompt_data)
 
-                    # Display result immediately
-                    with results_container:
-                        st.markdown(f"### {prompt_data['icon']} {prompt_data['method']}")
-                        st.caption(f"Category: {prompt_data['category']}")
-                        st.code(prompt_data['prompt'], language=None)
-                        st.markdown("")
+                    # Display result IMMEDIATELY (no containers)
+                    st.markdown(f"### ✅ {prompt_data['icon']} {prompt_data['method']}")
+                    st.caption(f"Category: {prompt_data['category']}")
+                    st.code(prompt_data['prompt'], language=None)
+                    st.markdown("---")
 
                 except Exception as e:
                     st.error(f"❌ Failed to generate prompt for {method_name}: {str(e)}")
@@ -404,9 +388,7 @@ Generate a single 150-200 word facilitation prompt that interprets this challeng
                 if i < len(selected_methods) - 1:
                     time.sleep(1)
 
-            # Clear progress indicator
-            progress_placeholder.empty()
-            progress_placeholder.success(f"✅ Successfully generated {len(st.session_state.ct_results)} prompts!")
+            st.success(f"✅ Successfully generated {len(st.session_state.ct_results)} prompts!")
 
         except Exception as e:
             st.error(f"Error generating prompts: {str(e)}")

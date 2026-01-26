@@ -695,18 +695,13 @@ def render_advance_techs():
         # Initialize results storage
         st.session_state.at_results = []
 
-        # Create placeholders for progress and results
-        progress_placeholder = st.empty()
-        results_container = st.container()
-
         try:
             # Generate prompts sequentially, one per technique
             for i, (tech_key, tech_name) in enumerate(zip(selected_keys, selected)):
                 tech_info = TECHNIQUES[tech_key]
 
                 # Show progress
-                with progress_placeholder.container():
-                    st.info(f"⚡ Generating prompt {i+1}/{num_techniques}: {tech_info['icon']} **{tech_info['name']}**...")
+                st.caption(f"⏳ Generating prompt {i+1}/{num_techniques}: {tech_info['icon']} **{tech_info['name']}**...")
 
                 # Build system prompt for single technique
                 single_system_prompt = f"""You are an expert prompt engineer specializing in advanced prompting techniques.
@@ -757,12 +752,11 @@ Generate a single 150-250 word prompt that interprets this challenge and applies
                     }
                     st.session_state.at_results.append(prompt_data)
 
-                    # Display result immediately
-                    with results_container:
-                        st.markdown(f"### {prompt_data['icon']} Prompt {prompt_data['number']}: {prompt_data['technique']}")
-                        st.caption(prompt_data['description'])
-                        st.code(prompt_data['prompt'], language=None)
-                        st.markdown("")
+                    # Display result IMMEDIATELY (no containers)
+                    st.markdown(f"### ✅ {prompt_data['icon']} Prompt {prompt_data['number']}: {prompt_data['technique']}")
+                    st.caption(prompt_data['description'])
+                    st.code(prompt_data['prompt'], language=None)
+                    st.markdown("---")
 
                 except Exception as e:
                     st.error(f"❌ Failed to generate prompt for {tech_info['name']}: {str(e)}")
@@ -772,9 +766,7 @@ Generate a single 150-250 word prompt that interprets this challenge and applies
                 if i < len(selected_keys) - 1:
                     time.sleep(1)
 
-            # Clear progress indicator
-            progress_placeholder.empty()
-            progress_placeholder.success(f"✅ Successfully generated {len(st.session_state.at_results)} prompts!")
+            st.success(f"✅ Successfully generated {len(st.session_state.at_results)} prompts!")
 
         except Exception as e:
             st.error(f"Error generating prompts: {str(e)}")

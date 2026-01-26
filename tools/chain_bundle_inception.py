@@ -466,50 +466,49 @@ def render_chain_bundle_inception():
 
         methods_to_generate = methods_map[method]
 
-        progress_container = st.container()
-
-        for gen_method in methods_to_generate:
+        for idx, gen_method in enumerate(methods_to_generate, 1):
             method_names = {
                 "chain": "⛓️ Prompt Chain",
                 "bundle": "📦 Prompt Bundle",
                 "inception": "🎯 Prompt Inception"
             }
 
-            with progress_container:
-                with st.spinner(f"Generating {method_names[gen_method]}..."):
-                    try:
-                        # Build prompts
-                        if gen_method == "chain":
-                            system_prompt = PROMPT_CHAIN_SYSTEM.format(
-                                chain_length=chain_length,
-                                user_input=user_input
-                            )
-                            user_message = f"""Goal: {user_input}
+            # Show progress
+            st.caption(f"⏳ Generating {idx}/{len(methods_to_generate)}: {method_names[gen_method]}...")
+
+            try:
+                # Build prompts
+                if gen_method == "chain":
+                    system_prompt = PROMPT_CHAIN_SYSTEM.format(
+                        chain_length=chain_length,
+                        user_input=user_input
+                    )
+                    user_message = f"""Goal: {user_input}
 
 Number of steps: {chain_length}
 Output format preference: {output_format}
 
 Generate the {chain_length}-step prompt chain now."""
 
-                        elif gen_method == "bundle":
-                            system_prompt = PROMPT_BUNDLE_SYSTEM.format(
-                                bundle_size=bundle_size,
-                                user_input=user_input
-                            )
-                            user_message = f"""Goal: {user_input}
+                elif gen_method == "bundle":
+                    system_prompt = PROMPT_BUNDLE_SYSTEM.format(
+                        bundle_size=bundle_size,
+                        user_input=user_input
+                    )
+                    user_message = f"""Goal: {user_input}
 
 Number of prompts: {bundle_size}
 Output format preference: {output_format}
 
 Auto-detect relevant techniques from the user input keywords, then generate {bundle_size} independent prompts using different techniques."""
 
-                        else:  # inception
-                            system_prompt = PROMPT_INCEPTION_SYSTEM.format(
-                                user_input=user_input,
-                                chain_length=chain_length,
-                                bundle_size=bundle_size
-                            )
-                            user_message = f"""Goal: {user_input}
+                else:  # inception
+                    system_prompt = PROMPT_INCEPTION_SYSTEM.format(
+                        user_input=user_input,
+                        chain_length=chain_length,
+                        bundle_size=bundle_size
+                    )
+                    user_message = f"""Goal: {user_input}
 
 Chain length: {chain_length} steps
 Bundle size: {bundle_size} prompts
@@ -517,29 +516,65 @@ Output format: {output_format}
 
 Generate the TWO meta-prompts now."""
 
-                        # Call API
-                        response = call_anthropic(
-                            system_prompt=system_prompt,
-                            user_message=user_message,
-                            max_tokens=2500
-                        )
+                # Call API
+                response = call_anthropic(
+                    system_prompt=system_prompt,
+                    user_message=user_message,
+                    max_tokens=2500
+                )
 
-                        # Parse response
-                        if gen_method == "chain":
-                            st.session_state.cbi_results['chain'] = parse_chain_output(response)
-                        elif gen_method == "bundle":
-                            st.session_state.cbi_results['bundle'] = parse_bundle_output(response)
-                        else:  # inception
-                            st.session_state.cbi_results['inception'] = parse_inception_output(response)
+                # Parse response
+                parsed_result = None
+                if gen_method == "chain":
+                    parsed_result = parse_chain_output(response)
+                    st.session_state.cbi_results['chain'] = parsed_result
+                elif gen_method == "bundle":
+                    parsed_result = parse_bundle_output(response)
+                    st.session_state.cbi_results['bundle'] = parsed_result
+                else:  # inception
+                    parsed_result = parse_inception_output(response)
+                    st.session_state.cbi_results['inception'] = parsed_result
 
-                    except Exception as e:
-                        st.error(f"Error generating {method_names[gen_method]}: {str(e)}")
+                # Display result IMMEDIATELY (no containers)
+                if gen_method == "chain" and parsed_result:
+                    st.markdown(f"### ✅ {method_names[gen_method]} - Sequential Execution Workflow")
+                    st.info("**How to use:** Run each prompt in sequence. Output from Step 1 becomes input for Step 2, etc.")
+                    for step in parsed_result:
+                        st.markdown(f"**STEP {step['number']}: {step['title']}** • 📋 {step['technique']}")
+                        st.code(step['prompt'], language=None)
+                        st.markdown("")
+
+                elif gen_method == "bundle" and parsed_result:
+                    st.markdown(f"### ✅ {method_names[gen_method]} - Parallel Approaches")
+                    st.info("**How to use:** Each prompt is independent. Run any/all in parallel or pick the most relevant approaches.")
+                    for prompt in parsed_result:
+                        st.markdown(f"**APPROACH {prompt['number']}: {prompt['name']}**")
+                        st.caption(prompt['description'])
+                        st.code(prompt['prompt'], language=None)
+                        st.markdown("")
+
+                elif gen_method == "inception" and parsed_result:
+                    st.markdown(f"### ✅ {method_names[gen_method]} - Meta-Prompt Generators")
+                    st.info("**How to use:** Use these meta-prompts to generate NEW prompts for similar tasks in the future.")
+                    st.markdown("**🔗 Chain Generator Meta-Prompt**")
+                    st.caption("Use this to generate sequential workflows for similar goals")
+                    st.code(parsed_result['chain_generator'], language=None)
+                    st.markdown("")
+                    st.markdown("**📦 Bundle Generator Meta-Prompt**")
+                    st.caption("Use this to generate parallel approaches for similar goals")
+                    st.code(parsed_result['bundle_generator'], language=None)
+                    st.markdown("")
+
+                st.markdown("---")
+
+            except Exception as e:
+                st.error(f"❌ Error generating {method_names[gen_method]}: {str(e)}")
 
         if st.session_state.cbi_results:
-            progress_container.success("✅ Generation complete!")
+            st.success("✅ Generation complete!")
 
-    # Display results
-    if 'cbi_results' in st.session_state and st.session_state.cbi_results:
+    # Display results (if not currently generating)
+    if 'cbi_results' in st.session_state and st.session_state.cbi_results and not generate_btn:
         st.markdown("---")
         st.markdown("## 📋 Generated Prompts")
 

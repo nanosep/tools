@@ -147,18 +147,13 @@ def render_decision_storm():
         # Select random lenses
         selected_lens_names = random.sample(list(LENSES.keys()), num_perspectives)
 
-        # Create a placeholder for progress
-        progress_placeholder = st.empty()
-        results_container = st.container()
-
         try:
             # Generate storms sequentially
             for i, lens_name in enumerate(selected_lens_names):
                 lens = LENSES[lens_name]
 
                 # Show progress
-                with progress_placeholder.container():
-                    st.info(f"⚡ Generating perspective {i+1}/{num_perspectives}: {lens['icon']} **{lens_name}**...")
+                st.caption(f"⏳ Generating perspective {i+1}/{num_perspectives}: {lens['icon']} **{lens_name}**...")
 
                 # Build interpretive system prompt
                 system_prompt = """You are a strategic analyst providing multi-perspective decision analysis.
@@ -210,9 +205,10 @@ Provide 150-200 words total. Be concrete, not abstract."""
                     }
                     st.session_state.ds_results.append(result)
 
-                    # Display result immediately in colored container
-                    with results_container:
-                        display_storm_result(result)
+                    # Display result IMMEDIATELY (no containers)
+                    st.markdown(f"### ✅ {result['icon']} {result['lens_name']}")
+                    st.markdown(f"<div style='background-color: {result['color']}; border-left: 4px solid {result['border_color']}; padding: 15px; margin: 10px 0; border-radius: 5px;'>{result['analysis']}</div>", unsafe_allow_html=True)
+                    st.markdown("---")
 
                 except Exception as e:
                     st.error(f"❌ Failed to generate {lens_name} perspective: {str(e)}")
@@ -222,15 +218,13 @@ Provide 150-200 words total. Be concrete, not abstract."""
                 if i < len(selected_lens_names) - 1:
                     time.sleep(1)
 
-            # Clear progress indicator
-            progress_placeholder.empty()
-            progress_placeholder.success(f"✅ Successfully generated {len(st.session_state.ds_results)} perspectives!")
+            st.success(f"✅ Successfully generated {len(st.session_state.ds_results)} perspectives!")
 
         except Exception as e:
             st.error(f"❌ Error during generation: {str(e)}")
 
-    # Display existing results (if any from previous generation)
-    elif 'ds_results' in st.session_state and len(st.session_state.ds_results) > 0:
+    # Display existing results (if any from previous generation and not currently generating)
+    elif 'ds_results' in st.session_state and len(st.session_state.ds_results) > 0 and not generate_btn:
         st.markdown("---")
         st.subheader("Generated Perspectives")
         for result in st.session_state.ds_results:
