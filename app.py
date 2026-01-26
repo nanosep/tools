@@ -5,7 +5,7 @@ from tools.chain_bundle_inception import render_chain_bundle_inception
 from tools.advance_techs import render_advance_techs
 from tools.creative_thinking import render_creative_thinking
 from tools.image_prompt import render_image_prompt
-from tools.correlation_explainer import render_correlation_explainer
+# from tools.correlation_explainer import render_correlation_explainer  # Removed for enterprise focus
 
 # Page configuration
 st.set_page_config(
@@ -22,10 +22,12 @@ def render_home():
     st.markdown("### Welcome to AI-Powered Prompt Generation")
 
     st.markdown("""
-    ClarityCrew Tools hosts 6 AI-powered prompt generation tools to help you analyze scenarios,
-    generate creative ideas, and make better decisions.
+    ClarityCrew Tools hosts 5 AI-powered prompt generation tools optimized for enterprise consulting,
+    M&A advisory, and strategic transformation engagements.
 
-    **Status:** ✅ **COMPLETE** - All 6 tools active! 🎉
+    **Status:** ✅ **COMPLETE** - All 5 tools active! 🎉
+
+    **Target Users:** Strategy consultants, M&A advisors, corporate development teams, transformation PMOs
     """)
 
     st.divider()
@@ -60,18 +62,17 @@ def render_home():
 
     with col1:
         st.markdown("""
-        #### ✅ Active Tools (6/6) 🎉
-        - 🔀 **Decision Storm** - Multiple strategic perspectives
-        - 🔗 **Chain, Bundle & Inception** - Sequential/parallel/meta-prompts
-        - 🚀 **Advanced Techniques** - 11 cutting-edge techniques
+        #### ✅ Active Tools (5/5) 🎉
+        1. **Chain, Bundle & Inception** - TSA strategies, integration planning
+        2. **Advanced Techniques** - ERP separation, tax structures, synergy analysis
+        3. **Creative Thinking** - Talent retention, synergy identification, communication plans
         """)
 
     with col2:
         st.markdown("""
         #### ✅ More Tools
-        - 🎨 **Creative Thinking** - 24 methods, department-adapted
-        - 🖼️ **Image Prompt** - AI image generation prompts
-        - 🔬 **Correlation Explainer** - Educational: 8 correlation types
+        4. **Decision Storm** - Build vs buy, divestiture options, timeline decisions
+        5. **Image Prompt Generator** - Executive presentations, org charts, process flows
         """)
 
     # Project Information
@@ -96,7 +97,7 @@ def main():
     # Tool selection
     tool = st.sidebar.radio(
         "Select Tool",
-        options=["🏠 Home", "🔀 Decision Storm", "🔗 Chain, Bundle & Inception", "🚀 Advanced Techniques", "🎨 Creative Thinking", "🖼️ Image Prompt", "🔬 Correlation Explainer"],
+        options=["🏠 Home", "🔗 Chain, Bundle & Inception", "🚀 Advanced Techniques", "🎨 Creative Thinking", "🌪️ Decision Storm", "🖼️ Image Prompt"],
         index=0
     )
 
@@ -105,36 +106,34 @@ def main():
     # About section with expander
     with st.sidebar.expander("ℹ️ About ClarityCrew Tools"):
         st.markdown("""
-        **6 AI-Powered Tools** for strategic thinking and prompt engineering:
+        **5 AI-Powered Tools** for enterprise consulting and M&A advisory:
 
-        - Decision Storm: Multi-perspective analysis
-        - Chain/Bundle/Inception: Advanced prompt generation
-        - Advanced Techniques: 11 expert techniques
-        - Creative Thinking: 24 creative methods
-        - Image Prompts: AI art generation
-        - Correlation Explainer: Educational tool
+        - Chain/Bundle/Inception: TSA strategies, integration planning
+        - Advanced Techniques: ERP separation, tax optimization
+        - Creative Thinking: Synergy identification, talent retention
+        - Decision Storm: Build vs buy, divestiture analysis
+        - Image Prompts: Executive presentations, org charts
 
         **Powered by:** Claude Sonnet 4.5
         **Model:** `claude-sonnet-4-20250514`
 
-        **Status:** ✅ All 6 tools complete
+        **Status:** ✅ All 5 tools complete
+        **Focus:** M&A, carve-outs, transformation
         """)
 
     # Route to selected tool
     if tool == "🏠 Home":
         render_home()
-    elif tool == "🔀 Decision Storm":
-        render_decision_storm()
     elif tool == "🔗 Chain, Bundle & Inception":
         render_chain_bundle_inception()
     elif tool == "🚀 Advanced Techniques":
         render_advance_techs()
     elif tool == "🎨 Creative Thinking":
         render_creative_thinking()
+    elif tool == "🌪️ Decision Storm":
+        render_decision_storm()
     elif tool == "🖼️ Image Prompt":
         render_image_prompt()
-    elif tool == "🔬 Correlation Explainer":
-        render_correlation_explainer()
 
 
 if __name__ == "__main__":

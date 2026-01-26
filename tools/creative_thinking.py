@@ -206,23 +206,29 @@ def render_creative_thinking():
         st.markdown("Click any example to auto-fill the form:")
 
         examples = {
-            "Reduce SaaS Churn (Sales)": {
-                "challenge": "How can we reduce customer churn in our SaaS product from 8% to 4% monthly?",
-                "department": "Sales",
-                "methods": ["Brainstorming", "Five Whys", "Impact-Effort Matrix"],
-                "description": "Sales-focused approach using divergent + reframing + convergent methods"
-            },
-            "Feature Prioritization (Product)": {
-                "challenge": "Prioritize features for Q2 product roadmap with limited engineering capacity and competing stakeholder demands",
-                "department": "Product",
-                "methods": ["Impact-Effort Matrix", "Six Thinking Hats", "SCAMPER"],
-                "description": "Product management challenge requiring evaluation and systematic refinement"
-            },
-            "Warehouse Efficiency (Operations)": {
-                "challenge": "Reduce warehouse fulfillment time from 48 hours to 24 hours without adding staff",
+            "TSA Exit Acceleration (Operations)": {
+                "challenge": "Accelerate TSA exit from 24 months to 12 months to reduce dependency costs and achieve operational independence faster",
                 "department": "Operations",
-                "methods": ["Five Whys", "Reverse Thinking", "Constraint Removal", "Pros-Cons-Fixes"],
-                "description": "Operations optimization using reframing and lateral thinking"
+                "methods": ["Reverse Thinking", "Constraint Removal", "SCAMPER", "Five Whys"],
+                "description": "Explore unconventional paths to rapid independence"
+            },
+            "Synergy Value Creation (Strategy)": {
+                "challenge": "Identify and quantify €50M in revenue synergies post-merger beyond the obvious cost synergies already captured in the model",
+                "department": "Strategy",
+                "methods": ["Brainstorming", "Forced Connections", "Analogies from Other Domains", "Provocation Technique"],
+                "description": "Generate non-obvious value creation opportunities"
+            },
+            "Talent Retention Strategy (HR)": {
+                "challenge": "Retain 95% of critical talent during 18-month separation uncertainty. Current attrition trending at 22% for key roles.",
+                "department": "HR",
+                "methods": ["Six Thinking Hats", "Perspective Shifting", "Pros-Cons-Fixes", "Role Storming"],
+                "description": "Multi-stakeholder approach to retention program design"
+            },
+            "Customer Communication Plan (Communications)": {
+                "challenge": "Communicate business separation to enterprise customers without triggering contract renegotiations or churn. €400M revenue at risk.",
+                "department": "Communications",
+                "methods": ["Perspective Shifting", "Time Travel", "Devil's Advocate", "Scenario Planning"],
+                "description": "Anticipate customer concerns and craft reassuring narrative"
             }
         }
 

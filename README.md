@@ -1,8 +1,10 @@
 # 🛠️ ClarityCrew Tools
 
-> **Version 1.0** | Powered by Claude Sonnet 4.5 | All 6 Tools Complete ✅
+> **Version 2.0 - Enterprise Edition** | Powered by Claude Sonnet 4.5 | All 5 Tools Complete ✅
 
-A local Streamlit application hosting 6 AI-powered prompt generation tools for strategic thinking and creative problem-solving.
+An AI-powered Streamlit application optimized for enterprise consulting, M&A advisory, and strategic transformation engagements.
+
+**Target Users:** Strategy consultants, M&A advisors, corporate development teams, transformation PMOs
 
 ## 📖 Table of Contents
 
@@ -30,18 +32,17 @@ ClarityCrew Tools provides an intuitive interface for generating high-quality pr
 
 ---
 
-## Tools Included
+## 🎯 Tools Included
 
-| # | Tool | Description | API Calls |
-|---|------|-------------|-----------|
-| 1 | 🔀 **Decision Storm** | Generate 2-6 strategic perspectives using different analytical lenses | 2-6 per run |
-| 2 | 🔗 **Chain, Bundle & Inception** | Create sequential chains, parallel bundles, or meta-prompts | 1-3 per run |
-| 3 | 🚀 **Advanced Techniques** | Apply 11 expert prompting techniques to your challenge | 1 per run |
-| 4 | 🎨 **Creative Thinking** | Generate prompts using 24 creative methods, adapted by department | 1 per run |
-| 5 | 🖼️ **Image Prompt Generator** | Craft optimized prompts for AI image generation (text + JSON output) | 1 per run |
-| 6 | 🔬 **Correlation Explainer** | Educational tool teaching 8 types of correlation vs causation | 0 (no API) |
+| # | Tool | Enterprise Use Cases | API Calls |
+|---|------|---------------------|-----------|
+| 1 | 🔗 **Chain, Bundle & Inception** | TSA strategies, integration planning, Day 1 readiness frameworks | 1-3 per run |
+| 2 | 🚀 **Advanced Techniques** | ERP separation, working capital optimization, tax structures | 1 per run |
+| 3 | 🎨 **Creative Thinking** | Synergy identification, talent retention, customer communication | 1 per run |
+| 4 | 🌪️ **Decision Storm** | Build vs buy decisions, divestiture analysis, timeline strategies | 2-6 per run |
+| 5 | 🖼️ **Image Prompt Generator** | Executive presentations, org charts, process flow diagrams | 3-5 per run |
 
-**All 6 tools are active and fully functional** ✅
+**All 5 tools are active and optimized for M&A, carve-outs, and transformation work** ✅
 
 ## Project Structure
 
@@ -62,19 +63,17 @@ Tools/
 │
 ├── tools/                   # Individual tool modules
 │   ├── __init__.py
-│   ├── decision_storm.py           # 🔀 Decision Storm
 │   ├── chain_bundle_inception.py   # 🔗 Chain, Bundle & Inception
 │   ├── advance_techs.py            # 🚀 Advanced Techniques
 │   ├── creative_thinking.py        # 🎨 Creative Thinking
-│   ├── image_prompt.py             # 🖼️ Image Prompt Generator
-│   └── correlation_explainer.py    # 🔬 Correlation Explainer
+│   ├── decision_storm.py           # 🌪️ Decision Storm
+│   └── image_prompt.py             # 🖼️ Image Prompt Generator
 │
 └── artifacts/              # Reference files (original React/HTML versions)
-    ├── Decision_Storm.jsx
-    ├── Advance_Techs.html
     ├── Chain_and_Bundle.html
-    ├── correlation_explainer.jsx
+    ├── Advance_Techs.html
     ├── creative_thinking.jsx
+    ├── Decision_Storm.jsx
     └── image_prompt.jsx
 ```
 
@@ -256,45 +255,43 @@ Streamlit Cloud will automatically detect changes and redeploy (takes ~2 minutes
    - Verify successful response
 
 ### Tool-Specific Instructions
-**🔀 Decision Storm:**
-   - Enter your scenario or decision
+
+**🔗 Chain, Bundle & Inception:**
+   - Enter your M&A or transformation goal (e.g., "Design TSA exit strategy")
+   - Choose method: Chain (sequential steps), Bundle (parallel approaches), Inception (meta-prompts), or All Three
+   - **Chain:** 3-5 step workflow for complex analysis (Scope → Design → Price → Risk Mitigation)
+   - **Bundle:** 3-7 parallel alternatives using different strategic frameworks
+   - **Inception:** Meta-prompts for scenario planning and contingency frameworks
+   - **Examples:** TSA strategies, integration planning, Day 1 readiness, stranded cost analysis
+
+**🚀 Advanced Techniques:**
+   - Enter your complex challenge (e.g., "ERP system separation for NewCo")
+   - Select 3-5 techniques from 11 expert methods
+   - Generates 5 specialized prompts, each demonstrating a different technique
+   - Techniques: Multi-Persona Debate, Emotional Tipping, Chain-of-Symbol, Socratic Mirroring, Adversarial Red-Teaming, and more
+   - **Examples:** ERP separation, working capital optimization, shared services migration, tax structures
+
+**🎨 Creative Thinking:**
+   - Enter your business challenge (e.g., "Accelerate TSA exit from 24 to 12 months")
+   - Select 1-5 methods from 24 options across 6 categories
+   - Choose your department (Strategy, Operations, HR, Communications, etc.) for customized adaptation
+   - Methods include: Brainstorming, SCAMPER, Six Thinking Hats, Five Whys, Reverse Thinking, Scenario Planning
+   - **Examples:** TSA acceleration, synergy identification, talent retention, customer communication
+
+**🌪️ Decision Storm:**
+   - Enter your high-stakes decision scenario (e.g., "Build vs buy vs partner for ERP")
    - Choose 2-6 perspectives
    - Each perspective analyzes through a different lens (Risk, Opportunity, Resource, Timeline, Stakeholder, Strategic)
    - Results generate sequentially with progress indicators
-
-**🔗 Chain, Bundle & Inception:**
-   - Enter your goal or task
-   - Choose method: Chain (sequential steps), Bundle (parallel approaches), Inception (meta-prompts), or All Three
-   - **Chain:** 3-5 step workflow (Decompose → Analyze → Evaluate → Refine → Test)
-   - **Bundle:** 3-7 parallel alternatives using different techniques
-   - **Inception:** Meta-prompts that generate more prompts on-demand
-
-**🚀 Advanced Techniques:**
-   - Enter your challenge or goal
-   - Select 3-5 techniques from 11 expert methods
-   - Generates 5 specialized prompts, each demonstrating a different technique
-   - Techniques: Multi-Persona Debate, Emotional Tipping, Chain-of-Symbol, Socratic Mirroring, Adversarial Red-Teaming, Dynamic Tone Morphing, and more
-
-**🎨 Creative Thinking:**
-   - Enter your creative challenge
-   - Select 1-5 methods from 24 options across 6 categories (Divergent, Convergent, Lateral, Collaborative, Reframing, Structured)
-   - Choose your department (Sales, Product, Operations, HR, etc.) for customized adaptation
-   - Methods include: Brainstorming, SCAMPER, Six Thinking Hats, Five Whys, Mind Mapping, TRIZ, and more
+   - **Examples:** Build vs buy, divestiture vs IPO, timeline decisions, offshore vs nearshore
 
 **🖼️ Image Prompt Generator:**
-   - **Step 1:** Select art category (7 options: Fine Art, Photography, Digital Art, Fantasy, 3D Rendering, Concept Art, Abstract)
-   - **Step 2:** Choose subcategory (42 total options with artist references)
-   - **Step 3:** Add 0-3 thematic elements (Light, Scale, Color, Composition, Material, Narrative, Temporal)
-   - **Step 4:** Enter your subject description
-   - **Output:** Dual format - Text prompt (30-50 words, copy-paste ready) + JSON metadata
-   - Compatible with: DALL-E, Midjourney, Stable Diffusion, and other AI image generators
-
-**🔬 Correlation Explainer:**
-   - Educational tool (no API calls required)
-   - Explore 8 correlation types with detailed explanations
-   - Types covered: Direct Causation, Reverse Causation, Confounding Variable, Bidirectional, Coincidental, Selection Bias, Mediating Variable, Spurious
-   - Learn testing methodologies, common mistakes, and historical case studies
-   - Interactive navigation with visual diagrams and probability meters
+   - Generate professional visuals for executive presentations and strategic documents
+   - **Step 1:** Enter your subject (e.g., "transformation roadmap visualization")
+   - **Step 2:** Select 3-5 art styles from 42 options across 7 categories
+   - **Step 3:** Add thematic elements (Compositional Tension, Color Psychology, etc.)
+   - **Output:** 3-5 text prompts optimized for DALL-E, Midjourney, Stable Diffusion
+   - **Examples:** Executive presentations, org charts, process flows
 
 ---
 
@@ -306,12 +303,11 @@ Each tool makes a different number of API calls per generation:
 
 | Tool | API Calls | Notes |
 |------|-----------|-------|
-| Decision Storm | 2-6 per run | One call per perspective selected |
-| Chain/Bundle/Inception | 1-3 per run | 1 per method (Chain=1, Bundle=1, Inception=1, All=3) |
+| Chain, Bundle & Inception | 1-3 per run | 1 per method (Chain=1, Bundle=1, Inception=1, All=3) |
 | Advanced Techniques | 1 per run | Single generation creates 5 prompts |
 | Creative Thinking | 1 per run | Single generation for all selected methods |
-| Image Prompt Generator | 1 per run | Generates both text and JSON outputs |
-| Correlation Explainer | **0 calls** | Fully local/educational, no API required |
+| Decision Storm | 2-6 per run | One call per perspective selected |
+| Image Prompt Generator | 3-5 per run | One call per style variation selected |
 
 **Rate Limiting:** All tools implement 1-second delays between sequential API calls to avoid rate limits.
 
@@ -371,8 +367,14 @@ Each tool makes a different number of API calls per generation:
 - ✅ Image Prompt Generator implemented (7 categories, 42 subcategories, 7 thematic elements)
 - ✅ Dual output format (text prompt + JSON metadata)
 - ✅ Category-organized taxonomy with subcategory details
-- ✅ Correlation Explainer implemented (8 correlation types, educational content, no API calls)
-- ✅ All 6 tools now active and complete
+- ✅ All 5 core tools active and complete
+
+### Phase 4 - Enterprise Edition (Completed ✅)
+- ✅ Navigation reordered for enterprise workflow
+- ✅ All examples replaced with M&A, carve-out, transformation scenarios
+- ✅ Enterprise terminology (TSA, Day 1, stranded costs, NewCo/RemainCo)
+- ✅ Tool focus optimized for strategy consultants and M&A advisors
+- ✅ Streamlit Cloud deployment configuration
 
 ### Future Enhancements
 - Export/save functionality
@@ -399,20 +401,28 @@ This is a private project for local use.
 
 ## 📊 Project Info
 
-**Version:** 1.0 (Complete)
+**Version:** 2.0 - Enterprise Edition
 **Last Updated:** January 2026
 **Model:** Claude Sonnet 4.5 (`claude-sonnet-4-20250514`)
-**Status:** ✅ All 6 tools operational
+**Status:** ✅ All 5 tools operational
+**Focus:** M&A, carve-outs, post-merger integration, transformation
 
 **Built with:**
 - [Streamlit](https://streamlit.io/) - Python web framework
 - [Anthropic Claude API](https://www.anthropic.com/) - AI model
 - [Python](https://www.python.org/) 3.8+
 
+**Target Users:**
+- Strategy consultants
+- M&A advisors
+- Corporate development teams
+- Transformation PMOs
+- Integration managers
+
 **Credits:**
 - Original React/HTML artifacts created with Claude
-- Migrated to Streamlit local application
-- Built for strategic thinking and creative problem-solving
+- Migrated to Streamlit application
+- Optimized for enterprise consulting use cases
 
 ---
 

@@ -71,26 +71,31 @@ def render_decision_storm():
         st.markdown("Click any example to auto-fill the form:")
 
         examples = {
-            "Product Launch Decision": {
-                "scenario": "We're considering launching a new B2B SaaS product targeting mid-market companies. Initial development would take 6 months and $500K. Early customer interviews show strong interest but we'd be entering a crowded market with established players like Salesforce and HubSpot.",
-                "count": 4,
-                "description": "Complex go-to-market decision with multiple stakeholders"
-            },
-            "Market Expansion": {
-                "scenario": "Should we expand our e-commerce platform to the Latin American market? We have proven product-market fit in North America, $2M in expansion budget, and initial partnership discussions in Mexico and Brazil. However, we'd need to navigate different payment systems, regulations, and logistics.",
-                "count": 3,
-                "description": "Geographic expansion with regulatory and operational considerations"
-            },
-            "Strategic Pivot": {
-                "scenario": "Our B2C product has plateaued at $5M ARR after 3 years. We're debating a pivot to B2B enterprise with the same core technology but completely different go-to-market strategy. Existing customers would be unaffected but it requires building a new sales team and 6-month development for enterprise features.",
+            "Build vs Buy vs Partner (Systems)": {
+                "scenario": "NewCo needs standalone ERP system post-carve-out. Options: 1) Build custom SAP instance (€40M, 18 months), 2) Buy Oracle Cloud ERP (€25M, 12 months), 3) Partner with managed services provider (€8M/year, 6 months). Each has different risk profiles for Day 1 readiness.",
                 "count": 5,
-                "description": "Major strategic pivot with high stakes and resource implications"
+                "description": "Risk, Opportunity, Resource, Timeline, Stakeholder perspectives"
+            },
+            "Divestiture vs IPO vs Shut Down": {
+                "scenario": "Parent company evaluating exit options for underperforming €800M division. Divestiture offers €500M (60% of book value), IPO could achieve €700M but risky market conditions, orderly wind-down costs €200M but eliminates ongoing losses. 2,500 employees affected.",
+                "count": 6,
+                "description": "Strategic, Financial, Risk, Stakeholder, Timeline, Reputational lenses"
+            },
+            "Aggressive vs Phased Separation Timeline": {
+                "scenario": "Carve-out separation can be completed in 12 months (aggressive, high risk, saves €15M in TSA costs) or 24 months (phased, lower risk, higher transition costs). Regulatory approval timing uncertain. Parent wants quick exit, NewCo management prefers caution.",
+                "count": 4,
+                "description": "Risk-First, Opportunity-First, Resource-First, Stakeholder-First"
+            },
+            "Offshore vs Nearshore vs Onshore Shared Services": {
+                "scenario": "NewCo must establish standalone finance and HR shared services center. Offshore India (€8M/year, 40% cost savings, timezone challenges), Nearshore Poland (€12M/year, 25% savings, EU compliance), Onshore expansion of existing UK center (€15M/year, 10% savings, low risk). 180 FTE scope.",
+                "count": 4,
+                "description": "Cost, Risk, Quality, Timeline perspectives"
             }
         }
 
-        cols = st.columns(3)
+        cols = st.columns(2)
         for idx, (example_name, example_data) in enumerate(examples.items()):
-            with cols[idx % 3]:
+            with cols[idx % 2]:
                 if st.button(
                     f"📋 {example_name}",
                     key=f"ds_example_{idx}",

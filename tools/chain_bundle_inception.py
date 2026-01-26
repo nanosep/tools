@@ -278,33 +278,33 @@ def render_chain_bundle_inception():
         st.markdown("Click any example to auto-fill the form:")
 
         examples = {
-            "SaaS European Expansion (Chain)": {
-                "input": "Evaluate whether to expand our SaaS to European market",
+            "Carve-Out TSA Strategy (Chain)": {
+                "input": "Design a Transition Services Agreement (TSA) strategy for a €2B industrial carve-out with 18-month separation timeline. Parent will provide IT, HR, Finance shared services during transition.",
                 "method": "Prompt Chain",
-                "chain_length": 4,
+                "chain_length": 5,
                 "bundle_size": 5,
-                "description": "4-step workflow: decompose → analyze perspectives → compare options → refine decision"
+                "description": "5-step chain: Scope services → Price models → SLA design → Exit criteria → Risk mitigation"
             },
-            "4-Day Work Week (Bundle)": {
-                "input": "Should we adopt a 4-day work week? Consider employee satisfaction, productivity risks, and competitive positioning",
+            "Post-Merger Integration Planning (Bundle)": {
+                "input": "Develop 100-day integration plan for cross-border merger of two pharmaceutical companies. Address systems, culture, compliance, and customer retention.",
                 "method": "Prompt Bundle",
                 "chain_length": 4,
-                "bundle_size": 5,
-                "description": "5 parallel approaches using different techniques (CoT, Red-Team, Contrastive)"
+                "bundle_size": 6,
+                "description": "6 parallel approaches: IT integration, org design, regulatory, commercial synergies, culture, communication"
             },
-            "AI Adoption Strategy (Inception)": {
-                "input": "Plan our AI adoption strategy for enterprise deployment",
+            "Day 1 Readiness Assessment (Inception)": {
+                "input": "Create a comprehensive Day 1 readiness framework for NewCo spin-off from parent. Must operate independently across all functions from legal separation date.",
                 "method": "Prompt Inception",
                 "chain_length": 4,
                 "bundle_size": 5,
-                "description": "2 meta-prompts that generate chains and bundles for AI strategy"
+                "description": "Meta-prompts generating readiness checklists, dependency mapping, and contingency planning frameworks"
             },
-            "Remote Developer Onboarding (All)": {
-                "input": "Design an onboarding program for remote developers joining our engineering team",
+            "Stranded Cost Analysis (All Three)": {
+                "input": "Analyze and mitigate stranded costs post-divestiture for a $500M business unit separation. Parent retains 70% of shared service infrastructure.",
                 "method": "All Three",
                 "chain_length": 4,
                 "bundle_size": 5,
-                "description": "Chain + Bundle + Inception all generated together"
+                "description": "Chain for analysis steps + Bundle for mitigation options + Inception for scenario planning"
             }
         }
 

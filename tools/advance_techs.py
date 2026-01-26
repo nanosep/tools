@@ -580,25 +580,25 @@ def render_advance_techs():
         st.markdown("Click any example to auto-fill the form:")
 
         examples = {
-            "Database Optimization (Technical)": {
-                "input": "Optimize database query performance for our analytics dashboard with 10M+ daily queries and sub-second response requirements",
-                "techniques": ["chain_of_symbol", "emotional_tipping", "adversarial_redteam"],
-                "note": "Uses symbolic logic + stakes elevation + vulnerability testing"
+            "ERP System Separation (Technical)": {
+                "input": "Design SAP carve-out strategy for separating NewCo from parent's global ERP instance. 47 legal entities, 23 countries, 12-month timeline to standalone system.",
+                "techniques": ["chain_of_symbol", "adversarial_redteam", "emotional_tipping"],
+                "note": "Symbolic logic for dependencies + red-team for risks + high stakes framing"
             },
-            "Hybrid Work Policy (Strategic)": {
-                "input": "Design a fair hybrid work policy balancing employee flexibility, cost optimization, and team collaboration",
-                "techniques": ["multi_persona", "negative_constraint", "socratic_mirroring"],
-                "note": "Multi-perspective debate + positive framing + clarifying questions"
+            "Working Capital Optimization (Financial)": {
+                "input": "Optimize working capital structure for NewCo post-separation. Currently €150M tied up in parent cash pooling arrangements. Target: 30% reduction in NWC.",
+                "techniques": ["multi_persona", "chain_of_symbol", "socratic_mirroring"],
+                "note": "CFO/Treasury/Controller personas + quantitative analysis + clarifying questions"
             },
-            "Global Campaign (Creative)": {
-                "input": "Adapt our US marketing campaign for Asian markets with different cultural values",
-                "techniques": ["cultural_localization", "syntax_free", "dynamic_tone"],
-                "note": "Cultural adaptation + abstract description + progressive complexity"
+            "Shared Services Migration (Strategic)": {
+                "input": "Transition from parent's shared services center to NewCo standalone or third-party provider. Scope: Finance, HR, IT, Procurement. 800 FTEs affected.",
+                "techniques": ["multi_persona", "negative_constraint", "adversarial_redteam"],
+                "note": "Stakeholder perspectives + positive constraints + failure mode analysis"
             },
-            "Product Launch Risk (Critical)": {
-                "input": "Identify potential failure modes for our new mobile payment feature before launch",
-                "techniques": ["adversarial_redteam", "emotional_tipping", "deliberate_hallucination"],
-                "note": "Attack simulation + high stakes + speculative scenarios"
+            "Cross-Border Tax Structure (Complex)": {
+                "input": "Design optimal post-separation tax structure for NewCo operating in 15 jurisdictions. Balance tax efficiency with transfer pricing compliance and operational complexity.",
+                "techniques": ["deliberate_hallucination", "chain_of_symbol", "cultural_localization"],
+                "note": "Scenario exploration + quantitative modeling + jurisdiction-specific considerations"
             }
         }
 

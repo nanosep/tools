@@ -225,37 +225,34 @@ def render_image_prompt():
         st.markdown("Click any example to auto-fill:")
 
         examples = {
-            "Vintage Car (Multi-Style)": {
-                "subject": "pristine 1970s muscle car in Arizona desert, chrome details gleaming",
+            "Executive Presentation Visuals": {
+                "subject": "professional business transformation roadmap visualization with timeline, milestones, and interconnected workstreams",
                 "styles": [
-                    ("Photography Styles", "Still Life & Product"),
-                    ("Fine Art Movements", "Impressionism & Post-Impressionism"),
+                    ("Digital Art Genres", "Concept Art & Matte Painting"),
                     ("Digital Art Genres", "3D Rendering & CGI"),
-                    ("Emerging Styles", "Vaporwave & Retrowave")
+                    ("Fine Art Movements", "Modernism & Abstraction")
                 ],
-                "themes": ["Temporal Quality", "Material & Texture"],
-                "description": "Same car in 4 completely different artistic styles"
+                "themes": ["Compositional Tension", "Color Psychology"],
+                "description": "Clean, corporate-appropriate visualizations"
             },
-            "Coffee Shop Interior (Varied Moods)": {
-                "subject": "cozy coffee shop interior with vintage furniture and warm lighting",
+            "Organization Chart Redesign": {
+                "subject": "modern organizational structure diagram showing functional reporting lines, matrix relationships, and governance bodies",
                 "styles": [
-                    ("Photography Styles", "Architectural & Urban"),
-                    ("Fine Art Movements", "Classical & Academic"),
-                    ("Cultural & Historical", "Art Deco & Mid-Century")
-                ],
-                "themes": ["Light & Atmosphere"],
-                "description": "Interior space with 3 different aesthetic approaches"
-            },
-            "Fantasy Character (Style Exploration)": {
-                "subject": "warrior princess with ornate armor and mystical weapon",
-                "styles": [
-                    ("Fantasy & Sci-Fi", "High Fantasy & Tolkienesque"),
-                    ("Animation & Comics", "Anime & Manga"),
-                    ("Fine Art Movements", "Art Nouveau & Deco"),
-                    ("Digital Art Genres", "Character Design & Illustration")
+                    ("Digital Art Genres", "Vector & Flat Design"),
+                    ("Cultural & Historical", "Art Deco & Mid-Century"),
+                    ("Fine Art Movements", "Modernism & Abstraction")
                 ],
                 "themes": ["Compositional Tension"],
-                "description": "Character design across 4 artistic traditions"
+                "description": "Professional, hierarchical visual design"
+            },
+            "Process Flow Illustration": {
+                "subject": "streamlined business process workflow with decision points, system handoffs, and approval gates",
+                "styles": [
+                    ("Digital Art Genres", "Vector & Flat Design"),
+                    ("Digital Art Genres", "3D Rendering & CGI")
+                ],
+                "themes": ["Material & Texture", "Compositional Tension"],
+                "description": "Clear, professional process visualization"
             }
         }
 
