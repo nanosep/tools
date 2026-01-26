@@ -228,6 +228,26 @@ def render_creative_thinking():
                 "challenge": "Communicate business separation to enterprise customers without triggering contract renegotiations or churn. €400M revenue at risk.",
                 "methods": ["Perspective Shifting", "Time Travel", "Devil's Advocate", "Scenario Planning"],
                 "description": "Anticipate customer concerns and craft reassuring narrative"
+            },
+            "🍷 Wine Club Churn Reduction": {
+                "challenge": "Premium Sonoma winery experiencing 35% annual wine club churn (target: <15%). Members cite 'too many emails' and 'predictable selections' as top complaints.",
+                "methods": ["Five Whys", "Reverse Thinking", "Pros-Cons-Fixes", "Impact-Effort Matrix"],
+                "description": "Root cause analysis + creative retention solutions"
+            },
+            "🍷 Asian Market Entry Strategy": {
+                "challenge": "Australian wine producer exploring entry into Asian luxury market (China, Singapore, Japan). Limited brand recognition, need distribution partnerships, unfamiliar with gifting culture.",
+                "methods": ["Analogies from Other Domains", "Perspective Shifting", "SCAMPER", "Forced Connections"],
+                "description": "Cultural insight + unconventional market entry approaches"
+            },
+            "🍷 Vineyard Labor Shortage Solution": {
+                "challenge": "California wine region facing 40% labor shortage during harvest season. Rising labor costs, H-2A visa uncertainty, need for year-round employment model vs. seasonal peaks.",
+                "methods": ["Constraint Removal", "Provocation Technique", "Role Storming", "Question Assumptions"],
+                "description": "Creative workforce models + automation possibilities"
+            },
+            "🍷 Sommelier Training Curriculum": {
+                "challenge": "Develop sommelier training curriculum that balances Old World tradition with New World innovation. Address generational gaps in wine knowledge and tasting preferences.",
+                "methods": ["Six Thinking Hats", "Time Travel", "Brainstorming", "Nominal Group Technique"],
+                "description": "Educational design balancing tradition and modern context"
             }
         }
 

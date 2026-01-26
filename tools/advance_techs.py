@@ -618,6 +618,26 @@ def render_advance_techs():
                 "input": "Design optimal post-separation tax structure for NewCo operating in 15 jurisdictions. Balance tax efficiency with transfer pricing compliance and operational complexity.",
                 "techniques": ["deliberate_hallucination", "chain_of_symbol", "cultural_localization"],
                 "note": "Scenario exploration + quantitative modeling + jurisdiction-specific considerations"
+            },
+            "🍷 Vintage Quality Prediction Model": {
+                "input": "Design predictive model for vintage quality scoring using climate variables, soil metrics, and winemaking decisions. Develop symbolic logic framework to map inputs to quality outcomes and pricing recommendations for Bordeaux château.",
+                "techniques": ["chain_of_symbol", "adversarial_redteam", "emotional_tipping"],
+                "note": "Symbolic logic for quantitative reasoning + red-team for model validation + high-stakes pricing"
+            },
+            "🍷 Family Winery Succession Planning": {
+                "input": "Navigate succession planning for family winery with conflicting stakeholder interests. Balance founder's legacy preservation (age 75), next-gen's innovation agenda (age 45), and investor return expectations. Structure governance for next 20 years.",
+                "techniques": ["multi_persona", "socratic_mirroring", "cultural_localization"],
+                "note": "Multi-persona debate for stakeholders + Socratic questions + family/cultural dynamics"
+            },
+            "🍷 Climate Adaptation Strategy": {
+                "input": "Explore climate adaptation scenarios for premier Burgundy domaine anticipating 2°C warming by 2050. Consider alternative varietals, new vineyard sites at higher elevations/latitudes, and preservation of AOC classification.",
+                "techniques": ["deliberate_hallucination", "adversarial_redteam", "dynamic_tone"],
+                "note": "Speculative scenarios + stress-testing assumptions + technical to strategic progression"
+            },
+            "🍷 Direct-to-Consumer Digital Strategy": {
+                "input": "Design premium digital DTC strategy for traditional Rioja winery launching first e-commerce platform. Maintain brand prestige while building online sales channel. Address generational divide between founders and digital team.",
+                "techniques": ["negative_constraint", "emotional_tipping", "syntax_free"],
+                "note": "Positive framing (not 'cheap online') + high-stakes framing + abstract brand feel"
             }
         }
 

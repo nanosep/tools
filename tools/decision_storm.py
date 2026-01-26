@@ -90,6 +90,26 @@ def render_decision_storm():
                 "scenario": "NewCo must establish standalone finance and HR shared services center. Offshore India (€8M/year, 40% cost savings, timezone challenges), Nearshore Poland (€12M/year, 25% savings, EU compliance), Onshore expansion of existing UK center (€15M/year, 10% savings, low risk). 180 FTE scope.",
                 "count": 4,
                 "description": "Cost, Risk, Quality, Timeline perspectives"
+            },
+            "🍷 Organic Certification Decision": {
+                "scenario": "80-hectare Châteauneuf-du-Pape estate considering organic certification. Conversion costs €400K over 3 years, potential 15% price premium, but risk of 30% yield reduction in transition years. Established customer base may not value organic label, but younger demographic increasingly demands it.",
+                "count": 5,
+                "description": "Risk, Opportunity, Resource, Timeline, Stakeholder perspectives"
+            },
+            "🍷 Winery Sale vs. Next-Gen Transition": {
+                "scenario": "Founder (68) of iconic Willamette Valley Pinot Noir producer evaluating options: 1) Sell to private equity at $25M, 2) Transition to daughter (passionate but needs $8M financing), 3) Sell majority to strategic partner while retaining 30% and winemaker role. 45 employees, family legacy, loyal customer base at stake.",
+                "count": 6,
+                "description": "Strategic, Financial, Risk, Stakeholder, Timeline, Emotional lenses"
+            },
+            "🍷 Vineyard Expansion vs. Brand Acquisition": {
+                "scenario": "Successful Paso Robles winery ($12M revenue) considering: 1) Purchase adjacent 40-acre vineyard for $6M (vertical integration), 2) Acquire complementary brand with 35-state distribution for $8M (faster scale), 3) Invest in tasting room expansion and DTC infrastructure. Each path has different risk/return profile.",
+                "count": 4,
+                "description": "Risk-First, Opportunity-First, Resource-First, Strategic-First"
+            },
+            "🍷 Climate-Driven Relocation Decision": {
+                "scenario": "Napa Valley estate facing heat stress on Cabernet vines. Options: 1) Invest $2M in climate mitigation (shade, irrigation), 2) Transition to heat-tolerant varietals (lose AVA prestige), 3) Acquire Oregon/Washington vineyard as hedge ($10M+), 4) Exit premium production, pivot to consulting/licensing. 25 employees at stake.",
+                "count": 5,
+                "description": "Risk, Timeline, Resource, Stakeholder, Strategic perspectives"
             }
         }
 

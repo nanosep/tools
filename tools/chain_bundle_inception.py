@@ -374,6 +374,34 @@ def render_chain_bundle_inception():
                 "chain_length": 4,
                 "bundle_size": 5,
                 "description": "Chain for analysis steps + Bundle for mitigation options + Inception for scenario planning"
+            },
+            "🍷 Premium Winery Acquisition Due Diligence (Chain)": {
+                "input": "Conduct comprehensive due diligence for acquisition of premium Napa Valley winery. Evaluate vineyard assets, brand equity, distribution channels, operational efficiency, and growth potential. Target close in 120 days.",
+                "method": "Prompt Chain",
+                "chain_length": 5,
+                "bundle_size": 5,
+                "description": "5-step sequential: Asset valuation → Market positioning → Operations → Risk → Integration"
+            },
+            "🍷 Wine Portfolio Optimization Strategy (Bundle)": {
+                "input": "Optimize wine portfolio strategy for multi-region French wine house. Address shifting consumer preferences toward organic/biodynamic, climate impact on traditional varietals, and emerging export markets. Balance heritage prestige with innovation.",
+                "method": "Prompt Bundle",
+                "chain_length": 4,
+                "bundle_size": 6,
+                "description": "6 parallel angles: Financial, consumer trends, climate risk, brand architecture, distribution, innovation"
+            },
+            "🍷 Sustainable Viticulture Transformation (Inception)": {
+                "input": "Design comprehensive framework for transitioning traditional vineyard to certified organic and biodynamic production. Address agronomic practices, certification requirements, economic impacts, market positioning, and team training.",
+                "method": "Prompt Inception",
+                "chain_length": 4,
+                "bundle_size": 5,
+                "description": "Meta-prompts for phased transition planning and parallel vineyard block assessment"
+            },
+            "🍷 Wine Tourism Experience Design (All Three)": {
+                "input": "Develop wine tourism strategy for boutique Oregon winery. Design tiered tasting experiences, private events program, and wine club integration. Target: 40% revenue from DTC within 3 years.",
+                "method": "All Three",
+                "chain_length": 5,
+                "bundle_size": 6,
+                "description": "Chain for sequential design + Bundle for parallel exploration + Inception for scalable framework"
             }
         }
 
