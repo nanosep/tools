@@ -349,7 +349,7 @@ def render_image_prompt():
         **New Multi-Style Feature:**
 
         1. **Enter your subject** (e.g., "vintage 1970s muscle car")
-        2. **Select 3-5 art styles** from any category
+        2. **Select 1-5 art styles** from any category
         3. **Optionally add 1-2 thematic elements** (applied to all variations)
         4. **Generate variations** - get one optimized prompt per style
 
@@ -457,7 +457,7 @@ def render_image_prompt():
                         st.session_state[f"theme_{theme_name}"] = False
 
                     # Set subject
-                    st.session_state.ip_subject_prefill = example_data['subject']
+                    st.session_state.ip_subject = example_data['subject']
 
                     # Set styles
                     for cat, subcat in example_data['styles']:
@@ -479,12 +479,11 @@ def render_image_prompt():
         height=100,
         placeholder="Examples:\n- vintage 1970s muscle car in desert\n- medieval knight in ornate armor\n- cozy coffee shop interior\n- abstract representation of music",
         key="ip_subject",
-        value=st.session_state.get('ip_subject_prefill', ''),
         help="Tip: Be specific but concise - describe the core elements"
     )
 
     # STEP 2: Style Selection (NEW - Multiple subcategories)
-    st.markdown("### Step 2: Select 3-5 Art Styles")
+    st.markdown("### Step 2: Select 1-5 Art Styles")
     st.caption("Choose subcategories from any category. Each will generate a unique prompt for your subject.")
 
     selected_subcategories = []
@@ -513,12 +512,12 @@ def render_image_prompt():
 
     # Validation message
     num_selected = len(selected_subcategories)
-    if num_selected < 3 and num_selected > 0:
-        st.warning(f"⚠️ Please select at least 3 styles (currently: {num_selected})")
+    if num_selected == 0:
+        pass  # No message when nothing selected
+    elif 1 <= num_selected <= 5:
+        st.success(f"✅ {num_selected} style{'s' if num_selected > 1 else ''} selected")
     elif num_selected > 5:
-        st.info(f"ℹ️ {num_selected} styles selected. Generation will take approximately {num_selected * 10} seconds.")
-    elif num_selected >= 3:
-        st.success(f"✅ {num_selected} styles selected")
+        st.warning(f"⚠️ {num_selected} styles selected. Maximum 5 styles recommended for best results.")
 
     # Show selected styles summary
     if selected_subcategories:
@@ -550,11 +549,20 @@ def render_image_prompt():
 
     can_generate = (
         len(subject.strip()) >= 5 and
-        3 <= len(selected_subcategories) <= 10
+        1 <= len(selected_subcategories) <= 5
     )
 
+    # Build button text with singular/plural handling
+    num_styles = len(selected_subcategories)
+    if num_styles == 0:
+        button_text = "✨ Generate Variations"
+    elif num_styles == 1:
+        button_text = "✨ Generate 1 Style Variation"
+    else:
+        button_text = f"✨ Generate {num_styles} Style Variations"
+
     generate_btn = st.button(
-        f"✨ Generate {len(selected_subcategories)} Style Variations" if selected_subcategories else "✨ Generate Variations",
+        button_text,
         disabled=not can_generate,
         type="primary",
         use_container_width=True
@@ -563,8 +571,10 @@ def render_image_prompt():
     if not can_generate and (subject.strip() or selected_subcategories):
         if len(subject.strip()) < 5:
             st.caption("⚠️ Please enter a subject (at least 5 characters)")
-        elif len(selected_subcategories) < 3:
-            st.caption("⚠️ Please select at least 3 art styles")
+        elif len(selected_subcategories) < 1:
+            st.caption("⚠️ Please select at least 1 art style")
+        elif len(selected_subcategories) > 5:
+            st.caption("⚠️ Please select at most 5 styles for best results")
 
     # Generation logic
     if generate_btn and can_generate:
@@ -715,7 +725,7 @@ Generate a text prompt optimized for AI image generation."""
         ### 🌟 Quick Start
 
         1. **Enter your subject** - What do you want to see? (e.g., "vintage car", "fantasy castle")
-        2. **Select 3-5 art styles** - Browse categories below and check styles you're interested in
+        2. **Select 1-5 art styles** - Browse categories below and check styles you're interested in
         3. **Optionally add 1-2 themes** - Modify lighting, mood, or composition across all variations
         4. **Generate** - Get one optimized prompt per style in ~10 seconds per variation
 
