@@ -367,58 +367,45 @@ def render_image_prompt():
         st.markdown("Click any example to auto-fill:")
 
         examples = {
-            "Executive Presentation Visuals": {
-                "subject": "professional business transformation roadmap visualization with timeline, milestones, and interconnected workstreams",
+            "📊 Executive M&A Strategy Board Deck": {
+                "subject": "Three-year post-merger integration roadmap showing Phase 1 systems consolidation (months 1-12), Phase 2 organizational restructuring (months 13-24), and Phase 3 synergy realization (months 25-36). Include milestones for IT cutover, headcount optimization, and EBITDA improvement targets with decision gates at each phase transition.",
                 "styles": [
-                    ("Digital Art Genres", "Concept Art & Matte Painting"),
-                    ("Digital Art Genres", "3D Rendering & CGI"),
-                    ("Fine Art Movements", "Modernism & Abstraction")
+                    ("Information Architecture & Data Viz", "Infographic & Data Storytelling")
                 ],
-                "themes": ["Compositional Tension", "Color Psychology"],
-                "description": "Clean, corporate-appropriate visualizations"
+                "themes": ["Compositional Tension", "Temporal Quality"],
+                "description": "Detailed timeline infographic for executive presentation"
             },
-            "Organization Chart Redesign": {
-                "subject": "modern organizational structure diagram showing functional reporting lines, matrix relationships, and governance bodies",
-                "styles": [
-                    ("Digital Art Genres", "Vector & Flat Design"),
-                    ("Cultural & Historical", "Art Deco & Mid-Century"),
-                    ("Fine Art Movements", "Modernism & Abstraction")
-                ],
-                "themes": ["Compositional Tension"],
-                "description": "Professional, hierarchical visual design"
-            },
-            "Process Flow Illustration": {
-                "subject": "streamlined business process workflow with decision points, system handoffs, and approval gates",
-                "styles": [
-                    ("Digital Art Genres", "Vector & Flat Design"),
-                    ("Digital Art Genres", "3D Rendering & CGI")
-                ],
-                "themes": ["Material & Texture", "Compositional Tension"],
-                "description": "Clear, professional process visualization"
-            },
-            "📊 Business Process Flowchart": {
-                "subject": "customer onboarding process from initial signup through first purchase completion",
+            "📊 Post-Acquisition Org Chart": {
+                "subject": "Corporate organizational structure post-acquisition showing dual reporting lines between functional teams (Finance, HR, IT, Operations) and business unit leaders. Highlight matrix reporting relationships, shared service dependencies, and governance bodies (Steering Committee, Integration PMO). Show 3 organizational layers: C-suite, functional leaders, and business unit heads.",
                 "styles": [
                     ("Information Architecture & Data Viz", "Workflow & Logic Flowcharts")
                 ],
                 "themes": ["Compositional Tension"],
-                "description": "Sequential workflow with decision points and clear progression"
+                "description": "Hierarchical org structure with matrix relationships"
             },
-            "📊 Quarterly Performance Infographic": {
-                "subject": "Q4 sales performance across regions with year-over-year comparison and key metrics",
+            "📊 Enterprise Procurement Process": {
+                "subject": "End-to-end procurement workflow from requisition to payment. Show decision points for approval thresholds ($10K, $50K, $250K), parallel paths for goods vs services, integration touchpoints with ERP and finance systems, and exception handling for rush orders. Include 12 process steps with role assignments (Requestor, Manager, Procurement, Finance, Vendor).",
+                "styles": [
+                    ("Information Architecture & Data Viz", "Workflow & Logic Flowcharts")
+                ],
+                "themes": ["Compositional Tension", "Material & Texture"],
+                "description": "Detailed process flowchart with decision logic"
+            },
+            "📊 Q4 Financial Performance Summary": {
+                "subject": "Quarterly business review dashboard showing revenue by segment (North America 45%, EMEA 30%, APAC 25%), gross margin trend over 4 quarters (improving from 38% to 42%), top 10 customers by revenue contribution, and variance analysis against plan (Revenue +8%, EBITDA +12%, headcount -3%). Include YoY comparison callouts and forecast indicators for Q1.",
                 "styles": [
                     ("Information Architecture & Data Viz", "Infographic & Data Storytelling")
                 ],
                 "themes": ["Color Psychology", "Compositional Tension"],
-                "description": "Data-rich visualization with hierarchical information"
+                "description": "Data-rich performance infographic with metrics"
             },
-            "📊 Strategy Whiteboard Session": {
-                "subject": "product roadmap brainstorm with feature prioritization matrix and timeline",
+            "📊 Product Strategy Workshop Canvas": {
+                "subject": "Strategic planning whiteboard output showing product vision 2025-2027, competitive positioning matrix (price vs features) with 8 competitors plotted, SWOT analysis with 5 items per quadrant, prioritized initiative backlog using 2x2 matrix (impact vs effort), and resource allocation across 4 product lines. Include Post-it clusters for customer feedback themes and hand-drawn arrows showing strategic dependencies.",
                 "styles": [
                     ("Information Architecture & Data Viz", "Whiteboard & Visual Synthesis")
                 ],
-                "themes": ["Narrative Density"],
-                "description": "Collaborative visual thinking output"
+                "themes": ["Narrative Density", "Compositional Tension"],
+                "description": "Collaborative strategy session visual output"
             },
             "🍷 Wine Distribution Flowchart": {
                 "subject": "wine distribution channels from vineyard to consumer showing producer, wholesaler, retailer, and direct-to-consumer paths with cost margins at each stage",
