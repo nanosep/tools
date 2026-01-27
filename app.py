@@ -5,6 +5,7 @@ from tools.chain_bundle_inception import render_chain_bundle_inception
 from tools.advance_techs import render_advance_techs
 from tools.creative_thinking import render_creative_thinking
 from tools.image_prompt import render_image_prompt
+from tools.prompt_templates import render_prompt_templates
 # from tools.correlation_explainer import render_correlation_explainer  # Removed for enterprise focus
 
 # Page configuration
@@ -89,77 +90,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-def render_home():
-    """Render the home page with API test"""
-    st.title("🛠️ ClarityCrew Tools")
-    st.markdown("### Welcome to AI-Powered Prompt Generation")
-
-    st.markdown("""
-    ClarityCrew Tools hosts 5 AI-powered prompt generation tools optimized for enterprise consulting,
-    M&A advisory, and strategic transformation engagements.
-
-    **Status:** ✅ **COMPLETE** - All 5 tools active! 🎉
-
-    **Target Users:** Strategy consultants, M&A advisors, corporate development teams, transformation PMOs
-    """)
-
-    st.divider()
-
-    # API Test Section
-    st.subheader("🔌 API Connectivity Test")
-    st.markdown("Click the button below to test the Anthropic API connection.")
-
-    if st.button("Test API Connection", type="primary"):
-        with st.spinner("Calling Anthropic API..."):
-            try:
-                system_prompt = "You are a helpful assistant. Respond concisely."
-                user_message = "Say 'API connection successful!' and confirm you are Claude."
-
-                response = call_anthropic(system_prompt, user_message, max_tokens=100)
-
-                st.success("API call successful!")
-                st.markdown("**Response:**")
-                st.info(response)
-
-            except Exception as e:
-                st.error(f"API call failed: {str(e)}")
-                st.markdown("**Troubleshooting:**")
-                st.markdown("- Ensure your `.env` file exists with a valid `ANTHROPIC_API_KEY`")
-                st.markdown("- Check that you've installed all dependencies: `pip install -r requirements.txt`")
-
-    st.divider()
-
-    # Available Tools
-    st.subheader("📦 Available Tools")
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("""
-        #### ✅ Active Tools (5/5) 🎉
-        1. **Chain, Bundle & Inception** - TSA strategies, integration planning
-        2. **Advanced Techniques** - ERP separation, tax structures, synergy analysis
-        3. **Creative Thinking** - Talent retention, synergy identification, communication plans
-        """)
-
-    with col2:
-        st.markdown("""
-        #### ✅ More Tools
-        4. **Decision Storm** - Build vs buy, divestiture options, timeline decisions
-        5. **Image Prompt Generator** - Executive presentations, org charts, process flows
-        """)
-
-    # Project Information
-    with st.expander("ℹ️ Project Information"):
-        st.markdown("""
-        **Tech Stack:**
-        - Frontend: Streamlit
-        - Backend: Python
-        - AI Model: Claude Sonnet 4 (claude-sonnet-4-20250514)
-
-        **Repository:** https://github.com/nanosep/tools
-        """)
-
-
 def main():
     """Main application with navigation"""
 
@@ -170,8 +100,16 @@ def main():
     # Tool selection
     tool = st.sidebar.radio(
         "Select Tool",
-        options=["🏠 Home", "🔗 Chain, Bundle & Inception", "🚀 Advanced Techniques", "🎨 Creative Thinking", "🌪️ Decision Storm", "🖼️ Image Prompt"],
-        index=0
+        options=[
+            "🔗 Chain, Bundle & Inception",
+            "🚀 Advanced Techniques",
+            "🎨 Creative Thinking",
+            "🌪️ Decision Storm",
+            "🖼️ Image Prompt Generator",
+            "📚 Prompt Templates"
+        ],
+        index=0,
+        label_visibility="collapsed"
     )
 
     st.sidebar.markdown("---")
@@ -179,25 +117,24 @@ def main():
     # About section with expander
     with st.sidebar.expander("ℹ️ About ClarityCrew Tools"):
         st.markdown("""
-        **5 AI-Powered Tools** for enterprise consulting and M&A advisory:
+        **6 AI-Powered Tools** for enterprise consulting and M&A advisory:
 
         - Chain/Bundle/Inception: TSA strategies, integration planning
         - Advanced Techniques: ERP separation, tax optimization
         - Creative Thinking: Synergy identification, talent retention
         - Decision Storm: Build vs buy, divestiture analysis
-        - Image Prompts: Executive presentations, org charts
+        - Image Prompt Generator: Executive presentations, org charts
+        - Prompt Templates: Ready-to-use enterprise prompts
 
         **Powered by:** Claude Sonnet 4.5
         **Model:** `claude-sonnet-4-20250514`
 
-        **Status:** ✅ All 5 tools complete
+        **Status:** ✅ All 6 tools complete
         **Focus:** M&A, carve-outs, transformation
         """)
 
     # Route to selected tool
-    if tool == "🏠 Home":
-        render_home()
-    elif tool == "🔗 Chain, Bundle & Inception":
+    if tool == "🔗 Chain, Bundle & Inception":
         render_chain_bundle_inception()
     elif tool == "🚀 Advanced Techniques":
         render_advance_techs()
@@ -205,8 +142,10 @@ def main():
         render_creative_thinking()
     elif tool == "🌪️ Decision Storm":
         render_decision_storm()
-    elif tool == "🖼️ Image Prompt":
+    elif tool == "🖼️ Image Prompt Generator":
         render_image_prompt()
+    elif tool == "📚 Prompt Templates":
+        render_prompt_templates()
 
 
 if __name__ == "__main__":
