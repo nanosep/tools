@@ -44,6 +44,16 @@ INTERPRETATION STRATEGY:
 - "professional portrait" → Interpret as: attire specifics, background, lighting style, expression
 - "business concept" → Interpret into concrete visual metaphors
 
+CATEGORY-SPECIFIC GUIDANCE:
+
+For "Information Architecture & Data Viz":
+- Focus on clarity, hierarchy, and information structure
+- Include specific layout elements (grids, nodes, connectors, callouts)
+- Mention aspect ratio recommendations (16:9 for workflows, square for infographics)
+- Specify label density and text placement
+- Include technical elements (arrows, decision points, data callouts)
+- Balance information density with scanability
+
 EXAMPLE OF GOOD INTERPRETATION:
 User says: "vintage car in desert"
 
@@ -138,6 +148,16 @@ TAXONOMY = {
             "Bio Art & Organic Tech",
             "Maximalism & Baroque Revival"
         ]
+    },
+    "Information Architecture & Data Viz": {
+        "icon": "📊",
+        "description": "Visualizing complex data, workflows, and textual summaries through structured design",
+        "subcategories": [
+            "Infographic & Data Storytelling",
+            "Whiteboard & Visual Synthesis",
+            "Workflow & Logic Flowcharts",
+            "Technical Cheat Sheet"
+        ]
     }
 }
 
@@ -222,8 +242,99 @@ SUBCATEGORY_DETAILS = {
         "styles": "Wide vistas, foreground-background layering, natural light",
         "artists": "Ansel Adams, Sebastião Salgado, Art Wolfe, Galen Rowell",
         "aesthetics": "Golden hour lighting, atmospheric depth, dramatic skies"
+    },
+    "Infographic & Data Storytelling": {
+        "themes": "Hierarchy, clarity, data-driven, scannable layout, visual data storytelling",
+        "styles": "Bento box grid, modular callouts, flat vector icons, high-contrast typography, color-coded sections",
+        "subjects": "Statistical overviews, historical timelines, comparison charts, how-to guides, annual reports, market analysis",
+        "artists": "Edward Tufte, Otl Aicher, Gerd Arntz, David McCandless",
+        "aesthetics": "Clean margins, quantitative color coding, legend/key inclusion, sans-serif dominance, data hierarchy"
+    },
+    "Whiteboard & Visual Synthesis": {
+        "themes": "Collaborative, spontaneous, brain-dump, conceptual mapping, visual thinking",
+        "styles": "Hand-drawn marker strokes, felt-tip pen texture, Post-it note clusters, rough sketches, organic flow",
+        "subjects": "Meeting summaries, ideation sessions, mind maps, concept deconstruction, workshop outputs, strategy sessions",
+        "artists": "Dan Roam, Sunni Brown, David Sibbet",
+        "aesthetics": "Ink bleeds, whiteboard sheen, varied line weights, scribble connectors, highlighter accents, spontaneous annotations"
+    },
+    "Workflow & Logic Flowcharts": {
+        "themes": "Sequential logic, decision trees, process optimization, structural clarity, systematic thinking",
+        "styles": "Node-and-edge diagrams, standard BPMN symbols, directional arrows, swimlane layouts, structured hierarchies",
+        "subjects": "Software logic, business operations, user journeys, biological processes, organizational workflows, decision frameworks",
+        "artists": "ISO standard aesthetics, Lombardy layout, engineering blueprints, technical documentation standards",
+        "aesthetics": "Connecting lines with arrowheads, decision diamonds, terminal capsules, geometric consistency, clear entry/exit points"
+    },
+    "Technical Cheat Sheet": {
+        "themes": "Information density, reference utility, exploded views, comprehensive labeling, quick reference",
+        "styles": "Swiss International Style, technical illustration, blueprint drafting, grid-heavy layouts, modular organization",
+        "subjects": "Programming syntax, mechanical assemblies, keyboard shortcuts, field guides, command references, specification sheets",
+        "artists": "Josef Müller-Brockmann, Wim Crouwel, Massimo Vignelli, Swiss design school",
+        "aesthetics": "Fine-line technical drawing, numbered callouts, high-density text blocks, micro-grids, systematic typography"
     }
 }
+
+
+def interpret_info_architecture_subject(subject, subcategory):
+    """
+    Intelligently expand generic subjects into structured descriptions
+    for Information Architecture & Data Viz category.
+
+    Args:
+        subject: User's input subject
+        subcategory: Selected subcategory
+
+    Returns:
+        Expanded, structured subject description
+    """
+    subject_lower = subject.lower()
+
+    # Keyword detection patterns
+    flowchart_keywords = ['flow', 'process', 'workflow', 'procedure', 'sequence', 'pipeline']
+    infographic_keywords = ['data', 'summary', 'report', 'statistics', 'analysis', 'comparison', 'versus', 'vs']
+    whiteboard_keywords = ['whiteboard', 'brainstorm', 'meeting', 'workshop', 'ideation', 'planning']
+    cheatsheet_keywords = ['cheat sheet', 'reference', 'guide', 'commands', 'syntax', 'shortcuts']
+    timeline_keywords = ['timeline', 'roadmap', 'schedule', 'phases', 'milestones']
+    funnel_keywords = ['funnel', 'conversion', 'journey', 'pipeline']
+
+    # Check for keyword matches
+    is_flowchart = any(kw in subject_lower for kw in flowchart_keywords)
+    is_infographic = any(kw in subject_lower for kw in infographic_keywords)
+    is_whiteboard = any(kw in subject_lower for kw in whiteboard_keywords)
+    is_cheatsheet = any(kw in subject_lower for kw in cheatsheet_keywords)
+    is_timeline = any(kw in subject_lower for kw in timeline_keywords)
+    is_funnel = any(kw in subject_lower for kw in funnel_keywords)
+
+    # Subcategory-specific expansions
+    if subcategory == "Workflow & Logic Flowcharts":
+        if is_flowchart or is_timeline:
+            return f"A comprehensive {subject} diagram showing sequential logic, featuring interconnected nodes, decision paths, and directional flow within a structured hierarchy. Clear entry and exit points with labeled transitions."
+        elif is_funnel:
+            return f"A {subject} visualization with distinct stages arranged vertically, showing progression and conversion metrics at each level with connecting flow indicators."
+        else:
+            return f"A logical process map for {subject} with geometric nodes connected by directional arrows, decision diamonds for branching logic, and terminal capsules for endpoints."
+
+    elif subcategory == "Infographic & Data Storytelling":
+        if is_infographic or is_timeline:
+            return f"A visual synthesis of {subject} structured as an information-rich layout with hierarchical headers, illustrative icons, data callouts, and clean typographic organization. Modular grid with color-coded sections."
+        elif 'comparison' in subject_lower or 'vs' in subject_lower or 'versus' in subject_lower:
+            return f"A comparative visualization of {subject} using side-by-side layouts, contrasting data points, and clear visual differentiation between compared elements."
+        else:
+            return f"An infographic representation of {subject} with scannable data hierarchy, flat vector icons, bold numerical headers, and distinct thematic blocks flowing from top to bottom."
+
+    elif subcategory == "Whiteboard & Visual Synthesis":
+        if is_whiteboard:
+            return f"A collaborative whiteboard canvas capturing {subject} with rough sketches, hand-drawn diagrams, colorful sticky note clusters, marker-drawn arrows, and circled key concepts. Spontaneous visual thinking style."
+        else:
+            return f"A visual brainstorming session output for {subject} featuring organic marker strokes, conceptual connections, rough annotations, and mind-map style organization with varied line weights."
+
+    elif subcategory == "Technical Cheat Sheet":
+        if is_cheatsheet:
+            return f"A high-density reference guide for {subject} with multi-column grid layout, labeled diagrams, condensed typography, numbered callouts, and icon-based shortcuts for quick scanning."
+        else:
+            return f"A comprehensive technical reference for {subject} organized in systematic grid structure with exploded view diagrams, fine-line illustrations, and dense informational blocks with precise labeling."
+
+    # Default expansion if no keywords match
+    return f"A structured visual representation of {subject} optimized for information clarity and professional presentation."
 
 
 def render_image_prompt():
@@ -284,6 +395,46 @@ def render_image_prompt():
                 ],
                 "themes": ["Material & Texture", "Compositional Tension"],
                 "description": "Clear, professional process visualization"
+            },
+            "📊 Business Process Flowchart": {
+                "subject": "customer onboarding process from initial signup through first purchase completion",
+                "styles": [
+                    ("Information Architecture & Data Viz", "Workflow & Logic Flowcharts")
+                ],
+                "themes": ["Compositional Tension"],
+                "description": "Sequential workflow with decision points and clear progression"
+            },
+            "📊 Quarterly Performance Infographic": {
+                "subject": "Q4 sales performance across regions with year-over-year comparison and key metrics",
+                "styles": [
+                    ("Information Architecture & Data Viz", "Infographic & Data Storytelling")
+                ],
+                "themes": ["Color Psychology", "Compositional Tension"],
+                "description": "Data-rich visualization with hierarchical information"
+            },
+            "📊 Strategy Whiteboard Session": {
+                "subject": "product roadmap brainstorm with feature prioritization matrix and timeline",
+                "styles": [
+                    ("Information Architecture & Data Viz", "Whiteboard & Visual Synthesis")
+                ],
+                "themes": ["Narrative Density"],
+                "description": "Collaborative visual thinking output"
+            },
+            "🍷 Wine Distribution Flowchart": {
+                "subject": "wine distribution channels from vineyard to consumer showing producer, wholesaler, retailer, and direct-to-consumer paths with cost margins at each stage",
+                "styles": [
+                    ("Information Architecture & Data Viz", "Workflow & Logic Flowcharts")
+                ],
+                "themes": ["Compositional Tension"],
+                "description": "Wine supply chain visualization"
+            },
+            "🍷 Wine Region Comparison Infographic": {
+                "subject": "comparative analysis of Old World versus New World wine regions showing climate, varietals, production methods, and market positioning",
+                "styles": [
+                    ("Information Architecture & Data Viz", "Infographic & Data Storytelling")
+                ],
+                "themes": ["Color Psychology", "Scale & Perspective"],
+                "description": "Side-by-side wine region comparison"
             }
         }
 
@@ -446,11 +597,18 @@ Styles: {subcat_data['styles']}
 Reference Artists: {subcat_data['artists']}
 Aesthetic Qualities: {subcat_data['aesthetics']}"""
 
+                    # Apply intelligent subject interpretation for Information Architecture category
+                    if style['category'] == "Information Architecture & Data Viz":
+                        interpreted_subject = interpret_info_architecture_subject(subject, style['subcategory'])
+                    else:
+                        # Use subject as-is for artistic categories
+                        interpreted_subject = subject
+
                     # Build system prompt
                     system_prompt = IMAGE_PROMPT_SYSTEM.format(
                         category=style['category'],
                         subcategory=style['subcategory'],
-                        subject=subject,
+                        subject=interpreted_subject,
                         thematic_elements=", ".join(selected_themes) if selected_themes else "None",
                         subcategory_data=subcat_context
                     )
