@@ -6,6 +6,7 @@ from tools.advance_techs import render_advance_techs
 from tools.creative_thinking import render_creative_thinking
 from tools.image_prompt import render_image_prompt
 from tools.prompt_templates import render_prompt_templates
+from tools.creative_content import render_creative_content
 # from tools.correlation_explainer import render_correlation_explainer  # Removed for enterprise focus
 
 # Page configuration
@@ -106,7 +107,8 @@ def main():
             "🎨 Creative Thinking",
             "🌪️ Decision Storm",
             "🖼️ Image Prompt Generator",
-            "📚 Prompt Templates"
+            "📚 Prompt Templates",
+            "🎬 Creative Content for Business"
         ],
         index=0,
         label_visibility="collapsed"
@@ -117,7 +119,7 @@ def main():
     # About section with expander
     with st.sidebar.expander("ℹ️ About ClarityCrew Tools"):
         st.markdown("""
-        **6 AI-Powered Tools** for enterprise consulting and M&A advisory:
+        **7 AI-Powered Tools** for enterprise consulting and M&A advisory:
 
         - Chain/Bundle/Inception: TSA strategies, integration planning
         - Advanced Techniques: ERP separation, tax optimization
@@ -125,11 +127,12 @@ def main():
         - Decision Storm: Build vs buy, divestiture analysis
         - Image Prompt Generator: Executive presentations, org charts
         - Prompt Templates: Ready-to-use enterprise prompts
+        - Creative Content for Business: AI media use case catalog
 
         **Powered by:** Claude Sonnet 4.5
         **Model:** `claude-sonnet-4-20250514`
 
-        **Status:** ✅ All 6 tools complete
+        **Status:** ✅ All 7 tools complete
         **Focus:** M&A, carve-outs, transformation
         """)
 
@@ -146,6 +149,8 @@ def main():
         render_image_prompt()
     elif tool == "📚 Prompt Templates":
         render_prompt_templates()
+    elif tool == "🎬 Creative Content for Business":
+        render_creative_content()
 
 
 if __name__ == "__main__":
