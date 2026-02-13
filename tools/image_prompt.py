@@ -439,13 +439,13 @@ def render_image_prompt():
                 "themes": ["Scale & Perspective", "Color Psychology"],
                 "description": "Geomarketing with multi-criteria analysis"
             },
-            "🛒 Workshop de Estrategia Comercial": {
-                "subject": "Output de sesión de planificación whiteboard mostrando análisis DAFO con 5 items por cuadrante (fortalezas: proximidad local, productos frescos; debilidades: escala menor vs. nacionales; oportunidades: comercio electrónico, productos locales; amenazas: guerra de precios, grandes superficies). Incluir matriz de priorización impacto-esfuerzo con 8 iniciativas estratégicas, clusters de Post-its por temática (operaciones, marketing, digital) y flechas dibujadas conectando dependencias entre proyectos.",
+            "🛒 Guía de Quesos Asturianos para Dependientes": {
+                "subject": "Ficha técnica de referencia rápida para personal de quesería mostrando 8 variedades de queso asturiano (Cabrales, Gamonéu, Casín, Afuega'l pitu, La Peral, Beyos, Vidiago, Ovín). Para cada variedad: fotografía de textura, perfil de sabor en escala de 5 puntos (intensidad, cremosidad, acidez), temperatura de servicio óptima, maridaje recomendado con productos Alimerka, precio orientativo por kilo y indicadores visuales de maduración. Layout de 8 fichas en cuadrícula 4x2 con iconos de tipo de leche (vaca, oveja, cabra, mezcla) y sello de denominación de origen protegida.",
                 "styles": [
-                    ("Information Architecture & Data Viz", "Whiteboard & Visual Synthesis")
+                    ("Information Architecture & Data Viz", "Technical Cheat Sheet")
                 ],
-                "themes": ["Narrative Density", "Compositional Tension"],
-                "description": "Collaborative strategy workshop visualization"
+                "themes": ["Narrative Density", "Color Psychology"],
+                "description": "Staff reference card for Asturian cheese varieties with flavor profiles"
             }
         }
 
