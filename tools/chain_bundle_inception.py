@@ -375,33 +375,33 @@ def render_chain_bundle_inception():
                 "bundle_size": 5,
                 "description": "Chain for analysis steps + Bundle for mitigation options + Inception for scenario planning"
             },
-            "🍷 Premium Winery Acquisition Due Diligence (Chain)": {
-                "input": "Conduct comprehensive due diligence for acquisition of premium Napa Valley winery. Evaluate vineyard assets, brand equity, distribution channels, operational efficiency, and growth potential. Target close in 120 days.",
+            "🛒 Expansión Geográfica de Nuevas Tiendas (Chain)": {
+                "input": "Evaluar apertura de nuevo supermercado Alimerka en zona urbana de Avilés. Análisis de ubicación, inversión inicial €2M, previsión de facturación, competencia y viabilidad a 3 años.",
                 "method": "Prompt Chain",
                 "chain_length": 5,
                 "bundle_size": 5,
-                "description": "5-step sequential: Asset valuation → Market positioning → Operations → Risk → Integration"
+                "description": "5-step sequential: Geomarketing → Financial analysis → Operational plan → Commercial strategy → Risk assessment"
             },
-            "🍷 Wine Portfolio Optimization Strategy (Bundle)": {
-                "input": "Optimize wine portfolio strategy for multi-region French wine house. Address shifting consumer preferences toward organic/biodynamic, climate impact on traditional varietals, and emerging export markets. Balance heritage prestige with innovation.",
+            "🛒 Optimización de Cadena de Suministro (Bundle)": {
+                "input": "Reducir merma de productos frescos en 30% mediante optimización de compras en lonja, logística de última milla y gestión de excedentes. Presupuesto: €500K en tecnología.",
                 "method": "Prompt Bundle",
                 "chain_length": 4,
                 "bundle_size": 6,
-                "description": "6 parallel angles: Financial, consumer trends, climate risk, brand architecture, distribution, innovation"
+                "description": "6 parallel approaches: Purchasing, logistics, sustainability, technology, operations, finance"
             },
-            "🍷 Sustainable Viticulture Transformation (Inception)": {
-                "input": "Design comprehensive framework for transitioning traditional vineyard to certified organic and biodynamic production. Address agronomic practices, certification requirements, economic impacts, market positioning, and team training.",
+            "🛒 Transformación Digital del Servicio al Cliente (Inception)": {
+                "input": "Diseñar framework de atención al cliente omnicanal con chatbots, agent assist y análisis de sentimientos. Integrar con programa de fidelización y app móvil.",
                 "method": "Prompt Inception",
                 "chain_length": 4,
                 "bundle_size": 5,
-                "description": "Meta-prompts for phased transition planning and parallel vineyard block assessment"
+                "description": "Meta-prompts generating multi-channel customer service workflows and integration frameworks"
             },
-            "🍷 Wine Tourism Experience Design (All Three)": {
-                "input": "Develop wine tourism strategy for boutique Oregon winery. Design tiered tasting experiences, private events program, and wine club integration. Target: 40% revenue from DTC within 3 years.",
+            "🛒 Programa de Productos Locales Asturianos (All Three)": {
+                "input": "Desarrollar línea de productos locales asturianos en 18 tiendas. Identificar proveedores regionales, negociar condiciones, diseñar comunicación en tienda y medir impacto en ticket medio. Presupuesto marketing: €150K.",
                 "method": "All Three",
                 "chain_length": 5,
                 "bundle_size": 6,
-                "description": "Chain for sequential design + Bundle for parallel exploration + Inception for scalable framework"
+                "description": "Chain for sequential rollout + Bundle for parallel workstreams + Inception for scalable framework"
             }
         }
 

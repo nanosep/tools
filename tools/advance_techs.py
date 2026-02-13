@@ -619,25 +619,25 @@ def render_advance_techs():
                 "techniques": ["deliberate_hallucination", "chain_of_symbol", "cultural_localization"],
                 "note": "Scenario exploration + quantitative modeling + jurisdiction-specific considerations"
             },
-            "🍷 Vintage Quality Prediction Model": {
-                "input": "Design predictive model for vintage quality scoring using climate variables, soil metrics, and winemaking decisions. Develop symbolic logic framework to map inputs to quality outcomes and pricing recommendations for Bordeaux château.",
-                "techniques": ["chain_of_symbol", "adversarial_redteam", "emotional_tipping"],
-                "note": "Symbolic logic for quantitative reasoning + red-team for model validation + high-stakes pricing"
+            "🛒 Pricing Dinámico Multi-Producto": {
+                "input": "Diseñar modelo de elasticidad de precios para 15 categorías de producto analizando competencia online, estacionalidad y sensibilidad de demanda. Maximizar margen sin perder cuota de mercado.",
+                "techniques": ["chain_of_symbol", "emotional_tipping", "adversarial_redteam"],
+                "note": "Symbolic logic for quantitative modeling + high-stakes framing + stress-testing assumptions"
             },
-            "🍷 Family Winery Succession Planning": {
-                "input": "Navigate succession planning for family winery with conflicting stakeholder interests. Balance founder's legacy preservation (age 75), next-gen's innovation agenda (age 45), and investor return expectations. Structure governance for next 20 years.",
+            "🛒 Reorganización de Secciones en Tienda": {
+                "input": "Rediseñar layout de supermercado de 1,200m² para mejorar flujo de clientes y aumentar ventas de productos de alto margen. Perspectivas: responsable de tienda (operativa diaria), visual merchandiser (experiencia cliente), financiero (rentabilidad por m²), logística (reposición eficiente).",
                 "techniques": ["multi_persona", "socratic_mirroring", "cultural_localization"],
-                "note": "Multi-persona debate for stakeholders + Socratic questions + family/cultural dynamics"
+                "note": "Multi-stakeholder debate + clarifying questions + local retail context"
             },
-            "🍷 Climate Adaptation Strategy": {
-                "input": "Explore climate adaptation scenarios for premier Burgundy domaine anticipating 2°C warming by 2050. Consider alternative varietals, new vineyard sites at higher elevations/latitudes, and preservation of AOC classification.",
-                "techniques": ["deliberate_hallucination", "adversarial_redteam", "dynamic_tone"],
-                "note": "Speculative scenarios + stress-testing assumptions + technical to strategic progression"
+            "🛒 Optimización de Política de Descuentos": {
+                "input": "Analizar efectividad de descuentos y promociones actuales. Identificar qué promociones generan tráfico real vs. canibalización de margen. Modelar escenarios de política de descuentos optimizada para Q2 2025.",
+                "techniques": ["chain_of_symbol", "adversarial_redteam", "dynamic_tone"],
+                "note": "Quantitative analysis + finding inefficiencies + technical to strategic progression"
             },
-            "🍷 Direct-to-Consumer Digital Strategy": {
-                "input": "Design premium digital DTC strategy for traditional Rioja winery launching first e-commerce platform. Maintain brand prestige while building online sales channel. Address generational divide between founders and digital team.",
-                "techniques": ["negative_constraint", "emotional_tipping", "syntax_free"],
-                "note": "Positive framing (not 'cheap online') + high-stakes framing + abstract brand feel"
+            "🛒 Lanzamiento de Nueva Línea de Panadería": {
+                "input": "Desarrollar concepto de pan premium artesanal para mercado gourmet. Explorar combinaciones no tradicionales de harinas ancestrales asturianas con técnicas de fermentación moderna. Visualizar packaging y posicionamiento.",
+                "techniques": ["deliberate_hallucination", "syntax_free", "emotional_tipping"],
+                "note": "Creative speculation + abstract aesthetic direction + high-stakes product launch"
             }
         }
 

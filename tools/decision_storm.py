@@ -91,25 +91,25 @@ def render_decision_storm():
                 "count": 4,
                 "description": "Cost, Risk, Quality, Timeline perspectives"
             },
-            "🍷 Organic Certification Decision": {
-                "scenario": "80-hectare Châteauneuf-du-Pape estate considering organic certification. Conversion costs €400K over 3 years, potential 15% price premium, but risk of 30% yield reduction in transition years. Established customer base may not value organic label, but younger demographic increasingly demands it.",
+            "🛒 Sistema de Delivery Propio vs. Plataformas Terceras": {
+                "scenario": "Alimerka evalúa 3 opciones para reparto a domicilio: 1) Crear flota propia (€800K inversión, control total, márgenes altos), 2) Asociarse con Glovo/Just Eat (€0 inversión, 25% comisión, rápida escala), 3) Modelo híbrido con flota reducida + plataforma. 12 tiendas piloto, mercado competitivo en Gijón/Oviedo.",
                 "count": 5,
                 "description": "Risk, Opportunity, Resource, Timeline, Stakeholder perspectives"
             },
-            "🍷 Winery Sale vs. Next-Gen Transition": {
-                "scenario": "Founder (68) of iconic Willamette Valley Pinot Noir producer evaluating options: 1) Sell to private equity at $25M, 2) Transition to daughter (passionate but needs $8M financing), 3) Sell majority to strategic partner while retaining 30% and winemaker role. 45 employees, family legacy, loyal customer base at stake.",
+            "🛒 Transformación Digital: Build vs. Buy vs. Partner": {
+                "scenario": "Modernizar sistemas IT de Alimerka. Opciones: 1) Desarrollar solución custom con equipo interno (€1.2M, 24 meses, total control), 2) Comprar suite enterprise SAP/Oracle (€900K, 12 meses, soporte garantizado), 3) Contratar partner tecnológico para gestión integral (€400K/año). Afecta a 1,200 empleados, 45 tiendas.",
                 "count": 6,
-                "description": "Strategic, Financial, Risk, Stakeholder, Timeline, Emotional lenses"
+                "description": "Strategic, Financial, Risk, Stakeholder, Timeline, Technical perspectives"
             },
-            "🍷 Vineyard Expansion vs. Brand Acquisition": {
-                "scenario": "Successful Paso Robles winery ($12M revenue) considering: 1) Purchase adjacent 40-acre vineyard for $6M (vertical integration), 2) Acquire complementary brand with 35-state distribution for $8M (faster scale), 3) Invest in tasting room expansion and DTC infrastructure. Each path has different risk/return profile.",
+            "🛒 Estrategia de Marca Blanca vs. Marcas Nacionales": {
+                "scenario": "Redefinir mix de producto: incrementar marca blanca de 35% a 55% (mayor margen, diferenciación) vs. mantener marcas nacionales premium (menor riesgo, preferencia cliente). Inversión en desarrollo de producto propio: €2M. Riesgo de canibalización de ventas actuales.",
                 "count": 4,
                 "description": "Risk-First, Opportunity-First, Resource-First, Strategic-First"
             },
-            "🍷 Climate-Driven Relocation Decision": {
-                "scenario": "Napa Valley estate facing heat stress on Cabernet vines. Options: 1) Invest $2M in climate mitigation (shade, irrigation), 2) Transition to heat-tolerant varietals (lose AVA prestige), 3) Acquire Oregon/Washington vineyard as hedge ($10M+), 4) Exit premium production, pivot to consulting/licensing. 25 employees at stake.",
+            "🛒 Expansión Regional vs. Consolidación Local": {
+                "scenario": "Alimerka en encrucijada estratégica: 1) Expandir a Cantabria y León (8 tiendas nuevas, €6M inversión, crecer cuota regional), 2) Consolidar presencia en Asturias (reformar tiendas existentes, mejorar márgenes sin crecer). Mercado asturiano maduro, competencia creciente de cadenas nacionales.",
                 "count": 5,
-                "description": "Risk, Timeline, Resource, Stakeholder, Strategic perspectives"
+                "description": "Risk, Timeline, Resource, Market, Strategic perspectives"
             }
         }
 

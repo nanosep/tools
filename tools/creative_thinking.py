@@ -229,25 +229,25 @@ def render_creative_thinking():
                 "methods": ["Perspective Shifting", "Time Travel", "Devil's Advocate", "Scenario Planning"],
                 "description": "Anticipate customer concerns and craft reassuring narrative"
             },
-            "🍷 Wine Club Churn Reduction": {
-                "challenge": "Premium Sonoma winery experiencing 35% annual wine club churn (target: <15%). Members cite 'too many emails' and 'predictable selections' as top complaints.",
-                "methods": ["Five Whys", "Reverse Thinking", "Pros-Cons-Fixes", "Impact-Effort Matrix"],
-                "description": "Root cause analysis + creative retention solutions"
+            "🛒 Reducción de Merma en Pescadería": {
+                "challenge": "Reducir merma de pescado fresco de 18% actual a <8% objetivo. Compras diarias en lonja basadas en climática, festivos y tendencias de consumo generan stock impredecible.",
+                "methods": ["Five Whys", "Reverse Thinking", "Constraint Removal", "Impact-Effort Matrix"],
+                "description": "Root cause analysis + creative solutions for perishable inventory"
             },
-            "🍷 Asian Market Entry Strategy": {
-                "challenge": "Australian wine producer exploring entry into Asian luxury market (China, Singapore, Japan). Limited brand recognition, need distribution partnerships, unfamiliar with gifting culture.",
-                "methods": ["Analogies from Other Domains", "Perspective Shifting", "SCAMPER", "Forced Connections"],
-                "description": "Cultural insight + unconventional market entry approaches"
+            "🛒 Programa de Fidelización Innovador": {
+                "challenge": "Diseñar programa de fidelización que vaya más allá de puntos. Crear engagement emocional con clientes mediante experiencias, contenido personalizado y beneficios no monetarios. Objetivo: +40% retention.",
+                "methods": ["Analogies from Other Domains", "SCAMPER", "Forced Connections", "Brainstorming"],
+                "description": "Cross-industry inspiration for loyalty program innovation"
             },
-            "🍷 Vineyard Labor Shortage Solution": {
-                "challenge": "California wine region facing 40% labor shortage during harvest season. Rising labor costs, H-2A visa uncertainty, need for year-round employment model vs. seasonal peaks.",
-                "methods": ["Constraint Removal", "Provocation Technique", "Role Storming", "Question Assumptions"],
-                "description": "Creative workforce models + automation possibilities"
+            "🛒 Mejora de Experiencia en Cajas": {
+                "challenge": "Reducir tiempo de espera en cajas durante hora punta (12:00-14:00 y 19:00-21:00) sin incrementar costes de personal. Clientes se quejan de colas largas pero contratación de más cajeros reduce rentabilidad.",
+                "methods": ["Reverse Thinking", "Constraint Removal", "Pros-Cons-Fixes", "Six Thinking Hats"],
+                "description": "Creative operational solutions balancing service and cost"
             },
-            "🍷 Sommelier Training Curriculum": {
-                "challenge": "Develop sommelier training curriculum that balances Old World tradition with New World innovation. Address generational gaps in wine knowledge and tasting preferences.",
-                "methods": ["Six Thinking Hats", "Time Travel", "Brainstorming", "Nominal Group Technique"],
-                "description": "Educational design balancing tradition and modern context"
+            "🛒 Cocina de Aprovechamiento Creativa": {
+                "challenge": "Crear menús de platos preparados utilizando ingredientes con excedente de stock o próximos a caducar. Convertir problema de desperdicio en oportunidad de innovación culinaria.",
+                "methods": ["Reverse Thinking", "Provocation Technique", "SCAMPER", "Forced Connections"],
+                "description": "Turning waste problem into culinary innovation opportunity"
             }
         }
 

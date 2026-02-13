@@ -407,21 +407,45 @@ def render_image_prompt():
                 "themes": ["Narrative Density", "Compositional Tension"],
                 "description": "Collaborative strategy session visual output"
             },
-            "🍷 Wine Distribution Flowchart": {
-                "subject": "wine distribution channels from vineyard to consumer showing producer, wholesaler, retailer, and direct-to-consumer paths with cost margins at each stage",
-                "styles": [
-                    ("Information Architecture & Data Viz", "Workflow & Logic Flowcharts")
-                ],
-                "themes": ["Compositional Tension"],
-                "description": "Wine supply chain visualization"
-            },
-            "🍷 Wine Region Comparison Infographic": {
-                "subject": "comparative analysis of Old World versus New World wine regions showing climate, varietals, production methods, and market positioning",
+            "🛒 Dashboard Operativo de Tiendas": {
+                "subject": "Panel de control mensual mostrando rendimiento de 18 supermercados Alimerka: ventas por categoría (pescadería, panadería, frescos), margen bruto por tienda, comparativa vs. objetivo, indicadores de merma y rotación de stock. Incluir gráficos de barras para ranking de tiendas y mapa de Asturias con iconos por ubicación.",
                 "styles": [
                     ("Information Architecture & Data Viz", "Infographic & Data Storytelling")
                 ],
-                "themes": ["Color Psychology", "Scale & Perspective"],
-                "description": "Side-by-side wine region comparison"
+                "themes": ["Color Psychology", "Compositional Tension"],
+                "description": "Operational KPI infographic with quantitative data"
+            },
+            "🛒 Flujo de Reparto a Domicilio": {
+                "subject": "Diagrama de flujo del proceso de entrega a domicilio mostrando 8 pasos desde recepción de pedido online hasta entrega en casa del cliente. Incluir puntos de decisión para validación de stock, asignación de ruta, ventanas de entrega y gestión de incidencias. Mostrar touchpoints con sistemas IT (app, ERP, GPS) y roles responsables (almacén, repartidor, atención cliente).",
+                "styles": [
+                    ("Information Architecture & Data Viz", "Workflow & Logic Flowcharts")
+                ],
+                "themes": ["Compositional Tension", "Material & Texture"],
+                "description": "Operational flowchart with department swimlanes"
+            },
+            "🛒 Análisis de Contribución por Categoría": {
+                "subject": "Matriz de análisis de portfolio de productos mostrando 12 categorías (frescos, panadería, bebidas, limpieza, etc.) posicionadas según dos ejes: margen bruto (eje Y) vs. volumen de ventas (eje X). Incluir burbujas proporcionales a la contribución total, códigos de color por familia de producto, y anotaciones para categorías estratégicas y oportunidades de mejora.",
+                "styles": [
+                    ("Information Architecture & Data Viz", "Infographic & Data Storytelling")
+                ],
+                "themes": ["Color Psychology", "Compositional Tension", "Scale & Perspective"],
+                "description": "Strategic consulting-style scatter plot matrix"
+            },
+            "🛒 Mapa de Expansión Regional": {
+                "subject": "Mapa de Asturias mostrando 18 tiendas Alimerka actuales (iconos verdes) y 4 ubicaciones potenciales evaluadas para expansión (iconos naranjas con scoring). Incluir zonas de influencia por radio de 5km, datos demográficos por área (población, renta media), indicadores de competencia (Mercadona, Carrefour, DIA) y análisis de tráfico peatonal. Leyenda con criterios de selección de ubicación.",
+                "styles": [
+                    ("Information Architecture & Data Viz", "Infographic & Data Storytelling")
+                ],
+                "themes": ["Scale & Perspective", "Color Psychology"],
+                "description": "Geomarketing with multi-criteria analysis"
+            },
+            "🛒 Workshop de Estrategia Comercial": {
+                "subject": "Output de sesión de planificación whiteboard mostrando análisis DAFO con 5 items por cuadrante (fortalezas: proximidad local, productos frescos; debilidades: escala menor vs. nacionales; oportunidades: comercio electrónico, productos locales; amenazas: guerra de precios, grandes superficies). Incluir matriz de priorización impacto-esfuerzo con 8 iniciativas estratégicas, clusters de Post-its por temática (operaciones, marketing, digital) y flechas dibujadas conectando dependencias entre proyectos.",
+                "styles": [
+                    ("Information Architecture & Data Viz", "Whiteboard & Visual Synthesis")
+                ],
+                "themes": ["Narrative Density", "Compositional Tension"],
+                "description": "Collaborative strategy workshop visualization"
             }
         }
 
