@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content Integration Explorer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .controls {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #searchInput {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-tag {
+            padding: 8px 16px;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .filter-tag:hover {
+            border-color: #667eea;
+            background: #eef2ff;
+        }
+
+        .filter-tag.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .stat {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .card-count {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .use-cases {
+            list-style: none;
+        }
+
+        .use-case {
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .use-case:last-child {
+            border-bottom: none;
+        }
+
+        .use-case::before {
+            content: "→";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .highlight {
+            background: #fef08a;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .modal-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .modal-title {
+            font-size: 2em;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .close-btn {
+            margin-left: auto;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #64748b;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #e2e8f0;
+            color: #1a202c;
+        }
+
+        .modal-use-cases {
+            list-style: none;
+        }
+
+        .modal-use-case {
+            padding: 16px;
+            margin-bottom: 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+
+            .filter-tags {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Content Integration Explorer</h1>
+            <div class="subtitle">Discover 200+ use cases across every business function</div>
+        </header>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search use cases... (e.g., 'video', 'onboarding', 'compliance')">
+            </div>
+            <div class="filter-tags" id="filterTags"></div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="functionCount">0</div>
+                    <div class="stat-label">Functions</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="useCaseCount">0</div>
+                    <div class="stat-label">Use Cases</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="visibleCount">0</div>
+                    <div class="stat-label">Visible</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid" id="grid"></div>
+        <div class="no-results" id="noResults" style="display: none;">
+            No results found. Try a different search term or filter.
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon" id="modalIcon"></div>
+                <div class="modal-title" id="modalTitle"></div>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <ul class="modal-use-cases" id="modalUseCases"></ul>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            "Marketing": {
+                icon: "📢",
+                color: "#FF6B6B",
+                useCases: [
+                    "Rapid campaign concepting (headline variants, visual directions, storyboards)",
+                    "Social content 'factory' (image sets, short-form video edits, captions, thumbnails)",
+                    "Product/content localization (language + cultural variants, region-specific creatives)",
+                    "Brand-consistent design production (banners, landing visuals, icons, simple motion)",
+                    "PR & thought leadership packs (quotes-to-visuals, podcast snippets, blog-to-video)",
+                    "Campaign content 'factory' (social variants, thumbnails, short-form video cuts)",
+                    "Brand storytelling (founder narrative videos, customer story reels)",
+                    "SEO content repurposing (blog → infographic → short video → audio snippet)",
+                    "Creative testing at scale (10 ad angles → 10 visual families)",
+                    "Event content (speaker clips, highlight reels, agenda visuals)"
+                ]
+            },
+            "HR / People Ops": {
+                icon: "👥",
+                color: "#4ECDC4",
+                useCases: [
+                    "Recruitment content (role videos, 'day in the life,' team intros, office/location showcases)",
+                    "Employer brand storytelling (candidate FAQs as short videos, culture reels)",
+                    "Onboarding packs (welcome videos, role-specific explainers, policy summaries in visuals)",
+                    "Internal comms (CEO updates turned into short clips, visual explainers for policy changes)",
+                    "Performance enablement content (how to write goals, feedback examples as media)",
+                    "Culture content (values in action stories, internal spotlights)"
+                ]
+            },
+            "Sales / Business Development": {
+                icon: "💼",
+                color: "#95E1D3",
+                useCases: [
+                    "Personalized outreach assets (industry-specific one-pagers, short explainer videos per segment)",
+                    "Proposal acceleration (deck visuals, case-study snippets, tailored demo scripts)",
+                    "Account-based marketing kits (custom microsites, product walkthrough clips, ROI visualizations)",
+                    "Objection-handling content (short clips answering top 20 objections, battlecards as visuals)",
+                    "Any-language video outreach (one pitch → multilingual versions with approved voiceovers)",
+                    "Personalized proposal videos (account context + tailored narrative in 60–120 seconds)",
+                    "RFP/RFI response packs (dense answers → clear diagrams + short explainer clips)",
+                    "Product demo 'snackables' (feature micro-demos, objection-handling clips)",
+                    "Industry-specific proof packs (case study → visuals → 30-sec story video)",
+                    "Competitive comparison visuals (feature grid + 'what matters' narrated explainer)",
+                    "Sales enablement media (battlecards as visuals, talk-tracks as audio rehearsals)"
+                ]
+            },
+            "Operations / Supply Chain": {
+                icon: "⚙️",
+                color: "#F38181",
+                useCases: [
+                    "SOPs turned into visual guides (step-by-step images, short 'how to' videos)",
+                    "Incident reporting summaries (timeline visuals, root-cause explainer clips)",
+                    "Safety & compliance micro-content (refreshers, signage visuals, localized training snippets)",
+                    "Knowledge capture from experts (interviews → structured playbooks + short clips)",
+                    "Process explainers (handoffs, dependencies, 'who does what' visuals)",
+                    "Standard work visual guides (warehouse pick/pack, dispatch, returns)",
+                    "Incident retros (timeline visuals + 'root cause in plain English' clips)",
+                    "Vendor onboarding content (requirements → step-by-step video guides)",
+                    "Inventory / demand comms (forecast changes as simple explainers for non-analysts)"
+                ]
+            },
+            "Customer Support": {
+                icon: "🎧",
+                color: "#AA96DA",
+                useCases: [
+                    "Self-serve help center upgrades (article → video, GIF walkthroughs, annotated screenshots)",
+                    "Multilingual support content (consistent translations + localized visuals)",
+                    "Agent assist content (instant 'how to respond' snippets, tone examples, macro libraries)",
+                    "Proactive customer comms (outage updates, feature releases, billing explainers in plain visuals)",
+                    "Help-center upgrades (article → short walkthrough video + annotated screenshots)",
+                    "Troubleshooting visual trees (symptom → fix as a simple flow graphic)",
+                    "Release/change comms (what changed + what to do, in 30 seconds)",
+                    "Agent macro libraries with tone examples (samples as mini audio/video references)",
+                    "Community content (top issues → weekly 'here's the fix' video post)"
+                ]
+            },
+            "Learning & Development": {
+                icon: "📚",
+                color: "#FCBAD3",
+                useCases: [
+                    "Microlearning content pipeline (modules → quizzes → recap clips)",
+                    "Role-based simulations (scenario videos, branching role-plays, call practice)",
+                    "Internal academies (prompting basics, tool-specific how-tos, compliance refreshers)",
+                    "Train-the-trainer kits (slide visuals, facilitator scripts, exercises, rubrics)",
+                    "Microlearning modules (job tasks → short lessons with quizzes + recap videos)",
+                    "Role-play simulations (customer calls, negotiation, conflict scenarios as scripts + audio)",
+                    "Knowledge base 'academy' (internal wiki → structured course content)",
+                    "Compliance refreshers that don't feel like punishment (short, specific, visual)"
+                ]
+            },
+            "Executive Leadership": {
+                icon: "👔",
+                color: "#A8D8EA",
+                useCases: [
+                    "Board-ready story packs (narrated slide videos, 'what changed this month' clips)",
+                    "Executive briefings from messy inputs (audio memo → clean summary + 60-sec update video)",
+                    "Strategy narratives (vision videos, internal alignment reels, OKR explainers)",
+                    "Crisis & change communication (rapid FAQ videos, calm-toned leadership messages)",
+                    "Investor-style storytelling for internal use (metric-to-story visuals, milestone timelines)",
+                    "'One decision, three options' content (short scenario videos for leadership alignment)"
+                ]
+            },
+            "Strategy / Corporate Dev": {
+                icon: "🎯",
+                color: "#FFD93D",
+                useCases: [
+                    "Market landscape visuals (maps, competitor grids, 'who's buying whom' timelines)",
+                    "Deal narratives (acquisition rationale videos, synergy storyboards)",
+                    "PMI / separation comms content (what changes for whom, explained in plain visuals)",
+                    "Operating model explainers (org/role changes as short animated walkthroughs)",
+                    "Scenario planning as media (3 futures → 3 short videos your execs will actually watch)"
+                ]
+            },
+            "Product Management": {
+                icon: "🚀",
+                color: "#6BCB77",
+                useCases: [
+                    "Feature announcement kits (demo videos, GIFs, screenshots, release notes visuals)",
+                    "Product education content (interactive tours, 'how it works' animations)",
+                    "Persona storytelling (customer interviews → persona cards + short persona videos)",
+                    "UX copy + micro-visuals (tooltips, empty states, onboarding visuals)",
+                    "Roadmap comms (quarterly roadmap as a 90-sec video + simple visuals)",
+                    "Beta feedback digestion (feedback dumps → themed reels for the product team)"
+                ]
+            },
+            "R&D / Engineering": {
+                icon: "🔬",
+                color: "#C490E4",
+                useCases: [
+                    "Rapid concept visualization (sketch-to-render, variant exploration, moodboards)",
+                    "Prototype demo videos (screen recordings → polished walkthroughs with narration)",
+                    "Technical explainer animations (architecture in motion, 'why this works' clips)",
+                    "Lab/engineering SOP visuals (step-by-step image guides, short 'do/don't' clips)",
+                    "Synthetic user scenarios (use-case videos showing edge cases + expected behavior)",
+                    "Experiment documentation (results → visual abstract, poster-style summaries)",
+                    "Knowledge capture from experts (whiteboard talk → structured explainer video series)"
+                ]
+            },
+            "Customer Success": {
+                icon: "🌟",
+                color: "#F7B731",
+                useCases: [
+                    "QBR kits (data → story slides + a narrated recap video)",
+                    "Adoption nudges (micro-tutorials, '1 feature per week' clips)",
+                    "Renewal value storytelling (impact reels showing wins and usage moments)",
+                    "Stakeholder alignment content (exec sponsor recap videos, success summaries)",
+                    "Onboarding journeys (role-based tutorials, 'first 7 days' video checklists)"
+                ]
+            },
+            "Manufacturing / Quality": {
+                icon: "🏭",
+                color: "#FF5E57",
+                useCases: [
+                    "Safety micro-content (5-minute refreshers, hazard visuals, signage variants)",
+                    "Quality defect libraries (image examples of defects + what 'good' looks like)",
+                    "Training-by-station (short station videos, maintenance walkarounds)",
+                    "Audit readiness explainers (what auditors look for, visual checklists)",
+                    "Preventive maintenance content (procedure clips, common failure visuals)"
+                ]
+            },
+            "Finance / FP&A": {
+                icon: "💰",
+                color: "#26C6DA",
+                useCases: [
+                    "Budget narratives (numbers → story visuals for non-finance stakeholders)",
+                    "Policy and process explainers (expenses, approvals, close calendar as media)",
+                    "KPI storytelling (monthly performance videos: 'what moved, why, what next')",
+                    "Investor-grade internal updates (quarterly recap reels for leadership)",
+                    "Collections/customer billing explainers (simple videos that reduce disputes)"
+                ]
+            },
+            "Legal / Compliance": {
+                icon: "⚖️",
+                color: "#5F6F94",
+                useCases: [
+                    "Policy education content (what the policy means in practice, visual examples)",
+                    "Contract playbooks (clause libraries as simple visual guides)",
+                    "Privacy/security training snippets (phishing examples, do/don't visuals)",
+                    "Regulatory change comms (what changed + who must do what, in 60 seconds)",
+                    "Incident communications templates (approved messaging content packs)"
+                ]
+            },
+            "IT / Security": {
+                icon: "🔒",
+                color: "#45B7D1",
+                useCases: [
+                    "How-to content at scale (VPN, access requests, tooling onboarding videos)",
+                    "Security awareness campaigns (phishing sims + short explainers)",
+                    "System change comms (downtime, migrations, new tools—clear visuals)",
+                    "Data literacy content (how dashboards work, how to interpret metrics)",
+                    "Internal tool demos (screen recordings → polished walkthroughs)"
+                ]
+            },
+            "Procurement": {
+                icon: "📋",
+                color: "#96CEB4",
+                useCases: [
+                    "Supplier onboarding explainers (requirements, portals, timelines as media)",
+                    "Category strategy storytelling (why this sourcing move, with visuals)",
+                    "RFx content packs (how to respond, what 'good' looks like)",
+                    "Stakeholder comms (tradeoffs, constraints, and outcomes explained visually)"
+                ]
+            },
+            "Facilities / Workplace": {
+                icon: "🏢",
+                color: "#DDA15E",
+                useCases: [
+                    "Workplace onboarding (how to book rooms, access rules, visitor policy videos)",
+                    "Safety & emergency content (evacuation, first-aid basics as visuals)",
+                    "Space change comms (renovations, relocations, 'what's changing' clips)",
+                    "Service request tutorials (how to log issues, what info to include)"
+                ]
+            },
+            "PR / Corporate Comms": {
+                icon: "📰",
+                color: "#E63946",
+                useCases: [
+                    "Press kits as multimedia (key message videos, spokesperson briefing clips)",
+                    "Social proof content (customer quotes → visuals → short reels)",
+                    "Leadership comms (town halls, 'ask me anything' highlights)",
+                    "Event coverage (recap reels, session summaries, speaker clips)"
+                ]
+            },
+            "Partnerships": {
+                icon: "🤝",
+                color: "#457B9D",
+                useCases: [
+                    "Partner enablement kits (co-sell decks, demo videos, positioning clips)",
+                    "Co-marketing content generation (joint case studies, launch videos)",
+                    "Training for partner reps (micro modules + objection-handling videos)",
+                    "Marketplace listing media (short explainer videos, visuals, screenshots)"
+                ]
+            },
+            "Field Service": {
+                icon: "🔧",
+                color: "#F4A261",
+                useCases: [
+                    "On-site procedure videos (repair steps, safety checks, diagnostics)",
+                    "Visual troubleshooting guides (symptom → action → verification)",
+                    "Customer-facing 'what to expect' content (service visit prep videos)",
+                    "Technician knowledge capture (best tech explains once → everyone benefits)"
+                ]
+            }
+        };
+
+        let activeFilter = null;
+        let searchTerm = '';
+
+        function init() {
+            renderFilterTags();
+            renderCards();
+            updateStats();
+            
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                searchTerm = e.target.value.toLowerCase();
+                renderCards();
+                updateStats();
+            });
+        }
+
+        function renderFilterTags() {
+            const container = document.getElementById('filterTags');
+            const tags = ['All', ...Object.keys(data)];
+            
+            container.innerHTML = tags.map(tag => 
+                `<div class="filter-tag ${tag === 'All' && !activeFilter ? 'active' : ''}" onclick="setFilter('${tag}')">${tag}</div>`
+            ).join('');
+        }
+
+        function setFilter(filter) {
+            activeFilter = filter === 'All' ? null : filter;
+            renderFilterTags();
+            renderCards();
+            updateStats();
+        }
+
+        function highlightText(text, search) {
+            if (!search) return text;
+            const regex = new RegExp(`(${search})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function renderCards() {
+            const grid = document.getElementById('grid');
+            const noResults = document.getElementById('noResults');
+            let visibleCards = 0;
+
+            const html = Object.entries(data)
+                .filter(([name]) => !activeFilter || name === activeFilter)
+                .map(([name, info]) => {
+                    const filteredUseCases = info.useCases.filter(useCase => 
+                        useCase.toLowerCase().includes(searchTerm)
+                    );
+
+                    if (filteredUseCases.length === 0 && searchTerm) return '';
+                    
+                    visibleCards++;
+                    const displayCases = searchTerm ? filteredUseCases : info.useCases.slice(0, 5);
+                    
+                    return `
+                        <div class="card" onclick="openModal('${name}')">
+                            <div class="card-header">
+                                <div class="card-icon" style="background: ${info.color}20; color: ${info.color}">
+                                    ${info.icon}
+                                </div>
+                                <div style="flex: 1;">
+                                    <div class="card-title">${name}</div>
+                                </div>
+                                <div class="card-count">${filteredUseCases.length}</div>
+                            </div>
+                            <ul class="use-cases">
+                                ${displayCases.map(useCase => 
+                                    `<li class="use-case">${highlightText(useCase, searchTerm)}</li>`
+                                ).join('')}
+                                ${!searchTerm && info.useCases.length > 5 ? 
+                                    `<li class="use-case" style="color: #667eea; font-weight: 600;">+ ${info.useCases.length - 5} more use cases...</li>` 
+                                    : ''}
+                            </ul>
+                        </div>
+                    `;
+                })
+                .filter(html => html)
+                .join('');
+
+            grid.innerHTML = html;
+            noResults.style.display = visibleCards === 0 ? 'block' : 'none';
+        }
+
+        function updateStats() {
+            const visibleFunctions = Object.entries(data)
+                .filter(([name]) => !activeFilter || name === activeFilter)
+                .filter(([name, info]) => {
+                    if (!searchTerm) return true;
+                    return info.useCases.some(uc => uc.toLowerCase().includes(searchTerm));
+                }).length;
+
+            const totalUseCases = Object.values(data)
+                .reduce((sum, info) => sum + info.useCases.length, 0);
+
+            const visibleUseCases = Object.entries(data)
+                .filter(([name]) => !activeFilter || name === activeFilter)
+                .reduce((sum, [name, info]) => {
+                    const filtered = info.useCases.filter(uc => 
+                        uc.toLowerCase().includes(searchTerm)
+                    );
+                    return sum + filtered.length;
+                }, 0);
+
+            document.getElementById('functionCount').textContent = Object.keys(data).length;
+            document.getElementById('useCaseCount').textContent = totalUseCases;
+            document.getElementById('visibleCount').textContent = searchTerm || activeFilter ? visibleUseCases : totalUseCases;
+        }
+
+        function openModal(functionName) {
+            const modal = document.getElementById('modal');
+            const info = data[functionName];
+            
+            document.getElementById('modalIcon').innerHTML = info.icon;
+            document.getElementById('modalIcon').style.background = `${info.color}20`;
+            document.getElementById('modalIcon').style.color = info.color;
+            document.getElementById('modalTitle').textContent = functionName;
+            
+            const useCasesHtml = info.useCases
+                .map(useCase => `<li class="modal-use-case">${highlightText(useCase, searchTerm)}</li>`)
+                .join('');
+            
+            document.getElementById('modalUseCases').innerHTML = useCasesHtml;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') closeModal();
+        });
+
+        init();
+    </script>
+</body>
+</html>
